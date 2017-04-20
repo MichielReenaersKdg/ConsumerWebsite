@@ -82,11 +82,6 @@ namespace SS.UI.Web.MVC.Controllers
             return Ok(analyses.ToList());
         }
 
-        public Feature createFeature(string naam)
-        {
-            return _analysisManager.createFeature(naam);
-        }
-
         //POST api/Analysis/ChangeName
         [Route("ChangeName")]
         [HttpPost]
@@ -470,12 +465,10 @@ namespace SS.UI.Web.MVC.Controllers
                     for (int i = 0; i < model.FeatureNames.Length; i++)
                     {
                         model.FeatureNames[i] = model.FeatureNames[i].Replace("°", "Degrees").Replace('.', '_').Replace('/', '_');
-                        List<Double> valuer = new List<double>();
-                        valuer.Add((double)model.Values[i]);
                         Feature f = new Feature()
                         {
                             FeatureName = model.FeatureNames[i].ToString(),
-                            Values = valuer,
+                            Value = model.Values[i]
                         };
                         classifiedInstance.Features.Add(f);
                     }
@@ -507,7 +500,7 @@ namespace SS.UI.Web.MVC.Controllers
                     var featureNames = new ArrayList();
                     foreach (var feature in classifiedInstances.First().Features)
                     {
-                        values.AddRange(feature.Values.ToList());
+                        values.Add(feature.Value);
                         featureNames.Add(feature.FeatureName);
                     }
                     using (var client = new WebClient())
@@ -525,12 +518,10 @@ namespace SS.UI.Web.MVC.Controllers
                             {
                             featureNames[i] =
                             featureNames[i].ToString().Replace("°", "Degrees").Replace('.', '_').Replace('/', '_');
-                            List<double> valuer = new List<double>();
-                            valuer.Add((double)values[i]);
                             Feature f = new Feature()
-                            {
-                                FeatureName = featureNames[i].ToString(),
-                                Values = valuer,
+                                {
+                                    FeatureName = featureNames[i].ToString(),
+                                    Value = Double.Parse(values[i].ToString())
                                 };
                                 classifiedInstance.Features.Add(f);
                             }

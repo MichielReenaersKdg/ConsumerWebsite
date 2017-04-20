@@ -14,10 +14,9 @@ namespace SS.BL.Domain.Analyses
         
         [Key]
         public long Id { get; set; }
-        [Required]
         public string FeatureName { get; set; }
-        public IEnumerable<double> Values { get; set; }
-        //public MinMaxValue MinMaxValue { get; set; }
+        public double Value { get; set; }
+        public MinMaxValue MinMaxValue { get; set; }
     }
 
    
