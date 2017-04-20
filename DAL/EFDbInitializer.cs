@@ -111,9 +111,40 @@ namespace SS.DAL
                 
                 Regex = @"^\d{1,3}(\.\d{0,5})?$"
             });
+         context.MinMaxValues.Add(new MinMaxValue()
+         {
+            FeatureName = FeatureName.EHS_E_Score,
+            MinValue = 0,
+            MaxValue = 10,
 
+            Regex = @"^\d{1,3}(\.\d{0,5})?$"
+         });
+         context.MinMaxValues.Add(new MinMaxValue()
+         {
+            FeatureName = FeatureName.EHS_H_Score,
+            MinValue = 0,
+            MaxValue = 10,
 
-            var Lines = SS.DAL.Properties.Resources.datasetqframe.ToString().Split('\n');
+            Regex = @"^\d{1,3}(\.\d{0,5})?$"
+         });
+         context.MinMaxValues.Add(new MinMaxValue()
+         {
+            FeatureName = FeatureName.EHS_S_Score,
+            MinValue = 0,
+            MaxValue = 10,
+
+            Regex = @"^\d{1,3}(\.\d{0,5})?$"
+         });
+         context.MinMaxValues.Add(new MinMaxValue()
+         {
+            FeatureName = FeatureName.EHS_Color_Code,
+            MinValue = 0,
+            MaxValue = 10,
+
+            Regex = @"^\d{1,3}(\.\d{0,5})?$"
+         });
+
+         var Lines = SS.DAL.Properties.Resources.datasetqframe.ToString().Split('\n');
 
            
 

@@ -39,6 +39,5 @@ namespace SS.BL.Domain.Analyses
         Log_P_Octanol_Water_20C,
         Refractive_Index_20C,
         Surface_Tension_25C_mN_m
-
     }
 }

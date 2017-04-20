@@ -153,7 +153,7 @@
       <HintPath>..\packages\IKVM.8.1.5717.0\lib\IKVM.Runtime.JNI.dll</HintPath>
     </Reference>
     <Reference Include="JavaSussolApplicationV9">
-      <HintPath>..\..\..\Downloads\JavaSussolApplicationV9.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\ikvm\bin\JavaSussolApplicationV9.dll</HintPath>
     </Reference>
     <Reference Include="Json, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c6752e45808247c2, processorArchitecture=MSIL">
       <HintPath>..\packages\JSON.1.0.1\lib\net40\Json.dll</HintPath>
