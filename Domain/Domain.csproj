@@ -76,6 +76,7 @@
     <Compile Include="Analyses\EHSScore.cs" />
     <Compile Include="Analyses\Feature.cs" />
     <Compile Include="Analyses\FeatureName.cs" />
+    <Compile Include="Analyses\FeatureValue.cs" />
     <Compile Include="Analyses\MinMaxValue.cs" />
     <Compile Include="Analyses\Model.cs" />
     <Compile Include="Analyses\Solvent.cs" />

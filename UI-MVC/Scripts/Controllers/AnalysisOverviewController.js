@@ -168,19 +168,19 @@
                 algorithms.push(models[i].Model.AlgorithmName);
                 if (showInstance) {
                     for (var j = 0; j < models[i].ClassifiedInstance.Features.length; j++) {
-                        models[i].ClassifiedInstance.Features[j].FeatureName = constants.FeatureName[models[i].ClassifiedInstance.Features[j].FeatureName];
+                        models[i].ClassifiedInstance.Features[j].FeatureName = constants.FeatureName[models[i].ClassifiedInstance.Features[j].FeatureName]; //0.4.9
                         models[i].ClassifiedInstance.Features[j].Value = Number(models[i].ClassifiedInstance.Features[j].Value.toFixed(2));
                     }
                 }
                 for (var j = 0; j < models[i].Model.Clusters.length; j++) {
                     for (var k = 0; k < models[i].Model.Clusters[j].VectorData.length; k++) {
-                        models[i].Model.Clusters[j].VectorData[k].FeatureName = constants.FeatureName[models[i].Model.Clusters[j].VectorData[k].FeatureName];
+                        models[i].Model.Clusters[j].VectorData[k].features.FeatureName = constants.FeatureName[models[i].Model.Clusters[j].VectorData[k].features.FeatureName]; //0.4.9
                     }
                     for (var k = 0; k < models[i].Model.Clusters[j].Solvents.length; k++) {
                         
                         for (var l = 0; l < models[i].Model.Clusters[j].Solvents[k].Features.length; l++) {
-                            models[i].Model.Clusters[j].Solvents[k].Features[l].FeatureName = constants.FeatureName[models[i].Model.Clusters[j].Solvents[k].Features[l].FeatureName];
-                            models[i].Model.Clusters[j].Solvents[k].Features[l].Value = Number(models[i].Model.Clusters[j].Solvents[k].Features[l].Value.toFixed(2));
+                            models[i].Model.Clusters[j].Solvents[k].Features[l].FeatureName = constants.FeatureName[models[i].Model.Clusters[j].Solvents[k].Features[l].FeatureName]; //0.4.9
+                            models[i].Model.Clusters[j].Solvents[k].Features[l].Value[0] = Number(models[i].Model.Clusters[j].Solvents[k].Features[l].Value.toFixed(2)); // 0.4.9 // fix Value[0]
                         }
                     }
                 }
@@ -205,7 +205,7 @@
         }
         function setEnumMinMax() {
             for (var i = 0; i < minMaxValues.length; i++) {
-                minMaxValues[i].FeatureName = constants.FeatureName[minMaxValues[i].FeatureName];
+                minMaxValues[i].features.FeatureName = constants.FeatureName[minMaxValues[i].features.FeatureName]; //0.4.9
             }
         }
 
@@ -242,7 +242,7 @@
             var modelPaths = [];
             var modelIds = [];
             for (var i = 0; i < values.length; i++) {
-                featureNames.push(values[i].FeatureName);
+                featureNames.push(values[i].features.FeatureName); //0.4.9
                 featureValues.push(values[i].value);
             }
             for (var i = 0; i < models.length; i++) {
@@ -463,7 +463,7 @@
             
 
             for (var i = 0; i < minMaxValues.length; i++) {
-                featureArray.push({ text: minMaxValues[i].FeatureName + "   [ " + minMaxValues[i].MinValue + " ~ " + minMaxValues[i].MaxValue + " ]" , margin: [60, 10, 0, 0] });
+                featureArray.push({ text: minMaxValues[i].features.FeatureName + "   [ " + minMaxValues[i].MinValue + " ~ " + minMaxValues[i].MaxValue + " ]" , margin: [60, 10, 0, 0] }); //0.4.9
             }
             for (var i = 0; i < result.data.AnalysisModels.length; i++) {
                 $scope.currAlgo = data.AnalysisModels[i];

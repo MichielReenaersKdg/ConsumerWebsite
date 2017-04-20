@@ -81,7 +81,7 @@ app.config(function ($routeProvider, $locationProvider) {
                 return srvLibrary.readOrganisationForUser(window.sessionStorage.userId);
             },
             minMax: function($route, srvLibrary) {
-                return srvLibrary.readMinMaxValues($route.current.params.id);//fix
+                return srvLibrary.readMinMaxValues($route.current.params.id); //fix
             }
         }
     });

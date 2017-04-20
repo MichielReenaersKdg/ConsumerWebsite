@@ -42,5 +42,8 @@ namespace SS.BL.Analyses
         //MinMaxValue
         IEnumerable<MinMaxValue> ReadMinMaxValues();
         IEnumerable<MinMaxValue> ReadMinMaxValues(long id);
+
+        //0.4.9 - Add featurefunctionality In order to solve new architecture (Dynamic Database)
+        IEnumerable<Feature> ReadFeatures();
     }
 }

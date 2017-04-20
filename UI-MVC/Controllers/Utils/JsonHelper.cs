@@ -8,7 +8,8 @@ namespace SS.UI.Web.MVC.Controllers.Utils
 {
     public class JsonHelper
     {
-        public static Algorithm ParseJson(String jsonString, List<MinMaxValue> minMaxValues)
+        //0.4.9 - Change List<MinMaxValue> to List<Feature> In order to solve new architecture problems (Dynamic Database)
+        public static Algorithm ParseJson(String jsonString, List<Feature> features)
         {
             dynamic jsonModel = JsonConvert.DeserializeObject(jsonString);
             Algorithm algorithm = new Algorithm()
@@ -42,7 +43,11 @@ namespace SS.UI.Web.MVC.Controllers.Utils
                     VectorData vectorData = new VectorData()
                     {
                         Value =  vector.value,
-                        FeatureName = (FeatureName)Enum.Parse(typeof(FeatureName), naam)
+                        //0.4.9 Changed to new Feature
+                        feature = new Feature(){
+                            featureName = naam
+                        }
+
                     };
 
                     clusterTemp.VectorData.Add(vectorData);
@@ -80,16 +85,22 @@ namespace SS.UI.Web.MVC.Controllers.Utils
                     solventTemp.Name = solventTemp.Name.Replace("\"", "");
                     foreach (var feature in solvent.features)
                     {
-                        FeatureName featureName;
-                        Enum.TryParse<FeatureName>(feature.name.ToString(), out featureName);
-                        var value = minMaxValues.FirstOrDefault(a => a.FeatureName == featureName);
+                        string featureName;
+                        //0.4.9 - Changed TryParse of FeatureName to .ToString() as featureName was changed from type FeatureName to a string
+                        featureName = feature.name.ToString();
+                        //0.4.9 - Changed from minMaxValues to features In order to solve new architecture problems (Dynamic Database)
+                        var value =  features.FirstOrDefault(a => a.featureName == featureName);
+                        if (value == null)
+                        {
+                            continue;
+                        }
                         string naam = feature.name.ToString().Replace("(", "").Replace(")", "").Replace("/", "").Replace("=", "").Replace("ø", "");
                         Feature featureTemp = new Feature()
                         {
-                            FeatureName = naam,
-                            Value = feature.value
+                            featureName = naam,
+                            value = feature.value
                         };
-                        featureTemp.MinMaxValue = value;
+                        featureTemp.minMaxValue = value.minMaxValue;
                         solventTemp.Features.Add(featureTemp);
                     }
                     clusterTemp.Solvents.Add(solventTemp);

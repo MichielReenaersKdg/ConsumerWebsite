@@ -49,7 +49,7 @@ namespace SS.DAL.EFAnalyses
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents)))
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.VectorData)))
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.Features))))
-                .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.Features.Select(b => b.MinMaxValue)))))
+                .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.Features.Select(b => b.minMaxValue)))))
                 .FirstOrDefault(i => i.Id == id);
         }
 
@@ -165,7 +165,7 @@ namespace SS.DAL.EFAnalyses
             var solvents = clusters[0].Solvents.ToList();
             foreach (var feature in solvents[0].Features)
             {
-                minMaxValues.Add(feature.MinMaxValue);
+                minMaxValues.Add(feature.minMaxValue);
             }
             return minMaxValues.AsEnumerable();
         }
@@ -209,7 +209,7 @@ namespace SS.DAL.EFAnalyses
                 .Include(a => a.Model.Clusters.Select(p => p.VectorData))
                 .Include(a => a.Model.Clusters.Select(p => p.Solvents))
                 .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.Features)))
-                .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.Features.Select(o => o.MinMaxValue))))
+                .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.Features.Select(o => o.minMaxValue))))
                 .Single(a => a.Id == modelId);
             classifiedInstance.AnalysisModelId = modelId;
             model.ClassifiedInstance = classifiedInstance;
@@ -253,6 +253,11 @@ namespace SS.DAL.EFAnalyses
                 return true;
             else return false;
 
+        }
+
+        public IEnumerable<Feature> ReadFeatures()
+        {
+            return _context.Features.ToList();
         }
     }
 }

@@ -45,5 +45,8 @@ namespace SS.DAL.EFAnalyses
         void DeleteAnalysis(long analysisId);
 
         Boolean CheckCasNumber(String casNummer);
+
+        //0.4.9 - Add featurefunctionality In order to solve new architecture (Dynamic Database)
+        IEnumerable<Feature> ReadFeatures();
     }
 }

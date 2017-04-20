@@ -14,102 +14,155 @@ namespace SS.DAL
     {
         protected override void Seed(EFDbContext context)
         {
+            
             //Create Min & Max values for features
-            context.MinMaxValues.Add(new MinMaxValue()
+            context.Features.Add(new Feature()
             {
-                FeatureName = FeatureName.Boiling_Point_Minimum_DegreesC,
-                MinValue = -150,
-                MaxValue = 500,
-               
-                Regex = @"^-?\d{0,3}(\.\d{0,5})?$"
+                featureName = "EHS_H_Score",
+                minMaxValue = new MinMaxValue()
+                {
+                    MinValue = -150,
+                    MaxValue = 500,
+                    Regex = @"^-?\d{0,3}(\.\d{0,5})?$"
+                }
+
+        });
+
+
+            context.Features.Add(new Feature()
+            {
+                featureName = "Melting_Point_Minimum_DegreesC",
+                minMaxValue = new MinMaxValue()
+                {
+                    MinValue = -200,
+                    MaxValue = 20,
+
+                    Regex = @"^-?\d{0,3}(\.\d{0,5})?$"
+                }
             });
-            context.MinMaxValues.Add(new MinMaxValue()
+
+            context.Features.Add(new Feature()
             {
-                FeatureName = FeatureName.Melting_Point_Minimum_DegreesC,
-                MinValue = -200,
-                MaxValue = 20,
+                featureName = "Flash_Point_Minimum_DegreesC",
+                minMaxValue = new MinMaxValue()
+                {
+                    MinValue = -85,
+                    MaxValue = 360,
+
+                    Regex = @"^-?\d{0,3}(\.\d{0,5})?$"
+                }
                 
-                Regex = @"^-?\d{0,3}(\.\d{0,5})?$"
             });
-            context.MinMaxValues.Add(new MinMaxValue()
+            context.Features.Add(new Feature()
             {
-                FeatureName = FeatureName.Flash_Point_Minimum_DegreesC,
-                MinValue = -85,
-                MaxValue = 360,
+                featureName = "Vapour_Pressure_25DegreesC_mmHg",
+                minMaxValue = new MinMaxValue()
+                {
+                    MinValue = 0,
+                    MaxValue = 24500,
+
+                    Regex = @"^\d{1,5}(\.\d{0,5})?$"
+                }
+
+
                 
-                Regex = @"^-?\d{0,3}(\.\d{0,5})?$"
             });
-            context.MinMaxValues.Add(new MinMaxValue()
+            context.Features.Add(new Feature()
             {
-                FeatureName = FeatureName.Vapour_Pressure_25DegreesC_mmHg,
-                MinValue = 0,
-                MaxValue = 24500,
+                featureName = "Density_25DegreesC_Minimum_kg_L",
+                minMaxValue = new MinMaxValue()
+                {
+                    MinValue = 0.6,
+                    MaxValue = 3.5,
+
+                    Regex = @"^\d{1}(\.\d{0,5})?$"
+                }
+
                 
-                Regex = @"^\d{1,5}(\.\d{0,5})?$"
             });
-            context.MinMaxValues.Add(new MinMaxValue()
+            context.Features.Add(new Feature()
             {
-                FeatureName = FeatureName.Density_25DegreesC_Minimum_kg_L,
-                MinValue = 0.6,
-                MaxValue = 3.5,
+                featureName ="Viscosity_25DegreesC_Minimum_mPa_s",
+                minMaxValue = new MinMaxValue()
+                {
+                    MinValue = 0.01,
+                    MaxValue = 1000,
+
+                    Regex = @"^\d{1,4}(\.\d{0,5})?$"
+                }
                 
-                Regex = @"^\d{1}(\.\d{0,5})?$"
             });
-            context.MinMaxValues.Add(new MinMaxValue()
+            context.Features.Add(new Feature()
             {
-                FeatureName = FeatureName.Viscosity_25DegreesC_Minimum_mPa_s,
-                MinValue = 0.01,
-                MaxValue = 1000,
+                featureName ="Autoignition_Temperature_Minimum_DegreesC",
+                minMaxValue = new MinMaxValue()
+                {
+                    MinValue = 100,
+                    MaxValue = 800,
+
+                    Regex = @"^\d{1,3}(\.\d{0,5})?$"
+                }
                 
-                Regex = @"^\d{1,4}(\.\d{0,5})?$"
             });
-            context.MinMaxValues.Add(new MinMaxValue()
+            context.Features.Add(new Feature()
             {
-                FeatureName = FeatureName.Autoignition_Temperature_Minimum_DegreesC,
-                MinValue = 100,
-                MaxValue = 800,
-               
-                Regex = @"^\d{1,3}(\.\d{0,5})?$"
-            });
-            context.MinMaxValues.Add(new MinMaxValue()
-            {
-                FeatureName = FeatureName.Hansen_Delta_D_MPa1_2,
-                MinValue = 0,
-                MaxValue = 30,
+                featureName ="Hansen_Delta_D_MPa1_2",
+                minMaxValue = new MinMaxValue()
+                {
+                    MinValue = 0,
+                    MaxValue = 30,
+
+                    Regex = @"^\d{1,2}(\.\d{0,5})?$"
+                }
                 
-                Regex = @"^\d{1,2}(\.\d{0,5})?$"
             });
-            context.MinMaxValues.Add(new MinMaxValue()
+            context.Features.Add(new Feature()
             {
-                FeatureName = FeatureName.Hansen_Delta_P_MPa1_2,
-                MinValue = 0,
-                MaxValue = 30,
+                featureName = "Hansen_Delta_P_MPa1_2",
+                minMaxValue = new MinMaxValue()
+                {
+                    MinValue = 0,
+                    MaxValue = 30,
+
+                    Regex = @"^\d{1,2}(\.\d{0,5})?$"
+                }
                 
-                Regex = @"^\d{1,2}(\.\d{0,5})?$"
             });
-            context.MinMaxValues.Add(new MinMaxValue()
+            context.Features.Add(new Feature()
             {
-                FeatureName = FeatureName.Hansen_Delta_H_MPa1_2,
-                MinValue = 0,
-                MaxValue = 50,
+                featureName ="Hansen_Delta_H_MPa1_2",
+                minMaxValue = new MinMaxValue()
+                {
+                    MinValue = 0,
+                    MaxValue = 50,
+
+                    Regex = @"^\d{1,2}(\.\d{0,5})?$"
+                }
                 
-                Regex = @"^\d{1,2}(\.\d{0,5})?$"
             });
-            context.MinMaxValues.Add(new MinMaxValue()
+            context.Features.Add(new Feature()
             {
-                FeatureName = FeatureName.Solubility_Water_g_L,
-                MinValue = -1,
-                MaxValue = 1000,
+                featureName ="Solubility_Water_g_L",
+                minMaxValue = new MinMaxValue()
+                {
+                    MinValue = -1,
+                    MaxValue = 1000,
+
+                    Regex = @"^-?\d{0,4}(\.\d{0,5})?$"
+                }
                 
-                Regex = @"^-?\d{0,4}(\.\d{0,5})?$"
             });
-            context.MinMaxValues.Add(new MinMaxValue()
+            context.Features.Add(new Feature()
             {
-                FeatureName = FeatureName.Dielectric_Constant_20DegreesC,
-                MinValue = 1,
-                MaxValue = 100,
+                featureName ="Dielectric_Constant_20DegreesC",
+                minMaxValue = new MinMaxValue()
+                {
+                    MinValue = 1,
+                    MaxValue = 100,
+
+                    Regex = @"^\d{1,3}(\.\d{0,5})?$"
+                }
                 
-                Regex = @"^\d{1,3}(\.\d{0,5})?$"
             });
 
 

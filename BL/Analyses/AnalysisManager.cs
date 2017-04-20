@@ -137,5 +137,12 @@ namespace SS.BL.Analyses
         public Boolean CheckCasnumber(String casnummer) {
             return repo.CheckCasNumber(casnummer);
         }
+
+        //0.4.9 - Add featurefunctionality In order to solve new architecture (Dynamic Database)
+
+        public IEnumerable<Feature> ReadFeatures()
+        {
+            return repo.ReadFeatures();
+        }
     }
 }
