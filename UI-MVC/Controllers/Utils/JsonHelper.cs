@@ -3,14 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using SS.BL.Domain.Analyses;
+using SS.BL.Analyses;
 
 namespace SS.UI.Web.MVC.Controllers.Utils
 {
     public class JsonHelper
     {
+        private static AnalysisController ancon;
+        public JsonHelper(AnalysisController analysiscontroller)
+        {
+            ancon = analysiscontroller;
+        }
+
         public static Algorithm ParseJson(String jsonString, List<MinMaxValue> minMaxValues)
         {
             dynamic jsonModel = JsonConvert.DeserializeObject(jsonString);
+            
             Algorithm algorithm = new Algorithm()
             {
                 AlgorithmName = jsonModel.algorithm,
@@ -39,10 +47,11 @@ namespace SS.UI.Web.MVC.Controllers.Utils
                 foreach (var vector in cluster.vectorData)
                 {
                     string naam = vector.name.ToString().Replace("(", "").Replace(")", "").Replace("/", "").Replace("=", "").Replace("ø", "");
+                    Feature feature = ancon.createFeature(naam);
                     VectorData vectorData = new VectorData()
                     {
                         Value =  vector.value,
-                        FeatureName = (FeatureName)Enum.Parse(typeof(FeatureName), naam)
+                        feature = feature
                     };
 
                     clusterTemp.VectorData.Add(vectorData);
@@ -78,18 +87,17 @@ namespace SS.UI.Web.MVC.Controllers.Utils
                     };
                     solventTemp.CasNumber = solventTemp.CasNumber.Replace("\"", "");
                     solventTemp.Name = solventTemp.Name.Replace("\"", "");
-                    foreach (var feature in solvent.features)
+                    foreach (Feature feature in solvent.features)
                     {
-                        FeatureName featureName;
-                        Enum.TryParse<FeatureName>(feature.name.ToString(), out featureName);
-                        var value = minMaxValues.FirstOrDefault(a => a.FeatureName == featureName);
-                        string naam = feature.name.ToString().Replace("(", "").Replace(")", "").Replace("/", "").Replace("=", "").Replace("ø", "");
+                        
+                        var value = minMaxValues.FirstOrDefault(a => a.feature.FeatureName == feature.FeatureName);
+                        string naam = feature.FeatureName.ToString().Replace("(", "").Replace(")", "").Replace("/", "").Replace("=", "").Replace("ø", "");
                         Feature featureTemp = new Feature()
                         {
-                            FeatureName = naam,
-                            Value = feature.value
+                            FeatureName = naam.ToString(),
+                            Values = null //fix
                         };
-                        featureTemp.MinMaxValue = value;
+                        //featureTemp.MinMaxValue = value; //fix
                         solventTemp.Features.Add(featureTemp);
                     }
                     clusterTemp.Solvents.Add(solventTemp);

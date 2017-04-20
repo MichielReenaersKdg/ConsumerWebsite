@@ -26,6 +26,24 @@ namespace SS.DAL.EFAnalyses
             return algorithm;
         }
 
+        public Feature createFeature(string naam)
+        {
+            Feature feat = _context.Features.SingleOrDefault(feature => feature.FeatureName == naam);
+            if (feat != null)
+            {
+                return feat;
+            } else
+            {
+                Feature fet = new Feature()
+                {
+                    FeatureName = naam,
+                    Values = null,
+                    //MinMaxValue = null
+                };
+                return fet;
+            }
+        }
+
         public Analysis CreateAnalysis(Analysis analysis, User createdBy)
         {
             analysis.CreatedBy = createdBy;
@@ -49,7 +67,7 @@ namespace SS.DAL.EFAnalyses
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents)))
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.VectorData)))
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.Features))))
-                .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.Features.Select(b => b.MinMaxValue)))))
+                //.Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.Features.Select(b => b.MinMaxValue)))))
                 .FirstOrDefault(i => i.Id == id);
         }
 
@@ -165,7 +183,7 @@ namespace SS.DAL.EFAnalyses
             var solvents = clusters[0].Solvents.ToList();
             foreach (var feature in solvents[0].Features)
             {
-                minMaxValues.Add(feature.MinMaxValue);
+                // fix minMaxValues.Add(feature.MinMaxValue);
             }
             return minMaxValues.AsEnumerable();
         }
@@ -209,7 +227,7 @@ namespace SS.DAL.EFAnalyses
                 .Include(a => a.Model.Clusters.Select(p => p.VectorData))
                 .Include(a => a.Model.Clusters.Select(p => p.Solvents))
                 .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.Features)))
-                .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.Features.Select(o => o.MinMaxValue))))
+                //fix .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.Features.Select(o => o.MinMaxValue))))
                 .Single(a => a.Id == modelId);
             classifiedInstance.AnalysisModelId = modelId;
             model.ClassifiedInstance = classifiedInstance;

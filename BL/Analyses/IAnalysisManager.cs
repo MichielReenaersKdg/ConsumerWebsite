@@ -12,6 +12,7 @@ namespace SS.BL.Analyses
     {
         //Algorithm
         Algorithm CreateAlgorithm(Algorithm algorithm);
+        Feature createFeature(string naam);
 
         //Analysis
         Analysis ReadAnalysis(long id);

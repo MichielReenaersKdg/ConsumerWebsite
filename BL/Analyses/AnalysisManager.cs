@@ -19,6 +19,11 @@ namespace SS.BL.Analyses
             this.repo = iAnalysisRepository;
         }
 
+        public Feature createFeature(string naam)
+        {
+            return repo.createFeature(naam);
+        }
+
         public Algorithm CreateAlgorithm(Algorithm algorithm)
         {
             return repo.CreateAlgorithm(algorithm);

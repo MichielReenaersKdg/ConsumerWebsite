@@ -10,6 +10,6 @@ namespace SS.BL.Domain.Analyses
     {
         public long Id { get; set; }
         public double Value { get; set; }
-        public FeatureName FeatureName { get; set; }
+        public Feature feature { get; set; }
     }
 }

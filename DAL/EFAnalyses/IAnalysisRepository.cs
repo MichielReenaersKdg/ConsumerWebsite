@@ -12,6 +12,7 @@ namespace SS.DAL.EFAnalyses
     {
         //Algorithm
         Algorithm CreateAlgorithm(Algorithm algorithm);
+        Feature createFeature(string naam);
 
         //Analysis
         Analysis CreateAnalysis(Analysis analysis, User createdBy);

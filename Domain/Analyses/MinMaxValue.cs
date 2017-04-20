@@ -9,7 +9,7 @@ namespace SS.BL.Domain.Analyses
     public class MinMaxValue
     {
         public long Id { get; set; }
-        public FeatureName FeatureName { get; set; }
+        public Feature feature { get; set; }
         public double MinValue { get; set; }
         public double MaxValue { get; set; }
         
