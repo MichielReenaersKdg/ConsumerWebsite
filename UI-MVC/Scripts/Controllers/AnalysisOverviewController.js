@@ -990,6 +990,33 @@
             }
         }
 
+        function createPCoA(distances) {
+            dimensions = 2;
+
+            // square distances
+            var M = Math.mul(-0.5, Math.pow(distances, 2));
+
+            // double centre the rows/columns
+            function mean(A) { return Math.div(Math.add.apply(null, A), A.length); }
+            var rowMeans = mean(M),
+                colMeans = mean(Math.transpose(M)),
+                totalMean = mean(rowMeans);
+
+            for (var i = 0; i < M.length; ++i) {
+                for (var j = 0; j < M[0].length; ++j) {
+                    M[i][j] += totalMean - rowMeans[i] - colMeans[j];
+                }
+            }
+
+            // take the SVD of the double centred matrix, and return the
+            // points from it
+            var ret = Math.svd(M),
+                eigenValues = Math.sqrt(ret.S);
+            return ret.U.map(function (row) {
+                return Math.mul(row, eigenValues).splice(0, dimensions);
+            });
+        };
+
         $scope.clearNewSolvent = function() {
             setMinMaxValues();
             delete $scope.errorMessage;
