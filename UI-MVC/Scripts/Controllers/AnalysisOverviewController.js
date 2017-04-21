@@ -1,6 +1,6 @@
 ﻿angular.module('sussol.controllers')
     .controller('AnalysisOverviewController',
-    function ($scope, $window, $http, $routeParams, constants, result, $timeout, organisation, minMax, $rootScope) {
+    function ($scope, $window, $http, $routeParams, constants, result, $timeout, organisation, $rootScope) {
         var solvents = [];
         var selectedAlgorithm;
         var organisationUser = organisation.data;
@@ -10,7 +10,8 @@
         var clusters;
         var overlayOpened = false;
         var solventOverlayOpened = false;
-        var minMaxValues = minMax.data;
+        //0.5.0.5 mogelijke errors door verwijdering minmax
+        //var minMaxValues = minMax.data;
         var models;
         var selectedModel = null;
         var currentChart = null;
@@ -36,6 +37,7 @@
         $scope.sharedWith = result.data.SharedWith;
         $scope.models = result.data.AnalysisModels;
         var data = result.data;
+        //0.5.0.5
         setEnumMinMax();
         showClusterAnalysis(result.data.AnalysisModels);
 
@@ -203,6 +205,7 @@
                 "width": (100 / counter) + "%"
             }
         }
+        //0.5.0.2
         function setEnumMinMax() {
             for (var i = 0; i < minMaxValues.length; i++) {
                 minMaxValues[i].features.FeatureName = constants.FeatureName[minMaxValues[i].features.FeatureName]; //0.4.9
@@ -1082,7 +1085,7 @@
             delete $scope.errorMessage;
             return true;
         }
-
+        //0.5.0.6
         function checkHeaders(arrHeaders) {
             var metaData = [];
             metaData.push("Input");

@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
+using SS.UI.Web.MVC.Migrations;
 
 namespace SS.UI.Web.MVC.Models
 {
@@ -22,7 +24,8 @@ namespace SS.UI.Web.MVC.Models
         public ApplicationDbContext()
             : base("sussol", throwIfV1Schema: false)
         {
-        }
+         Database.SetInitializer<ApplicationDbContext>(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
+      }
         
         public static ApplicationDbContext Create()
         {

@@ -16,11 +16,12 @@ namespace SS.BL.Domain.Analyses
         public long Id { get; set; }
         //0.4.9 Changed FeatureName to string in order to comply with demand of a database where one can add nw featurenames. 
         public string featureName { get; set; }
-        //public double Value { get; set; }
-        //0.4.9 Changed Double Value to FeatureValue value in order to have multiple values per Feature when enum feature name changed to string featurename
-        public FeatureValue value { get; set; }
-        public MinMaxValue minMaxValue { get; set; }
-    }
+      //public double Value { get; set; }
+      //0.5.0 Changed FeatureValue to double
+      public double value { get; set; }
+      //0.5.0 Changed metadata to feature and removed MinMaxValue
+      public bool PrimaryData { get; set; } = true;
+   }
 
    
 

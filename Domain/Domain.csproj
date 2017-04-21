@@ -73,14 +73,9 @@
     <Compile Include="Analyses\ClassifiedInstance.cs" />
     <Compile Include="Analyses\Cluster.cs" />
     <Compile Include="Analyses\ClusterDistanceCenter.cs" />
-    <Compile Include="Analyses\EHSScore.cs" />
     <Compile Include="Analyses\Feature.cs" />
-    <Compile Include="Analyses\FeatureName.cs" />
-    <Compile Include="Analyses\FeatureValue.cs" />
-    <Compile Include="Analyses\MinMaxValue.cs" />
     <Compile Include="Analyses\Model.cs" />
     <Compile Include="Analyses\Solvent.cs" />
-    <Compile Include="Analyses\SolventMetaData.cs" />
     <Compile Include="Analyses\VectorData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Users\Organisation.cs" />

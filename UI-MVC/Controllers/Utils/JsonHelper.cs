@@ -71,15 +71,16 @@ namespace SS.UI.Web.MVC.Controllers.Utils
                         Name = solvent.name,
                         DistanceToClusterCenter = solvent.distanceToCluster,
                         Features = new List<Feature>(),
-                        MetaData = new SolventMetaData()
-                        {
-                                Label = solvent.predictLabel,
-                                IdCasNr = solvent.iD_CAS_Nr_1,
-                                IdEgNr = solvent.iD_EG_Nr,
-                                IdEgAnnexNr = solvent.iD_EG_Annex_Nr,
-                                Input = solvent.input,
-                                IdName1 = solvent.iD_Name_1
-                        }
+                        //0.5.0.1 Move metadata to feature
+                        //MetaData = new SolventMetaData()
+                        //{
+                        //        Label = solvent.predictLabel,
+                        //        IdCasNr = solvent.iD_CAS_Nr_1,
+                        //        IdEgNr = solvent.iD_EG_Nr,
+                        //        IdEgAnnexNr = solvent.iD_EG_Annex_Nr,
+                        //        Input = solvent.input,
+                        //        IdName1 = solvent.iD_Name_1
+                        //}
                     };
                     solventTemp.CasNumber = solventTemp.CasNumber.Replace("\"", "");
                     solventTemp.Name = solventTemp.Name.Replace("\"", "");
@@ -88,19 +89,21 @@ namespace SS.UI.Web.MVC.Controllers.Utils
                         string featureName;
                         //0.4.9 - Changed TryParse of FeatureName to .ToString() as featureName was changed from type FeatureName to a string
                         featureName = feature.name.ToString();
-                        //0.4.9 - Changed from minMaxValues to features In order to solve new architecture problems (Dynamic Database)
-                        var value =  features.FirstOrDefault(a => a.featureName == featureName);
+                  //0.4.9 - Changed from minMaxValues to features In order to solve new architecture problems (Dynamic Database)
+                  //0.5.0.3 
+                  var value =  features.FirstOrDefault(a => a.featureName == featureName);
                         if (value == null)
                         {
                             continue;
                         }
+
                         string naam = feature.name.ToString().Replace("(", "").Replace(")", "").Replace("/", "").Replace("=", "").Replace("ø", "");
                         Feature featureTemp = new Feature()
                         {
                             featureName = naam,
                             value = feature.value
                         };
-                        featureTemp.minMaxValue = value.minMaxValue;
+                        //0.5.0 featureTemp.minMaxValue = value.minMaxValue;
                         solventTemp.Features.Add(featureTemp);
                     }
                     clusterTemp.Solvents.Add(solventTemp);

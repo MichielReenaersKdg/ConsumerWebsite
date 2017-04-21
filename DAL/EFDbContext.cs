@@ -17,7 +17,7 @@ namespace SS.DAL
         {
             Database.SetInitializer<EFDbContext>(new EFDbInitializer());
         }
-
+      //0.5.0 Deleting MinMaxValues and MetaDataSolvent
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Organisation> Organisations { get; set; }
         public DbSet<Algorithm> Algorithms { get; set; }
@@ -26,13 +26,12 @@ namespace SS.DAL
         public DbSet<Feature> Features { get; set; }
         public DbSet<Model> Models { get; set; }
         public DbSet<Solvent> Solvents { get; set; }
-        public DbSet<SolventMetaData> SolventMetaDatas { get; set; }
         public DbSet<ClusterDistanceCenter> ClusterDistanceCenters { get; set; }
         public DbSet<AnalysisModel> AnalysisModels { get; set; }
         public DbSet<VectorData> VectorData { get; set; }
-        public DbSet<MinMaxValue> MinMaxValues { get; set; }
+      
         public DbSet<ClassifiedInstance> ClassifiedInstances { get; set; }
-        public DbSet<EHSScore> EHSScores { get; set; }
+       
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

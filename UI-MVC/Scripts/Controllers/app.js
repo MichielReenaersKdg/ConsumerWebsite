@@ -79,9 +79,6 @@ app.config(function ($routeProvider, $locationProvider) {
             },
             organisation: function(srvLibrary) {
                 return srvLibrary.readOrganisationForUser(window.sessionStorage.userId);
-            },
-            minMax: function($route, srvLibrary) {
-                return srvLibrary.readMinMaxValues($route.current.params.id); //fix
             }
         }
     });
@@ -182,17 +179,6 @@ angular.module('sussol.services')
                         method: 'GET',
                         url: 'api/Organisation/GetUsersForOrganisation',
                         params: { id: id }
-                    });
-                    promise.success(function (data, status, headers, conf) {
-                        return data;
-                    });
-                    return promise;
-                },
-                readMinMaxValues: function (id) {
-                    var promise = $http({
-                        method: 'GET',
-                        url: 'api/Analysis/ReadMinMaxValues',
-                        params: { analysisId: id }
                     });
                     promise.success(function (data, status, headers, conf) {
                         return data;
