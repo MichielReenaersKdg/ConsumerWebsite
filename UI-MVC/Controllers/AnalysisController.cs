@@ -243,7 +243,7 @@ namespace SS.UI.Web.MVC.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> CreateModels(AlgorithmName algorithmName)
         {
-            var minMaxValues = _analysisManager.ReadMinMaxValues();
+            //0.4.9 var minMaxValues = _analysisManager.ReadMinMaxValues();
             try
             {
                 using (var client = new WebClient())
