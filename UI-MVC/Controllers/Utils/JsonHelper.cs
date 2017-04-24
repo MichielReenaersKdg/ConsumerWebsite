@@ -94,20 +94,13 @@ namespace SS.UI.Web.MVC.Controllers.Utils
                 
 
                         string naam = feature.name.ToString().Replace("(", "").Replace(")", "").Replace("/", "").Replace("=", "").Replace("ø", "");
-<<<<<<< HEAD
-                  Feature featureTemp = new Feature()
-                  {
-                     featureName = naam,
-                     value = feature.value,
-                     PrimaryData = true
-=======
+
                         Feature featureTemp = new Feature()
                         {
                             featureName = naam,
                             value = feature.value,
                             //0.5.0.1 Added PrimaryData
                             PrimaryData = true
->>>>>>> 549a7232ce33943edb6c84f7ee4dc5e4b4477d37
                         };
                         //0.5.0 featureTemp.minMaxValue = value.minMaxValue;
                         solventTemp.Features.Add(featureTemp);
