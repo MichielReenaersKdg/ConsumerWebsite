@@ -9,7 +9,7 @@ namespace SS.UI.Web.MVC.Controllers.Utils
     public class JsonHelper
     {
         //0.4.9 - Change List<MinMaxValue> to List<Feature> In order to solve new architecture problems (Dynamic Database)
-        public static Algorithm ParseJson(String jsonString, List<Feature> features)
+        public static Algorithm ParseJson(String jsonString)
         {
             dynamic jsonModel = JsonConvert.DeserializeObject(jsonString);
             Algorithm algorithm = new Algorithm()
@@ -68,7 +68,7 @@ namespace SS.UI.Web.MVC.Controllers.Utils
                     Solvent solventTemp = new Solvent()
                     {
                         CasNumber = solvent.casNumber,
-                        Name = solvent.name,
+                        Name = solvent.iD_Name,
                         DistanceToClusterCenter = solvent.distanceToCluster,
                         Features = new List<Feature>(),
                         //0.5.0.1 Move metadata to feature
@@ -91,17 +91,14 @@ namespace SS.UI.Web.MVC.Controllers.Utils
                         featureName = feature.name.ToString();
                   //0.4.9 - Changed from minMaxValues to features In order to solve new architecture problems (Dynamic Database)
                   //0.5.0.3 
-                  var value =  features.FirstOrDefault(a => a.featureName == featureName);
-                        if (value == null)
-                        {
-                            continue;
-                        }
+                
 
                         string naam = feature.name.ToString().Replace("(", "").Replace(")", "").Replace("/", "").Replace("=", "").Replace("ø", "");
-                        Feature featureTemp = new Feature()
-                        {
-                            featureName = naam,
-                            value = feature.value
+                  Feature featureTemp = new Feature()
+                  {
+                     featureName = naam,
+                     value = feature.value,
+                     PrimaryData = true
                         };
                         //0.5.0 featureTemp.minMaxValue = value.minMaxValue;
                         solventTemp.Features.Add(featureTemp);

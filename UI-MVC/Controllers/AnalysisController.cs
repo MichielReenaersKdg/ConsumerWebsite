@@ -145,7 +145,7 @@ namespace SS.UI.Web.MVC.Controllers
 
 
             //0.4.9 _analysisManager.ReadMinMaxValues().ToList()).Models.ToList() -> _analysisManager.ReadFeatures().ToList()).Models.ToList()
-            List<Model> mod = JsonHelper.ParseJson(jObject.ToString(),_analysisManager.ReadFeatures().ToList()).Models.ToList(); 
+            List<Model> mod = JsonHelper.ParseJson(jObject.ToString()).Models.ToList(); 
             Algorithm algo = new Algorithm()
             {
                 AlgorithmName = 0,

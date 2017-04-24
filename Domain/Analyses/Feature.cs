@@ -20,7 +20,7 @@ namespace SS.BL.Domain.Analyses
       //0.5.0 Changed FeatureValue to double
       public double value { get; set; }
       //0.5.0 Changed metadata to feature and removed MinMaxValue
-      public bool PrimaryData { get; set; } = true;
+      public bool PrimaryData { get; set; } = false;
    }
 
    

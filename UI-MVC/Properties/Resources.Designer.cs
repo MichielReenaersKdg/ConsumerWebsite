@@ -73,9 +73,9 @@ namespace SS.UI.Web.MVC.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] JavaSussolApplicationV8 {
+        public static byte[] JavaSussolApplicationV11 {
             get {
-                object obj = ResourceManager.GetObject("JavaSussolApplicationV8", resourceCulture);
+                object obj = ResourceManager.GetObject("JavaSussolApplicationV11", resourceCulture);
                 return ((byte[])(obj));
             }
         }
