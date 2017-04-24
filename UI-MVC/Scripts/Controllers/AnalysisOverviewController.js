@@ -171,7 +171,7 @@
                 if (showInstance) {
                     for (var j = 0; j < models[i].ClassifiedInstance.Features.length; j++) {
                         models[i].ClassifiedInstance.Features[j].FeatureName = constants.FeatureName[models[i].ClassifiedInstance.Features[j].FeatureName]; //0.4.9
-                        models[i].ClassifiedInstance.Features[j].Value = Number(models[i].ClassifiedInstance.Features[j].Value.toFixed(2));
+                        models[i].ClassifiedInstance.Features[j].value = Number(models[i].ClassifiedInstance.Features[j].value.toFixed(2));
                     }
                 }
                 for (var j = 0; j < models[i].Model.Clusters.length; j++) {
@@ -183,7 +183,7 @@
                         
                         for (var l = 0; l < models[i].Model.Clusters[j].Solvents[k].Features.length; l++) {
                             models[i].Model.Clusters[j].Solvents[k].Features[l].FeatureName = constants.FeatureName[models[i].Model.Clusters[j].Solvents[k].Features[l].FeatureName]; //0.4.9
-                            models[i].Model.Clusters[j].Solvents[k].Features[l].Value[0] = Number(models[i].Model.Clusters[j].Solvents[k].Features[l].Value.toFixed(2)); // 0.4.9 // fix Value[0]
+                            models[i].Model.Clusters[j].Solvents[k].Features[l].value[0] = Number(models[i].Model.Clusters[j].Solvents[k].Features[l].value.toFixed(2)); // 0.4.9 // fix Value[0]
                         }
                     }
                 }
