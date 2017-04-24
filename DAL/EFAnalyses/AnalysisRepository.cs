@@ -49,7 +49,7 @@ namespace SS.DAL.EFAnalyses
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents)))
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.VectorData)))
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.Features))))
-                .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.Features.Select(b => b.minMaxValue)))))
+                //0.5.0 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.Features.Select(b => b.minMaxValue)))))
                 .FirstOrDefault(i => i.Id == id);
         }
 
@@ -152,24 +152,6 @@ namespace SS.DAL.EFAnalyses
             return _context.Models.Where(m => m.AlgorithmName == algorithmName).ToList();
         }
 
-        public IEnumerable<MinMaxValue> ReadMinMaxValues()
-        {
-            return _context.MinMaxValues;
-        }
-
-        public IEnumerable<MinMaxValue> ReadMinMaxValues(long id)
-        {
-            List<MinMaxValue> minMaxValues = new List<MinMaxValue>();
-            var analysis = ReadAnalysis(id);
-            var clusters = analysis.AnalysisModels[0].Model.Clusters.ToList();
-            var solvents = clusters[0].Solvents.ToList();
-            foreach (var feature in solvents[0].Features)
-            {
-                minMaxValues.Add(feature.minMaxValue);
-            }
-            return minMaxValues.AsEnumerable();
-        }
-
         public IEnumerable<ClassifiedInstance> ReadAllClassifiedInstances(long userId, string name)
         {
             var instances = _context.Users
@@ -179,7 +161,9 @@ namespace SS.DAL.EFAnalyses
             return instances.Where(a => a.Name.Equals(name));
         }
 
-        public IEnumerable<ClassifiedInstance> ReadClassifiedInstancesForUser(long userId, long analysisId)
+      //0.5.0 Removing MinMaxValue
+
+      public IEnumerable<ClassifiedInstance> ReadClassifiedInstancesForUser(long userId, long analysisId)
         {
             IEnumerable<ClassifiedInstance> instances = _context.Users
                 .Include(a => a.ClassifiedInstances)
@@ -209,7 +193,7 @@ namespace SS.DAL.EFAnalyses
                 .Include(a => a.Model.Clusters.Select(p => p.VectorData))
                 .Include(a => a.Model.Clusters.Select(p => p.Solvents))
                 .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.Features)))
-                .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.Features.Select(o => o.minMaxValue))))
+                // 0.5.0 .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.Features.Select(o => o.minMaxValue))))
                 .Single(a => a.Id == modelId);
             classifiedInstance.AnalysisModelId = modelId;
             model.ClassifiedInstance = classifiedInstance;

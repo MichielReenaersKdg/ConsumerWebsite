@@ -14,6 +14,7 @@ namespace SS.BL.Analyses
     {
         private readonly IAnalysisRepository repo;
 
+      //0.5.0 Removing MinMaxValues
         public AnalysisManager(IAnalysisRepository iAnalysisRepository)
         {
             this.repo = iAnalysisRepository;
@@ -125,15 +126,7 @@ namespace SS.BL.Analyses
             return repo.ReadFullAnalyses();
         }
 
-        public IEnumerable<MinMaxValue> ReadMinMaxValues()
-        {
-            return repo.ReadMinMaxValues();
-        }
 
-        public IEnumerable<MinMaxValue> ReadMinMaxValues(long id)
-        {
-            return repo.ReadMinMaxValues(id);
-        }
         public Boolean CheckCasnumber(String casnummer) {
             return repo.CheckCasNumber(casnummer);
         }

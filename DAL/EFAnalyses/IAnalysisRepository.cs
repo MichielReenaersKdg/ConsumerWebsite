@@ -33,9 +33,7 @@ namespace SS.DAL.EFAnalyses
         IEnumerable<Analysis> ReadAnalyses();
         IEnumerable<Analysis> ReadFullAnalyses();
 
-        //MinMaxValue
-        IEnumerable<MinMaxValue> ReadMinMaxValues();
-        IEnumerable<MinMaxValue> ReadMinMaxValues(long id);
+        //0.5.0 Removing MinMaxValue
 
         //ClassifiedInstance
         IEnumerable<ClassifiedInstance> ReadAllClassifiedInstances(long userId, string name);
