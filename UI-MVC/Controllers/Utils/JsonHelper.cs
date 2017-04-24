@@ -101,7 +101,9 @@ namespace SS.UI.Web.MVC.Controllers.Utils
                         Feature featureTemp = new Feature()
                         {
                             featureName = naam,
-                            value = feature.value
+                            value = feature.value,
+                            //0.5.0.1 Added PrimaryData
+                            PrimaryData = true
                         };
                         //0.5.0 featureTemp.minMaxValue = value.minMaxValue;
                         solventTemp.Features.Add(featureTemp);

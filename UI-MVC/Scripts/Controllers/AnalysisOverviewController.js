@@ -11,7 +11,7 @@
         var overlayOpened = false;
         var solventOverlayOpened = false;
         //0.5.0.5 mogelijke errors door verwijdering minmax
-        //var minMaxValues = minMax.data;
+        //var featureModel = minMax.data;
         var models;
         var selectedModel = null;
         var currentChart = null;
@@ -38,7 +38,7 @@
         $scope.models = result.data.AnalysisModels;
         var data = result.data;
         //0.5.0.5
-        setEnumMinMax();
+        //setEnumMinMax();
         showClusterAnalysis(result.data.AnalysisModels);
 
         if (organisationUser === "") {
@@ -55,7 +55,7 @@
             
             models = modelsTemp;
             setEnumNames();
-            setMinMaxValues();
+            //setMinMaxValues();
             
             for (var i = 0; i < models.length; i++) {
                 clusters = getClusters(models[i].Model);
@@ -176,7 +176,8 @@
                 }
                 for (var j = 0; j < models[i].Model.Clusters.length; j++) {
                     for (var k = 0; k < models[i].Model.Clusters[j].VectorData.length; k++) {
-                        models[i].Model.Clusters[j].VectorData[k].features.FeatureName = constants.FeatureName[models[i].Model.Clusters[j].VectorData[k].features.FeatureName]; //0.4.9
+                        console.log(models[i]);
+                        models[i].Model.Clusters[j].VectorData[k].feature.featureName = constants.FeatureName[models[i].Model.Clusters[j].VectorData[k].feature.featureName]; //0.4.9
                     }
                     for (var k = 0; k < models[i].Model.Clusters[j].Solvents.length; k++) {
                         
@@ -200,37 +201,33 @@
         }
         $scope.getWidth = function getWidth(clusters) {
             var counter = clusters.filter(p => p.Solvents.length > 0).length;
-            debugger;
+            //debugger;
             return {
                 "width": (100 / counter) + "%"
             }
         }
         //0.5.0.2
-        function setEnumMinMax() {
-            for (var i = 0; i < minMaxValues.length; i++) {
-                minMaxValues[i].features.FeatureName = constants.FeatureName[minMaxValues[i].features.FeatureName]; //0.4.9
-            }
-        }
+       
 
         $scope.form = {};
-        function setMinMaxValues() {
-            for (var i = 0; i < minMaxValues.length; i++) {
-                minMaxValues[i].value = "";
-                minMaxValues[i].valid = true;
-            }
-            if ($scope.form !== undefined) {
-                $scope.form.features.$setPristine();
-            }
+        //function setMinMaxValues() {
+        //    for (var i = 0; i < minMaxValues.length; i++) {
+        //        minMaxValues[i].value = "";
+        //        minMaxValues[i].valid = true;
+        //    }
+        //    if ($scope.form !== undefined) {
+        //        $scope.form.features.$setPristine();
+        //    }
             
             
-            minMaxValues.name = "";
-            minMaxValues.casNumber = "";
-            $scope.minMaxValues = minMaxValues;
+        //    minMaxValues.name = "";
+        //    minMaxValues.casNumber = "";
+        //    $scope.minMaxValues = minMaxValues;
             
-        }
+        //}
 
         $scope.newSolvent = function newSolvent() {
-            addSolvent(minMaxValues, $http);
+            //addSolvent(featureModel, $http);
 
         };
         
@@ -1044,7 +1041,7 @@
                 }
 
                 $scope.headerz = headerObjects;
-                debugger;
+                //debugger;
 
                 
                 if (checkHeaders(headers)) {
