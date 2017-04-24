@@ -296,17 +296,7 @@ namespace SS.UI.Web.MVC.Controllers
         }
 
 
-        //GET api/Analysis/ReadMinMaxValues
-        [Route("ReadMinMaxValues")]
-        [HttpGet]
-        public IHttpActionResult ReadMinMaxValues([FromUri]long analysisId)
-        {
-            if (_analysisManager.ReadAnalysis(analysisId) != null)
-            {
-                return Ok(_analysisManager.ReadMinMaxValues(analysisId).ToList());
-            }
-            return BadRequest("Analysis not found");
-        }
+
 
         //DELETE api/Analysis/Delete
         [Route("Delete/{id:int}")]
@@ -372,9 +362,8 @@ namespace SS.UI.Web.MVC.Controllers
                         Feature f = new Feature()
                         {
                             featureName = model.FeatureNames[i].ToString(),
-                            value = new FeatureValue() {
-                                value = model.Values[i]
-                            }
+                            value = model.Values[i]
+                            
                         };
                         classifiedInstance.Features.Add(f);
                     }
@@ -406,7 +395,7 @@ namespace SS.UI.Web.MVC.Controllers
                     var featureNames = new ArrayList();
                     foreach (var feature in classifiedInstances.First().Features)
                     {
-                        values.Add(feature.value.value);
+                        values.Add(feature.value);
                         featureNames.Add(feature.featureName);
                     }
                     using (var client = new WebClient())
@@ -425,13 +414,11 @@ namespace SS.UI.Web.MVC.Controllers
                             featureNames[i] =
                             featureNames[i].ToString().Replace("°", "Degrees").Replace('.', '_').Replace('/', '_');
                             Feature f = new Feature()
-                                {
-                                    featureName = featureNames[i].ToString(),
-                                    value = new FeatureValue()
-                                    {
-                                        value = Double.Parse(values[i].ToString()) }
-
-                                    };
+                            {
+                                featureName = featureNames[i].ToString(),
+                                value = Double.Parse(values[i].ToString())
+                                };
+                                    
                                 classifiedInstance.Features.Add(f);
                             }
                             _analysisManager.CreateClassifiedInstance(model.Id, analysis.CreatedBy.Id, classifiedInstance);
