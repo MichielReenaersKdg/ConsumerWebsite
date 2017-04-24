@@ -131,16 +131,23 @@ namespace SS.UI.Web.MVC.Controllers
         [HttpGet]
         //0.4.0 Added method to utilize new dataset in Weka dll instead of API
         //POST api/Analysis/FillAlgorithm
-        public List<Model> FillAlgorithms()
+        public List<Model> FillAlgorithms(AlgorithmName algorithm)
         {
             String test = Properties.Resources.datasetqframe.ToString();
             var pathWithEnv = @"%USERPROFILE%\";
             var filePath = Environment.ExpandEnvironmentVariables(pathWithEnv);
             com.sussol.domain.utilities.Globals.STORAGE_PATH = filePath;
             com.sussol.web.controller.ServiceModel sus = new com.sussol.web.controller.ServiceModel();
-
+         JObject jObject = new JObject();
+         //0.5.0.9
+         switch (algorithm)
+         {
+            case AlgorithmName.CANOPY: jObject = JObject.Parse(sus.canopyModeller(test, "", "").ToString()); break;
+            case AlgorithmName.SOM: jObject = JObject.Parse(sus.somModeller(test, "").ToString()); break;
+            case AlgorithmName.XMEANS: jObject = JObject.Parse(sus.xmeansModeller(test, "", "", "").ToString()); break;
+         }
             //var perso = JsonConvert.DeserializeObject<dynamic>();
-            JObject jObject = JObject.Parse(sus.canopyModeller(test, "", "").ToString());
+            
             JToken jModel = jObject["model"];
 
 
@@ -247,7 +254,7 @@ namespace SS.UI.Web.MVC.Controllers
             {
                 using (var client = new WebClient())
                 {
-                    FillAlgorithms();
+                    FillAlgorithms(algorithmName);
                     client.Dispose();
                     return Ok();
                 }

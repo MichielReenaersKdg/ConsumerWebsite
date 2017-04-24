@@ -69,7 +69,14 @@ namespace SS.UI.Web.MVC.Controllers.Utils
                     {
                         CasNumber = solvent.casNumber,
                         Name = solvent.iD_Name,
-                        DistanceToClusterCenter = solvent.distanceToCluster,
+                        Source = solvent.source,
+                        EgNumber = solvent.iD_EG_Nr,
+                        EgAnnexNumber = solvent.iD_EG_Annex_Nr,
+                        EHS_E_SCORE = solvent.ehs_E_SCORE,
+                       EHS_H_SCORE = solvent.ehs_H_SCORE,
+                       EHS_S_SCORE = solvent.ehs_S_SCORE,
+                       EHS_Color_Code = solvent.ehs_COLOR_CODE,
+                       DistanceToClusterCenter = solvent.distanceToCluster,
                         Features = new List<Feature>(),
                         //0.5.0.1 Move metadata to feature
                         //MetaData = new SolventMetaData()
@@ -82,8 +89,11 @@ namespace SS.UI.Web.MVC.Controllers.Utils
                         //        IdName1 = solvent.iD_Name_1
                         //}
                     };
+               //meta-data toevoegen aan feature
+      
                     solventTemp.CasNumber = solventTemp.CasNumber.Replace("\"", "");
                     solventTemp.Name = solventTemp.Name.Replace("\"", "");
+
                     foreach (var feature in solvent.features)
                     {
                         string featureName;
@@ -91,8 +101,6 @@ namespace SS.UI.Web.MVC.Controllers.Utils
                         featureName = feature.name.ToString();
                   //0.4.9 - Changed from minMaxValues to features In order to solve new architecture problems (Dynamic Database)
                   //0.5.0.3 
-                
-
                         string naam = feature.name.ToString().Replace("(", "").Replace(")", "").Replace("/", "").Replace("=", "").Replace("ø", "");
 
                         Feature featureTemp = new Feature()
@@ -100,7 +108,7 @@ namespace SS.UI.Web.MVC.Controllers.Utils
                             featureName = naam,
                             value = feature.value,
                             //0.5.0.1 Added PrimaryData
-                            PrimaryData = true
+                            
                         };
                         //0.5.0 featureTemp.minMaxValue = value.minMaxValue;
                         solventTemp.Features.Add(featureTemp);

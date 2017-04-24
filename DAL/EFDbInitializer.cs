@@ -10,7 +10,7 @@ using SS.BL.Domain.Analyses;
 
 namespace SS.DAL
 {
-    public class EFDbInitializer : DropCreateDatabaseIfModelChanges<EFDbContext>
+    public class EFDbInitializer : DropCreateDatabaseAlways<EFDbContext>
     {
         protected override void Seed(EFDbContext context)
         {
