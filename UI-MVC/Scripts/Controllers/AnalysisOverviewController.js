@@ -170,20 +170,28 @@
                 algorithms.push(models[i].Model.AlgorithmName);
                 if (showInstance) {
                     for (var j = 0; j < models[i].ClassifiedInstance.Features.length; j++) {
-                        models[i].ClassifiedInstance.Features[j].FeatureName = constants.FeatureName[models[i].ClassifiedInstance.Features[j].FeatureName]; //0.4.9
-                        models[i].ClassifiedInstance.Features[j].value = Number(models[i].ClassifiedInstance.Features[j].value.toFixed(2));
+                        //0.5.0.8 
+                        if (models[i].ClassifiedInstance.Features[j].PrimaryData = true) {
+                            models[i].ClassifiedInstance.Features[j].FeatureName = constants.FeatureName[models[i].ClassifiedInstance.Features[j].FeatureName]; //0.4.9
+                            models[i].ClassifiedInstance.Features[j].value = Number(models[i].ClassifiedInstance.Features[j].value.toFixed(2));
+                        }
                     }
                 }
                 for (var j = 0; j < models[i].Model.Clusters.length; j++) {
                     for (var k = 0; k < models[i].Model.Clusters[j].VectorData.length; k++) {
-                        console.log(models[i]);
-                        models[i].Model.Clusters[j].VectorData[k].feature.featureName = constants.FeatureName[models[i].Model.Clusters[j].VectorData[k].feature.featureName]; //0.4.9
+                        if (models[i].Model.Clusters[j].VectorData[k].feature.PrimaryData = true) {
+                            models[i].Model.Clusters[j].VectorData[k].feature.featureName = constants.FeatureName[models[i].Model.Clusters[j].VectorData[k].feature.featureName]; //0.4.9
+                        }
                     }
                     for (var k = 0; k < models[i].Model.Clusters[j].Solvents.length; k++) {
                         
                         for (var l = 0; l < models[i].Model.Clusters[j].Solvents[k].Features.length; l++) {
+                            if (models[i].Model.Clusters[j].Solvents[k].Features[l].PrimaryData = true) {
+
                             models[i].Model.Clusters[j].Solvents[k].Features[l].FeatureName = constants.FeatureName[models[i].Model.Clusters[j].Solvents[k].Features[l].FeatureName]; //0.4.9
                             models[i].Model.Clusters[j].Solvents[k].Features[l].value[0] = Number(models[i].Model.Clusters[j].Solvents[k].Features[l].value.toFixed(2)); // 0.4.9 // fix Value[0]
+
+                            }
                         }
                     }
                 }
