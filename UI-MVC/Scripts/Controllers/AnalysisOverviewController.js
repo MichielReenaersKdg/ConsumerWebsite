@@ -331,6 +331,8 @@
             var json = [];
             var percentages = [];
             var totalSolvents = model.Model.NumberOfSolvents;
+            var distancematrix = buildMatrix2(model.Model.Clusters);
+            var graphdata = calculatePcoA(distancematrix);
 
             for (var i = 0; i < model.Model.Clusters.length; i++) {
                 var valuesSolvents = [];
@@ -342,15 +344,18 @@
 
 
                 var percentage = ((valuesSolvents.length) / totalSolvents) * 100;
-                
+                var data = graphdata[i]
                 percentages.push(percentage);
-
+                
                 json[i] = ({
-                    'x': model.Model.NormalizedValues[i], 'y': Number(percentage.toFixed(3)), 'z': Number(max.toFixed(3)), 'name': model.Model.Clusters[i].Number, 'cursor': 'pointer', 'solvents': model.Model.Clusters[i].Solvents.length, 'color': colors[i], 'markerBorderColor': "#F4FE00", //change color here
+                    //'x': model.Model.NormalizedValues[i], 'y': Number(percentage.toFixed(3)), 'z': Number(max.toFixed(3)), 'name': model.Model.Clusters[i].Number, 'cursor': 'pointer', 'solvents': model.Model.Clusters[i].Solvents.length, 'color': colors[i], 'markerBorderColor': "#F4FE00", //change color here
+                    //'markerBorderThickness': 0
+                    'x': data[0], 'y': data[1], 'z': Number(max.toFixed(3)), 'name': model.Model.Clusters[i].Number, 'cursor': 'pointer', 'solvents': model.Model.Clusters[i].Solvents.length, 'color': colors[i], 'markerBorderColor': "#F4FE00", //change color here
                     'markerBorderThickness': 0
                 });
 
             }
+
             model.Model.maxPercent = Math.max.apply(Math, percentages);
 
 
@@ -627,10 +632,55 @@
                 jQuery("#circle-" + selectedAlgorithm + "-" + i).empty();
             }
         }
+        function calculatePcoA(distances) {
+            dimensions = 2;
+
+            // square distances
+            var M = numeric.mul(-0.5, numeric.pow(distances, 2));
+
+            // double centre the rows/columns
+            function mean(A) { return numeric.div(numeric.add.apply(null, A), A.length); }
+            var rowMeans = mean(M),
+                colMeans = mean(numeric.transpose(M)),
+                totalMean = mean(rowMeans);
+
+            for (var i = 0; i < M.length; ++i) {
+                for (var j = 0; j < M[0].length; ++j) {
+                    M[i][j] += totalMean - rowMeans[i] - colMeans[j];
+                }
+            }
+
+            // take the SVD of the double centred matrix, and return the
+            // points from it
+            var ret = numeric.svd(M),
+                eigenValues = numeric.sqrt(ret.S);
+            return ret.U.map(function (row) {
+                return numeric.mul(row, eigenValues).splice(0, dimensions);
+            });
+        }
+
         function createChart(model) {
             CanvasJS.addColorSet("greenShades", colors
                 );
             var jsonModel = createJsonModel(findAnalysisModelOnName(selectedAlgorithm));
+            var maxX = 0;
+            var maxY = 0;
+            var minX = 0;
+            var minY = 0;
+            for (var i = 0; i < jsonModel.length; i++) {
+                if (maxX < jsonModel[i].x) {
+                    maxX = jsonModel[i].x;
+                }
+                if (maxY < jsonModel[i].y) {
+                    maxY = jsonModel[i].y;
+                }
+                if (minX > jsonModel[i].x) {
+                    minX = jsonModel[i].x;
+                }
+                if (minY > jsonModel[i].y) {
+                    minY = jsonModel[i].y;
+                }
+            }
 
             var chart = new CanvasJS.Chart("chartContainer_" + model.AlgorithmName,
             {
@@ -641,12 +691,14 @@
                 backgroundColor: "rgba(30,30,30,1)",
 
                 axisX: {
-                    title: "Relative cluster position",
+                    title: "Test",
                     valueFormatString: " ",
                     tickLength: 0,
-                    viewportMaximum: 1.1,
-                    viewportMinimum: -0.1,
-                    interval: 0.05,
+                    //viewportMaximum: 1.1,
+                    //viewportMinimum: -0.1,
+                    viewportMaximum: maxX+200,
+                    viewportMinimum: minX-200,
+                    interval: 100,
                     gridThickness: 1,
                     tickThickness: 1,
                     gridColor: "grey",
@@ -655,15 +707,18 @@
                     lineThickness: 0
                 },
                 axisY: {
-                    title: "% of total solvents",
-                    interval: 10,
+                    title: "Test",
+                    valueFormatString: " ",
+                    interval: 100,
                     gridThickness: 1,
                     tickThickness: 1,
-                    viewportMaximum: model.maxPercent + 15,
+                    //viewportMaximum: model.maxPercent + 15,
+                    viewportMaximum: maxY+200,
+                    viewportMinimum: minY-200,
                     gridColor: "grey",
                     tickColor: "grey",
                     lineThickness: 0,
-                    valueFormatString: "#0'%'",
+                    //valueFormatString: "#0'%'",
                     titleFontColor: "gray"
 
                 },
@@ -1055,8 +1110,7 @@
             reader.readAsText(files[0]);
 
         };
-         
-       
+        
 
 
         function checkValues(arrValues, arrHeaders) {
@@ -1121,8 +1175,8 @@
                     var vector1 = [];
                     var vector2 = [];
                     for (var l = 0; l < clusterTemp.Solvents[j].Features.length ; l++) {
-                        vector1[l] = clusterTemp.Solvents[j].Features[l].Value;
-                        vector2[l] = clusterTemp.Solvents[k].Features[l].Value;
+                        vector1[l] = clusterTemp.Solvents[j].Features[l].value;
+                        vector2[l] = clusterTemp.Solvents[k].Features[l].value;
                     }
                     var distance = getEuclidianDistance(vector1, vector2);
                     distances.push(distance);
@@ -1132,6 +1186,21 @@
             
             return buildDistanceMatrix.getMatrix();
         }
+        function buildMatrix2(clusters) {
+            var distancematrix = [];
+            for (var i = 0; i < clusters.length; i++) {
+                var lines = [];
+                var distances = clusters[i].DistanceToClusters;
+                for (var j = 0; j < distances.length; j++) {
+                    var distanceobj = distances[j]
+                    var distance = distanceobj.Distance;
+                    lines.push(distance);
+                }
+                distancematrix.push(lines);
+            }
+            return distancematrix;
+        }
+        
 
         function createClusterChart(clusterTemp) {
             

@@ -69,5 +69,15 @@ namespace SS.DAL.Properties {
                 return ResourceManager.GetString("datasetqframe", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Source;ID Name;ID CAS Nr;ID EG Nr;ID EG Annex Nr;EHS S Score;EHS H Score;EHS E Score;EHS Color Code;Boiling Point  (øC);Melting Point  (øC);Vapour Pressure (25øC mmHg);Flash Point  (øC);Autoignition Temperature  (øC);Hansen Delta D (MPa1/2);Hansen Delta P (MPa1/2);Hansen Delta H (MPa1/2);Solubility Water (20 øC g/L);Density (25øC  kg/L);Viscosity (25øC  mPa.s);Relative Vapour Density  (Air=1);Log P Octanol Water (20øC);Refractive Index (20øC);Surface Tension (25øC mN/m);Test1;Test2
+        ///DataType;string;string;s [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string datasetqframeVersie2 {
+            get {
+                return ResourceManager.GetString("datasetqframeVersie2", resourceCulture);
+            }
+        }
     }
 }

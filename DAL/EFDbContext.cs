@@ -16,7 +16,8 @@ namespace SS.DAL
         public EFDbContext() : base("sussol")
         {
             Database.SetInitializer<EFDbContext>(new EFDbInitializer());
-        }
+            Database.CommandTimeout = 180;
+      }
       //0.5.0 Deleting MinMaxValues and MetaDataSolvent
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Organisation> Organisations { get; set; }

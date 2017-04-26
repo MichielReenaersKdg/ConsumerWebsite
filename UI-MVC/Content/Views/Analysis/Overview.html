@@ -248,10 +248,11 @@
                                     <th style="padding-left: 15px">Value</th>
                                 </tr>
                                 <tr ng-repeat="feature in selectedSolvent.Features" ng-if="selectedCluster === undefined">
-                                    <td style="padding-left: 15px">{{feature.FeatureName}}</td>
-                                    <td style="padding-left: 15px">{{feature.Value}}</td>
+                                    <td style="padding-left: 15px">{{feature.featureName}}</td>
+                                    <td style="padding-left: 15px">{{feature.value}}</td>
                                 </tr>
                             </table>
+
                             <table ng-if="selectedCluster">
                                 <tr ng-repeat="solvent in selectedCluster.Solvents | orderBy:'Name'" ng-if="selectedCluster !== undefined">
                                     <td style="padding-left: 15px">- {{solvent.Name}}</td>
