@@ -213,7 +213,7 @@
         
 
         $scope.newSolvent = function newSolvent() {
-            console.log($scope)
+            console.log($scope.headerz)
             addSolvent($scope.solvent,$scope.headerz, $http);
 
         };
@@ -222,8 +222,8 @@
             $('#load').button('loading');
             
             document.getElementById('closecross').disabled = true;
-            var solventName = solvent.Name;
-            var casNumber = solvent.CasNumber;
+            var solventName = values.name;
+            var casNumber = values.casNumber;
             var featureNames = [];
             var featureValues = [];
             var modelPaths = [];
@@ -1064,7 +1064,7 @@
                     headerObjects[i].value = Number(values[i + 9].replace(',', '.')); // 0.5.0.13
                 }
                 $scope.headerz = headerObjects;
-                $scope.features = headerObjects;
+                //$scope.features = headerObjects;
                 if (checkHeaders(headers)) {
                     checkValues(values, headers);
                 }
@@ -1080,8 +1080,8 @@
 
 
         function checkValues(arrValues, arrHeaders) {
-            $scope.solvent.name = arrValues[1];
-            $scope.solvent.casNumber = arrValues[2];
+            $scope.headerz.name = arrValues[1];
+            $scope.headerz.casNumber = arrValues[2];
             for (var i = 0; i < $scope.headerz.length; i++) {
                 $scope.headerz[i].value = Number(arrValues[i + 9].replace(',', '.'));
             }

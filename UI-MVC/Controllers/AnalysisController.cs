@@ -388,9 +388,8 @@ namespace SS.UI.Web.MVC.Controllers
                         DistanceToClusterCenter = (Double)response.getDistanceToCluster(),
                         ClusterNumber = (int)response.getClusterNumber()
                     };
-                    sussol.classifySolvent(analysisModel.Model.ModelPath, serialized).toString();
-                    classifiedInstance.CasNumber = classifiedInstance.CasNumber;
-                    classifiedInstance.Name = classifiedInstance.Name;
+                    classifiedInstance.CasNumber = model.CasNumber;
+                    classifiedInstance.Name = model.Name;
                     classifiedInstance.Features = new List<Feature>();
 
                     for (int i = 0; i < model.FeatureNames.Length; i++)
