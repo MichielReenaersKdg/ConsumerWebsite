@@ -1054,19 +1054,17 @@
                 var tempHeaders = headers.slice(9, headers.length); // 0.5.0.13
                 var headerObjects = [];
                 for (var i = 0; i < tempHeaders.length; i++) {
-                    tempHeaders[i].value = "";
+                    tempHeaders[i].value = values[i];
 
                     headerObjects.push({ FeatureName: tempHeaders[i], value: "" });
                    
                 }
 
                 for (var i = 0; i < headerObjects.length; i++) {
-                    headerObjects[i].value = Number(values[i + 9]); // 0.5.0.13
+                    headerObjects[i].value = Number(values[i + 9].replace(',', '.')); // 0.5.0.13
                 }
-
                 $scope.headerz = headerObjects;
-
-                
+                $scope.features = headerObjects;
                 if (checkHeaders(headers)) {
                     checkValues(values, headers);
                 }
@@ -1082,11 +1080,10 @@
 
 
         function checkValues(arrValues, arrHeaders) {
-            console.log($scope.headerz)
             $scope.solvent.name = arrValues[1];
             $scope.solvent.casNumber = arrValues[2];
             for (var i = 0; i < $scope.headerz.length; i++) {
-                $scope.headerz[i].value = Number(arrValues[i + 9]);
+                $scope.headerz[i].value = Number(arrValues[i + 9].replace(',', '.'));
             }
             delete $scope.errorMessage;
             return true;
