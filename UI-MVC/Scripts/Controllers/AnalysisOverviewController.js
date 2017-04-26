@@ -313,11 +313,15 @@
             return normalizedValues;
         }
 
+        //[0.5.0.6]This function gets a model from one of the algorithms (Canopy, SOM, Xmeans)
+        //returns a json which you use in createChart() (mode 1)
         function createJsonModel(model) {
             var json = [];
             var percentages = [];
             var totalSolvents = model.Model.NumberOfSolvents;
+            // returns a distance-matrix
             var distancematrix = buildMatrix2(model.Model.Clusters);
+            //use distance-matrix to calculate PcoA
             var graphdata = calculatePcoA(distancematrix);
 
             for (var i = 0; i < model.Model.Clusters.length; i++) {
@@ -332,10 +336,8 @@
                 var percentage = ((valuesSolvents.length) / totalSolvents) * 100;
                 var data = graphdata[i]
                 percentages.push(percentage);
-                
+                //x = object[0], y = object[1] from the object returned from calculatePcoA, z changes the size of the bubbles.
                 json[i] = ({
-                    //'x': model.Model.NormalizedValues[i], 'y': Number(percentage.toFixed(3)), 'z': Number(max.toFixed(3)), 'name': model.Model.Clusters[i].Number, 'cursor': 'pointer', 'solvents': model.Model.Clusters[i].Solvents.length, 'color': colors[i], 'markerBorderColor': "#F4FE00", //change color here
-                    //'markerBorderThickness': 0
                     'x': data[0], 'y': data[1], 'z': Number(max.toFixed(3)), 'name': model.Model.Clusters[i].Number, 'cursor': 'pointer', 'solvents': model.Model.Clusters[i].Solvents.length, 'color': colors[i], 'markerBorderColor': "#F4FE00", //change color here
                     'markerBorderThickness': 0
                 });
@@ -595,6 +597,9 @@
                 jQuery("#circle-" + selectedAlgorithm + "-" + i).empty();
             }
         }
+        //[0.5.0.6] Calculation X en Y for cluster-graph (mode 1) with PcoA algorithm
+        //This functions gets distances from a distance-matrix and returns an object with two arrays for X en Y
+        //This function is called in the createJsonModel function
         function calculatePcoA(distances) {
             dimensions = 2;
 
@@ -621,7 +626,8 @@
                 return numeric.mul(row, eigenValues).splice(0, dimensions);
             });
         }
-
+        //[0.5.0.6] Draws the cluster-chart (mode 1)
+        //Gets model from selected algorithm and draws the chart
         function createChart(model) {
             CanvasJS.addColorSet("greenShades", colors
                 );
@@ -654,7 +660,7 @@
                 backgroundColor: "rgba(30,30,30,1)",
 
                 axisX: {
-                    title: "Test",
+                    //title: "Test",
                     valueFormatString: " ",
                     tickLength: 0,
                     //viewportMaximum: 1.1,
@@ -670,7 +676,7 @@
                     lineThickness: 0
                 },
                 axisY: {
-                    title: "Test",
+                    //title: "Test",
                     valueFormatString: " ",
                     interval: 100,
                     gridThickness: 1,
@@ -1139,6 +1145,8 @@
             
             return buildDistanceMatrix.getMatrix();
         }
+        //[0.5.0.6] Gets all the clusters from a model given by a algorithm (Canopy, SOM, Xmeans) and returns the distance matrix
+        //It uses the DistanceToCluster values from each cluster
         function buildMatrix2(clusters) {
             var distancematrix = [];
             for (var i = 0; i < clusters.length; i++) {
