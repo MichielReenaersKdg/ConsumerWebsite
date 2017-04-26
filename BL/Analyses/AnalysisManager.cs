@@ -137,5 +137,10 @@ namespace SS.BL.Analyses
         {
             return repo.ReadFeatures();
         }
+
+        public IEnumerable<Solvent> ReadSolvents()
+        {
+            return repo.ReadSolvents();
+        }
     }
 }

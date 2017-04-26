@@ -123,15 +123,14 @@ namespace SS.UI.Web.MVC.Controllers.Utils
             return algorithm;
         }
 
-        public static ClassifiedInstance ParseJsonToClassifiedInstance(string json)
-        {
-            dynamic jsonInstance = JsonConvert.DeserializeObject(json);
-            ClassifiedInstance classifiedInstance = new ClassifiedInstance()
-            {
-                DistanceToClusterCenter = jsonInstance.distanceToCluster,
-                ClusterNumber = jsonInstance.clusterNumber
-            };
-            return classifiedInstance;
-        }
+        //public static ClassifiedInstance ParseJsonToClassifiedInstance(Cla response)
+        //{
+        //    ClassifiedInstance classifiedInstance = new ClassifiedInstance()
+        //    {
+        //        DistanceToClusterCenter = distanceToCluster,
+        //        ClusterNumber = jsonInstance.clusterNumber
+        //    };
+        //    return classifiedInstance;
+        //} 
     }
 }

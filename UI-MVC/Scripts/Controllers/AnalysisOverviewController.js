@@ -1,6 +1,6 @@
 ﻿angular.module('sussol.controllers')
     .controller('AnalysisOverviewController',
-    function ($scope, $window, $http, $routeParams, constants, result, $timeout, organisation, $rootScope) {
+    function ($scope, $window, $http, $routeParams, constants, result,features, solvents, $timeout, organisation, $rootScope) {
         var solvents = [];
         var selectedAlgorithm;
         var organisationUser = organisation.data;
@@ -55,7 +55,7 @@
             
             models = modelsTemp;
             setEnumNames();
-            //setMinMaxValues();
+            
             
             for (var i = 0; i < models.length; i++) {
                 clusters = getClusters(models[i].Model);
@@ -176,14 +176,14 @@
                 }
                 for (var j = 0; j < models[i].Model.Clusters.length; j++) {
                     for (var k = 0; k < models[i].Model.Clusters[j].VectorData.length; k++) {
-                        console.log(models[i]);
+                        //console.log(models[i]);
                         models[i].Model.Clusters[j].VectorData[k].feature.featureName = constants.FeatureName[models[i].Model.Clusters[j].VectorData[k].feature.featureName]; //0.4.9
                     }
                     for (var k = 0; k < models[i].Model.Clusters[j].Solvents.length; k++) {
                         
                         for (var l = 0; l < models[i].Model.Clusters[j].Solvents[k].Features.length; l++) {
                             models[i].Model.Clusters[j].Solvents[k].Features[l].FeatureName = constants.FeatureName[models[i].Model.Clusters[j].Solvents[k].Features[l].FeatureName]; //0.4.9
-                            models[i].Model.Clusters[j].Solvents[k].Features[l].value[0] = Number(models[i].Model.Clusters[j].Solvents[k].Features[l].value.toFixed(2)); // 0.4.9 // fix Value[0]
+                            models[i].Model.Clusters[j].Solvents[k].Features[l].value[0] = Number(models[i].Model.Clusters[j].Solvents[k].Features[l].value.toFixed(2)); // 0.4.9 
                         }
                     }
                 }
@@ -210,39 +210,26 @@
        
 
         $scope.form = {};
-        //function setMinMaxValues() {
-        //    for (var i = 0; i < minMaxValues.length; i++) {
-        //        minMaxValues[i].value = "";
-        //        minMaxValues[i].valid = true;
-        //    }
-        //    if ($scope.form !== undefined) {
-        //        $scope.form.features.$setPristine();
-        //    }
-            
-            
-        //    minMaxValues.name = "";
-        //    minMaxValues.casNumber = "";
-        //    $scope.minMaxValues = minMaxValues;
-            
-        //}
+        
 
         $scope.newSolvent = function newSolvent() {
-            //addSolvent(featureModel, $http);
+            console.log($scope)
+            addSolvent($scope.solvent,$scope.headerz, $http);
 
         };
-        
-        function addSolvent(values, $http) {
+        //0.5.0.11
+        function addSolvent(solvent, values, $http) {
             $('#load').button('loading');
             
             document.getElementById('closecross').disabled = true;
-            var solventName = values.name;
-            var casNumber = values.casNumber;
+            var solventName = solvent.Name;
+            var casNumber = solvent.CasNumber;
             var featureNames = [];
             var featureValues = [];
             var modelPaths = [];
             var modelIds = [];
             for (var i = 0; i < values.length; i++) {
-                featureNames.push(values[i].features.FeatureName); //0.4.9
+                featureNames.push(values[i].FeatureName); 
                 featureValues.push(values[i].value);
             }
             for (var i = 0; i < models.length; i++) {
@@ -276,7 +263,6 @@
                 }
                 document.getElementById("newSolventCasNr").style.borderColor = "black";
                 document.getElementById("newSolventName").style.borderColor = "black";
-                setMinMaxValues();
             }).error(function errorCallback(data) {
                 $scope.errorMessage = data.Message;
                 $('#load').button('reset');
@@ -390,29 +376,6 @@
             $scope.ClassifiedInstance = instance;
         }
 
-        $scope.SetStyle = function (index) {
-            delete $scope.errorMessage;
-            document.getElementsByClassName("feature-input")[index].setAttribute('style', 'background-color: #EED2EE !important'); 
-            
-            var value = document.getElementsByClassName("feature-input")[index].value;
-            if (value === "") {
-                minMaxValues[index].valid = true;
-            } else {
-                if (value < minMaxValues[index].MinValue || value > minMaxValues[index].MaxValue || value === "-") {
-                    minMaxValues[index].valid = false;
-                } else {
-                    minMaxValues[index].valid = true;
-                }
-            }
-            for (var i = 0; i < minMaxValues.length; i++) {
-                if (minMaxValues[i].valid === false) {
-                    $scope.allValuesValid = false;
-                    return false;
-                }
-            }
-            $scope.allValuesValid = true;
-            return true;
-        }
         
         $scope.downloadPdf = function () {
             loadGraphs();
@@ -466,9 +429,9 @@
             var featureArray = [];
             var algorithmArray = [];
             
-
-            for (var i = 0; i < minMaxValues.length; i++) {
-                featureArray.push({ text: minMaxValues[i].features.FeatureName + "   [ " + minMaxValues[i].MinValue + " ~ " + minMaxValues[i].MaxValue + " ]" , margin: [60, 10, 0, 0] }); //0.4.9
+            //0.5.0.12 Need to fix
+            for (var i = 0; i < features.length; i++) {
+                featureArray.push({ text: features[i].features.FeatureName, margin: [60, 10, 0, 0] }); //0.4.9
             }
             for (var i = 0; i < result.data.AnalysisModels.length; i++) {
                 $scope.currAlgo = data.AnalysisModels[i];
@@ -1046,7 +1009,7 @@
         }
 
         $scope.clearNewSolvent = function() {
-            setMinMaxValues();
+            //setMinMaxValues();
             delete $scope.errorMessage;
         }
 
@@ -1064,16 +1027,16 @@
                     $scope.$apply();
                     return false;
                 }
-                var headers = csv[0].split("\t").filter(p => p != '' || p.length > 0);
+                var headers = csv[0].split(";").filter(p => p != '' || p.length > 0);
                 
-                if (headers.length !== minMaxValues.length + 6 && headers.length !== minMaxValues.length + 7) {
-                    $scope.errorMessage = "Your csv doens't contain the right amount of headers or it isn't split on tabs";
+                if (headers.length !== solvents[0].Features.length + 9) { //0.5.0.13 && headers.length !== features.length + 10
+                    $scope.errorMessage = "Your csv doens't contain the right amount of headers or it isn't split on ;";
                     $scope.$apply();
                     return false;
                 }
-                var values = csv[1].split("\t");
-                if (values.length !== minMaxValues.length + 6) {
-                    $scope.errorMessage = "Your csv doens't contain the right amount of values or it isn't split on tabs";
+                var values = csv[2].split(";");
+                if (values.length !== solvents[0].Features.length + 9) { //0.5.0.13
+                    $scope.errorMessage = "Your csv doens't contain the right amount of values or it isn't split on ;";
                     $scope.$apply();
                     return false;
                 }
@@ -1082,7 +1045,7 @@
                 values[0] = values[0].substr(1);
                 values[values.length - 1] = values[values.length - 1].substr(0, values[headers.length - 1].length - 2);*/
                 
-                var tempHeaders = headers.slice(6, headers.length);
+                var tempHeaders = headers.slice(9, headers.length); // 0.5.0.13
                 var headerObjects = [];
                 for (var i = 0; i < tempHeaders.length; i++) {
                     tempHeaders[i].value = "";
@@ -1092,11 +1055,10 @@
                 }
 
                 for (var i = 0; i < headerObjects.length; i++) {
-                    headerObjects[i].value = Number(values[i + 6]);
+                    headerObjects[i].value = Number(values[i + 9]); // 0.5.0.13
                 }
 
                 $scope.headerz = headerObjects;
-                //debugger;
 
                 
                 if (checkHeaders(headers)) {
@@ -1114,24 +1076,11 @@
 
 
         function checkValues(arrValues, arrHeaders) {
-            try {
-                for (var i = 0; i < minMaxValues.length; i++) {
-                    if (minMaxValues[i].MinValue > arrValues[i+6] || minMaxValues[i].MaxValue < arrValues[i+6]) {
-                        $scope.errorMessage = "One of the values is incorrect: " + arrHeaders[i+6];
-                        $scope.$apply();
-                        return false;
-                    }
-                }
-            }catch (e) {
-                $scope.errorMessage = "There is incorrent data in the file";
-                $scope.$apply();
-                return false;
-            }
-
-            minMaxValues.name = arrValues[1];
-            minMaxValues.casNumber = arrValues[3];
-            for (var i = 0; i < minMaxValues.length; i++) {
-                minMaxValues[i].value = Number(arrValues[i + 6]);
+            console.log($scope.headerz)
+            $scope.solvent.name = arrValues[1];
+            $scope.solvent.casNumber = arrValues[2];
+            for (var i = 0; i < $scope.headerz.length; i++) {
+                $scope.headerz[i].value = Number(arrValues[i + 9]);
             }
             delete $scope.errorMessage;
             return true;
@@ -1139,20 +1088,24 @@
         //0.5.0.6
         function checkHeaders(arrHeaders) {
             var metaData = [];
-            metaData.push("Input");
-            metaData.push("ID_Name_1");
-            metaData.push("Label");
-            metaData.push("ID_CAS_Nr_1");
-            metaData.push("ID_EG_Nr");
-            metaData.push("ID_EG_Annex_Nr");
-            for (var i = 0; i < 6; i++) {
+
+            metaData.push("Source");
+            metaData.push("ID Name");
+            metaData.push("ID CAS Nr");
+            metaData.push("ID EG Nr");
+            metaData.push("ID EG Annex Nr");
+            metaData.push("EHS S Score");
+            metaData.push("EHS H Score");
+            metaData.push("EHS E Score");
+            metaData.push("EHS Color Code");
+            for (var i = 0; i < 9; i++) {
                 if (arrHeaders[i] !== metaData[i]) {
                     $scope.errorMessage = "Wrong input in header metaData: " + arrHeaders[i];
                     $scope.$apply();
                     return false;
                 }
             }
-
+            //Fix
             //for (var i = 6; i < arrHeaders.length; i++) {
             //    if (arrHeaders[i].replace("\r", "") !== minMaxValues[i-6].FeatureName) {
             //        $scope.errorMessage = "Wrong input in header feature names: " + arrHeaders[i] + " must be " + minMaxValues[i - 6].FeatureName;

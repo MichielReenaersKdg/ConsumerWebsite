@@ -245,5 +245,10 @@ namespace SS.DAL.EFAnalyses
         {
             return _context.Features.ToList();
         }
+
+        public IEnumerable<Solvent> ReadSolvents()
+        {
+            return _context.Solvents.ToList();
+        }
     }
 }

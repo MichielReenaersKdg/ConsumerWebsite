@@ -127,6 +127,22 @@ namespace SS.UI.Web.MVC.Controllers
             return models;
         }
 
+        //GET api/Analysis/GetSolvents
+        [Route("GetSolvents")]
+        [HttpGet]
+        public List<Solvent> getSolvents()
+        {
+            return _analysisManager.ReadSolvents().ToList();
+        }
+
+        //GET api/Analysis/GetFeatures
+        [Route("GetFeatures")]
+        [HttpGet]
+        public List<Feature> getFeatures()
+        {
+            return _analysisManager.ReadFeatures().ToList();
+        }
+
         [Route("FillAlgorithms")]
         [HttpGet]
         //0.4.0 Added method to utilize new dataset in Weka dll instead of API
@@ -162,6 +178,7 @@ namespace SS.UI.Web.MVC.Controllers
             return mod;
 
         }
+
 
         //POST api/Analysis/Createanalysis
         [Route("CreateAnalysis")]
@@ -355,13 +372,27 @@ namespace SS.UI.Web.MVC.Controllers
                 foreach (var analysisModel in model.AnalysisModels)
                 {
                     var serialized = JsonConvert.SerializeObject(model.Values);
-                    String parameters = "path="+analysisModel.Model.ModelPath+"&featureValues=" + serialized;
-                    client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                    var classifiedInstance = JsonHelper.ParseJsonToClassifiedInstance(client.UploadString(new Uri("http://localhost:8080/SussolWebservice/api/classify"), parameters));
-                    classifiedInstance.CasNumber = model.CasNumber;
-                    classifiedInstance.Name = model.Name;
-                    classifiedInstance.Features = new List<Feature>();
                     
+                    client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                    //var sussol = new com.sussol.web.controller.ServiceModel();
+                    //var response = sussol.classifySolvent(analysisModel.Model.ModelPath, serialized);
+                    //var classifiedInstance = JsonHelper.ParseJsonToClassifiedInstance(response.ToString());
+                    //classifiedInstance.CasNumber = model.CasNumber;
+                    //classifiedInstance.Name = model.Name;
+                    //classifiedInstance.Features = new List<Feature>();
+
+                    var sussol = new com.sussol.web.controller.ServiceModel();
+                    var response = sussol.classifySolvent(analysisModel.Model.ModelPath, serialized);
+                    ClassifiedInstance classifiedInstance = new ClassifiedInstance()
+                    {
+                        DistanceToClusterCenter = (Double)response.getDistanceToCluster(),
+                        ClusterNumber = (int)response.getClusterNumber()
+                    };
+                    sussol.classifySolvent(analysisModel.Model.ModelPath, serialized).toString();
+                    classifiedInstance.CasNumber = classifiedInstance.CasNumber;
+                    classifiedInstance.Name = classifiedInstance.Name;
+                    classifiedInstance.Features = new List<Feature>();
+
                     for (int i = 0; i < model.FeatureNames.Length; i++)
                     {
                         model.FeatureNames[i] = model.FeatureNames[i].Replace("°", "Degrees").Replace('.', '_').Replace('/', '_');
@@ -408,9 +439,16 @@ namespace SS.UI.Web.MVC.Controllers
                     {
                         
                             var serialized = JsonConvert.SerializeObject(values);
-                            String parameters = "path=" + model.Model.ModelPath + "&featureValues=" + serialized;
+                            
                             client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                            var classifiedInstance = JsonHelper.ParseJsonToClassifiedInstance(client.UploadString(new Uri("http://api-sussolkdg.rhcloud.com/api/classify"), parameters));
+                            var sussol = new com.sussol.web.controller.ServiceModel();
+                            var response = sussol.classifySolvent(model.Model.ModelPath, serialized);
+                            ClassifiedInstance classifiedInstance = new ClassifiedInstance()
+                            {
+                                DistanceToClusterCenter = (Double)response.getDistanceToCluster(),
+                                ClusterNumber = (int)response.getClusterNumber()
+                            };
+                             sussol.classifySolvent(model.Model.ModelPath, serialized).toString();
                             classifiedInstance.CasNumber = classifiedInstances.First().CasNumber;
                             classifiedInstance.Name = classifiedInstances.First().Name;
                             classifiedInstance.Features = new List<Feature>();
