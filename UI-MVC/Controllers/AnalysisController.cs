@@ -373,7 +373,7 @@ namespace SS.UI.Web.MVC.Controllers
                 {
                     var serialized = JsonConvert.SerializeObject(model.Values);
                     
-                    client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                    //client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
                     //var sussol = new com.sussol.web.controller.ServiceModel();
                     //var response = sussol.classifySolvent(analysisModel.Model.ModelPath, serialized);
                     //var classifiedInstance = JsonHelper.ParseJsonToClassifiedInstance(response.ToString());
