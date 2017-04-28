@@ -119,8 +119,8 @@
                                      local-data="solvents"
                                      search-fields="Name"
                                      title-field="Name"
-                                     focus-in="focusSearch($index)"
-                                     focus-out="focusOutSearch($index)"
+                                     focus-in="focusSearch(1)"
+                                     focus-out="focusOutSearch(1)"
                                      minlength="1"
                                      input-class="form-control form-control-small"
                                      style="margin-top: 12px; display: block;"
@@ -135,14 +135,15 @@
                             </div>
 
                             <canvas class="canvas-overlay" id="canvas-overlay-{{model.Model.AlgorithmName}}">
-
-                            </canvas>
+                                    
+</canvas>
                             <div class="not-visible" id="overlay_{{model.Model.AlgorithmName}}">
                                 <i class="fa fa-times closecross" data-dismiss="modal" ng-if="overlayvisible" ng-click="closeOverlay(model.Model.AlgorithmName)" aria-hidden="true"></i>
 
                                 <div class="col-lg-4" ng-if="overlayvisible" style="text-align: initial; position: absolute; color: white; background: none; pointer-events: none;">
                                     <h4>Cluster: {{cluster}}</h4>
                                     <h4>#Solvents: {{solventsInCluster.length}}</h4>
+
                                     <div class="solvent-legend">
                                         <div>
                                             <img src="/Content/Images/clusterball.png" style="width: 22px; height: 22px; margin-right: 8px;"/>
@@ -166,33 +167,53 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div angucomplete-alt
+                                     id="ex1"
+                                     placeholder="Search solvent"
+                                     maxlength="50"
+                                     pause="100"
+                                     selected-object="selectedSolventCasFunc"
+                                     local-data="solvents"
+                                     search-fields="CasNumber"
+                                     title-field="CasNumber"
+                                     focus-in="focusSearch(1)"
+                                     focus-out="focusOutSearch(1)"
+                                     minlength="1"
+                                     input-class="form-control form-control-small"
+                                     style="margin-top: 12px; display: block;"
+                                     match-class="highlight"
+                                     clear-selected="true">
+                                </div>
                                 <svg id="clusterChart_{{model.Model.AlgorithmName}}"></svg>
                                 <div class="selected-node" ng-if="overlayvisible" id="selected-node-{{model.Model.AlgorithmName}}">
-                                    <div ng-if="selectedCluster === undefined">
-                                        <div ng-if="!selectedNodeObject">
-                                            No solvent selected <br/> Click on a node
+                           
+                                    <div class="grid grid-graph col-lg-12 text-center" id="chart-container-{{model.Model.AlgorithmName}}">
+                                        
+                                        <div ng-if="selectedCluster === undefined">
+                                            <div ng-if="!selectedNodeObject">
+                                                No solvent selected <br /> Click on a node
+                                            </div>
+                                            <div ng-if="selectedNodeObject">
+                                                <h4>Selected solvent:</h4>
+                                                {{selectedNodeObject.Name}}
+                                                <h4> Cas Number: </h4>
+                                                {{selectedNodeObject.CasNumber}}
+                                                <h4> Distance to center: </h4>
+                                                {{selectedNodeObject.DistanceToClusterCenter}}
+                                            </div>
                                         </div>
-                                        <div ng-if="selectedNodeObject">
-                                            <h4>Selected solvent:</h4>
-                                            {{selectedNodeObject.Name}}
-                                            <h4> Cas Number: </h4>
-                                            {{selectedNodeObject.CasNumber}}
-                                            <h4> Distance to center: </h4>
-                                            {{selectedNodeObject.DistanceToClusterCenter}}
-                                        </div>
-                                    </div>
-                                    <div ng-if="selectedCluster !== undefined">
-                                        <div>
-                                            <h4>Distance to clusters</h4>
+                                        <div ng-if="selectedCluster !== undefined">
+                                            <div>
+                                                <h4>Distance to clusters</h4>
                                                 <table class="overlay-table">
-                                                    <tr  ng-repeat="otherCluster in selectedCluster.DistanceToClusters" ng-if="otherCluster.ToClusterId != cluster">
+                                                    <tr ng-repeat="otherCluster in selectedCluster.DistanceToClusters" ng-if="otherCluster.ToClusterId != cluster">
                                                         <td>To cluster {{otherCluster.ToClusterId}}:</td>
                                                         <td>{{otherCluster.Distance}}</td>
                                                     </tr>
                                                 </table>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                             </div>
                             
                             <div class="not-visible" id="overlay_solvent_{{model.Model.AlgorithmName}}">
@@ -343,7 +364,24 @@
                 <!-- 0.5.0.4 checken op mogelijke error? -->
                 <input type="text"  id="newSolventName" ng-model="headerz.name"   required/>
                 <label for="newSolventCasNr">Cas-number of solvent</label>
-                <input type="text" id="newSolventCasNr" name="regex"  ng-pattern="/^\d{2,6}-\d{2}-\d$/" ng-model="headerz.casNumber" required/>
+              <!--  <div angucomplete-alt
+                     id="ex1"
+                     placeholder="Search cas number"
+                     maxlength="50"
+                     pause="100"
+                     selected-object="selectedSolventFunc"
+                     local-data="solvents"
+                     search-fields="CasNumber"
+                     title-field="CasNumber"
+                     focus-in="focusSearch($index)"
+                     focus-out="focusOutSearch($index)"
+                     minlength="1"
+                     input-class="form-control form-control-small"
+                     style="margin-top: 12px; display: block;"
+                     match-class="highlight"
+                     clear-selected="true">
+                </div>-->
+               <input type="text" id="newSolventCasNr" name="regex"  ng-pattern="/^\d{2,6}-\d{2}-\d$/" ng-model="headerz.casNumber" required/>
                 <div>
                     <span style="color: darkorange;" ng-show="form.features.regex.$error.pattern">Not a valid CAS number!</span>
                     <table class="classify-solvent-table col-lg-12">

@@ -2022,10 +2022,12 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active){
 }
 .grid-graph {
     position: relative;
-    height: 480px; 
+    height: inherit; 
+    display:inline-block;
     
     
 }
+
 .padding-less {
     padding-left: 7.5px;
     padding-right: 7.5px;
@@ -2094,10 +2096,10 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active){
     border-radius: 4px;
     padding: 10px;
     width: 200px;
-    height: auto;
+   
     position: absolute;
     right: 40px;
-    top: 50px;
+    top: 80px;
     cursor: text;
     color: white;
     pointer-events: none;
@@ -2108,7 +2110,7 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active){
     border-radius: 4px;
     padding: 10px;
     width: 150px;
-    height: auto;
+    height: 50px;
     position: absolute;
     right: 20px;
     top: 40px;

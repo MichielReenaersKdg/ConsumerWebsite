@@ -871,7 +871,18 @@
             overlayOpened = true;
 
         }
-        $scope.focusSearch = function(index) {
+        $scope.selectedSolventCasFunc = function ($item) {
+            $scope.selectedSolvent = $item.originalObject;
+            delete $scope.selectedCluster;
+            getClusterFromSolvent($scope.selectedSolvent);
+            var element = document.getElementsByClassName('angucomplete-holder');
+            element[0].style.width = '50px';
+            $scope.overlayvisible = true;
+            overlayOpened = true;
+
+        }
+        $scope.focusSearch = function (index) {
+           
             var element = document.getElementsByClassName('angucomplete-holder');
             element[index].style.width = '250px';
         }

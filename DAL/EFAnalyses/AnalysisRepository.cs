@@ -174,9 +174,9 @@ namespace SS.DAL.EFAnalyses
             var instancesToReturn = new List<ClassifiedInstance>();
             foreach (var instance in instancesDistinct)
             {
-                var model = _context.AnalysisModels
+                var model = _context.AnalysisModels 
                     .Include(a => a.Model)
-                    .Single(a => a.Id == instance.AnalysisModelId).Model;
+                    .Single(a => a.Id == instance.AnalysisModelId).Model; 
                 if (model.DataSet.Equals(analysis.AnalysisModels.First().Model.DataSet))
                 {
                     instancesToReturn.Add(instance);
