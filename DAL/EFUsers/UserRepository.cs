@@ -168,5 +168,10 @@ namespace SS.DAL.EFUsers
             _context.SaveChanges();
             return user;
         }
-    }
+
+      public Organisation ReadOrganisationByName(string name)
+      {
+        return _context.Organisations.SingleOrDefault(u => u.Name == name);
+      }
+   }
 }

@@ -29,8 +29,8 @@ namespace SS.UI.Web.MVC.Controllers
         
         private readonly IAnalysisManager _analysisManager;
         private readonly IUserManager _userManager;
-        //private readonly List<string> _datasets; 
-        public AnalysisController(IAnalysisManager analysisManager, IUserManager userManager)
+      //private readonly List<string> _datasets; 
+      public AnalysisController(IAnalysisManager analysisManager, IUserManager userManager)
         {
             this._analysisManager = analysisManager;
             this._userManager = userManager;

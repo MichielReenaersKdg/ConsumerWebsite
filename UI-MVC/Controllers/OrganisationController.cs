@@ -80,12 +80,16 @@ namespace SS.UI.Web.MVC.Controllers
 
 
             User user = _userManager.ReadUser(email);
+         Organisation organisation = _userManager.ReadOrganisationByName(name);
             if (user.Organisation != null)
             {
                 return BadRequest("You already have an organisation");
 
             }
-
+            if (organisation != null)
+         {
+            return BadRequest("Organisation already exists");
+         }
             string imagePath = null;
             if (picture != null && picture.LocalFileName.Length > 0)
             {

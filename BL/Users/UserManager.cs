@@ -80,7 +80,10 @@ namespace SS.BL.Users
         {
             return repo.ReadOrganisation(id);
         }
-
+         public Organisation ReadOrganisationByName(String name)
+      {
+         return repo.ReadOrganisationByName(name);
+      }
         public IEnumerable<Organisation> ReadAllOrganisations()
         {
             return repo.ReadAllOrganisations();
