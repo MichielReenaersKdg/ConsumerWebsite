@@ -2042,6 +2042,7 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active){
 }
 .grid-right {
     height: 480px;
+
 }
 .absolute-counter {
     display: inline;
@@ -2118,7 +2119,6 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active){
     border-radius: 4px;
     padding: 10px;
     width: 150px;
-    height: 50px;
     position: absolute;
     right: 20px;
     top: 40px;
