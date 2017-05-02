@@ -107,9 +107,9 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-8 col-md-8 padding-less" >
+                    <div class="col-lg-8 col-md-8 padding-less" style="width:100%; padding-top:1%;">
 
-                        <div class="grid grid-graph col-lg-12 text-center" id="chart-container-{{model.Model.AlgorithmName}}">    
+                        <div class="grid grid-graph col-lg-12 text-center" id="chart-container-{{model.Model.AlgorithmName}}" style="width:62%; margin-right:2%; height:480px;">    
                                 <div angucomplete-alt
                                      id="ex1"
                                      placeholder="Search solvent"
@@ -140,7 +140,7 @@
                             <div class="not-visible" id="overlay_{{model.Model.AlgorithmName}}">
                                 <i class="fa fa-times closecross" data-dismiss="modal" ng-if="overlayvisible" ng-click="closeOverlay(model.Model.AlgorithmName)" aria-hidden="true"></i>
 
-                                <div class="col-lg-4" ng-if="overlayvisible" style="text-align: initial; position: absolute; color: white; background: none; pointer-events: none;">
+                                <div class="col-lg-4" ng-if="overlayvisible" style="text-align: initial; position: absolute; color: white; background: none; pointer-events: none; width:36%;">
                                     <h4>Cluster: {{cluster}}</h4>
                                     <h4>#Solvents: {{solventsInCluster.length}}</h4>
 
@@ -251,6 +251,10 @@
                                 </div>
                             </div>
                         </div>
+                            <div ng-if="matrix" id="distanceMatrixDiv" style="overflow-y:auto; overflow-x:auto">
+                                <i class="fa fa-times closecross" aria-hidden="true" ng-click="distanceMatrixClose()" data-dismiss="modal"></i>
+
+                            </div>
                     </div>
 
                     <div class="col-lg-4 col-md-4 padding-less">
@@ -282,8 +286,9 @@
                             </table>
                         </div>
                     </div>
+                        <!--Test-->
                 </div>
-
+                    
             </div>
 
         </div>
