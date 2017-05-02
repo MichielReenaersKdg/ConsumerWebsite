@@ -1645,6 +1645,12 @@
             return 'rgb(' + [color.r, color.g, color.b].join(',') + ')';
             // or output as hex if preferred
         }
+
+        $scope.distanceMatrixClose = function() {
+
+            $('#distanceMatrixDiv').removeClass("div-overlay");
+            $('#distanceMatrixDiv').addClass("not-visible");
+        }
     });
 
 
