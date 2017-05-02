@@ -96,9 +96,11 @@ app.config(function ($routeProvider, $locationProvider) {
     $routeProvider.otherwise({ redirectTo: "/" });
 
     $locationProvider.html5Mode(true);
-
 });
-
+app.config(['$compileProvider',
+    function ($compileProvider) {
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|blob):/);
+    }]);
 angular.module('sussol.services')
     .factory('srvLibrary', ['$http', '$location', function($http, $location) {
         var services = {

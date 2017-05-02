@@ -220,17 +220,18 @@
         //0.5.0.11
         function addSolvent(solvent, values, $http) {
             $('#load').button('loading');
-            
+            var metadata = values[0];
+            var features = values[1]
             document.getElementById('closecross').disabled = true;
-            var solventName = values.name;
-            var casNumber = values.casNumber;
+            var solventName = metadata[1].value;
+            var casNumber = metadata[2].value;
             var featureNames = [];
             var featureValues = [];
             var modelPaths = [];
             var modelIds = [];
-            for (var i = 0; i < values.length; i++) {
-                featureNames.push(values[i].FeatureName); 
-                featureValues.push(values[i].value);
+            for (var i = 0; i < features.length; i++) {
+                featureNames.push(features[i].FeatureName); 
+                featureValues.push(features[i].value);
             }
             for (var i = 0; i < models.length; i++) {
                 modelPaths.push(models[i].Model.ModelPath);
@@ -261,8 +262,8 @@
                 for (var i = 0; i < document.getElementsByClassName("feature-input").length; i++) {
                     document.getElementsByClassName("feature-input")[i].style.borderColor = "black";
                 }
-                document.getElementById("newSolventCasNr").style.borderColor = "black";
-                document.getElementById("newSolventName").style.borderColor = "black";
+                //document.getElementById("newSolventCasNr").style.borderColor = "black";
+                //document.getElementById("newSolventName").style.borderColor = "black";
             }).error(function errorCallback(data) {
                 $scope.errorMessage = data.Message;
                 $('#load').button('reset');
@@ -270,8 +271,8 @@
                 for (var i = 0; i < document.getElementsByClassName("feature-input").length; i++) {
                     document.getElementsByClassName("feature-input")[i].style.borderColor = "black";
                 }
-                document.getElementById("newSolventCasNr").style.borderColor = "black";
-                document.getElementById("newSolventName").style.borderColor = "black";
+                //document.getElementById("newSolventCasNr").style.borderColor = "black";
+                //document.getElementById("newSolventName").style.borderColor = "black";
 
             });
             
@@ -1029,9 +1030,14 @@
             //setMinMaxValues();
             delete $scope.errorMessage;
         }
+        $scope.triggerDownload = function () {
+            var url = "http://localhost:14719/Resources/template.csv";
+            window.open(url, "template");
+        }
+
 
         $scope.triggerUpload = function () {
-            $("#csvFile").click();
+            $("#csvFileUpload").click();
         };
         $scope.csvFile = [];
         $scope.getFile = function (e, files) {
@@ -1051,7 +1057,7 @@
                     $scope.$apply();
                     return false;
                 }
-                var values = csv[2].split(";");
+                var values = csv[1].split(";");
                 if (values.length !== solvents[0].Features.length + 9) { //0.5.0.13
                     $scope.errorMessage = "Your csv doens't contain the right amount of values or it isn't split on ;";
                     $scope.$apply();
@@ -1061,21 +1067,26 @@
                 headers[headers.length - 1] = headers[headers.length - 1].substr(0, headers[headers.length-1].length - 2);
                 values[0] = values[0].substr(1);
                 values[values.length - 1] = values[values.length - 1].substr(0, values[headers.length - 1].length - 2);*/
-                
-                var tempHeaders = headers.slice(9, headers.length); // 0.5.0.13
-                var headerObjects = [];
-                for (var i = 0; i < tempHeaders.length; i++) {
-                    tempHeaders[i].value = values[i];
-
-                    headerObjects.push({ FeatureName: tempHeaders[i], value: "" });
+                var tempMetadata = headers.slice(0, 9);
+                var tempFeaters = headers.slice(9, headers.length); // 0.5.0.13
+                var MetaDataObjects = [];
+                var FeatureObjects = [];
+                for (var i = 0; i < tempMetadata.length; i++) {
+                    MetaDataObjects.push({ MetaDataName: tempMetadata[i], value: values[i] });
+                }
+                for (var i = 0; i < tempFeaters.length; i++) {
+                    tempFeaters[i].value = values[i];
+                    FeatureObjects.push({ FeatureName: tempFeaters[i], value: "" });
                    
                 }
 
-                for (var i = 0; i < headerObjects.length; i++) {
-                    headerObjects[i].value = Number(values[i + 9].replace(',', '.')); // 0.5.0.13
+                for (var i = 0; i < FeatureObjects.length; i++) {
+                    FeatureObjects[i].value = Number(values[i + 9].replace(',', '.')); // 0.5.0.13
                 }
-                $scope.headerz = headerObjects;
-                //$scope.features = headerObjects;
+                $scope.headerz = [];
+                $scope.headerz.push(MetaDataObjects);
+                $scope.headerz.push(FeatureObjects);
+                //$scope.features = FeatureObjects;
                 if (checkHeaders(headers)) {
                     checkValues(values, headers);
                 }
@@ -1091,10 +1102,14 @@
 
 
         function checkValues(arrValues, arrHeaders) {
-            $scope.headerz.name = arrValues[1];
-            $scope.headerz.casNumber = arrValues[2];
-            for (var i = 0; i < $scope.headerz.length; i++) {
-                $scope.headerz[i].value = Number(arrValues[i + 9].replace(',', '.'));
+           
+            $scope.headerz[0][1].value = arrValues[1];
+            $scope.headerz[0][2].value = arrValues[2];
+            for (var i = 0; i < $scope.headerz[0].length; i++) {
+                $scope.headerz[0][i].value = arrValues[i];
+            }
+            for (var i = 0; i < $scope.headerz[1].length; i++) {
+                $scope.headerz[1][i].value = Number(arrValues[i + 9].replace(',', '.'));
             }
             delete $scope.errorMessage;
             return true;
@@ -1545,6 +1560,7 @@
             }
             
             var matrix = buildMatrix(copiedCluster);
+
             delete $scope.selectedNodeObject;
             delete $scope.selectedCluster;
             delete $scope.selectedSolvent;
@@ -1553,6 +1569,7 @@
             $('#overlay_solvent_' + selectedAlgorithm).addClass("div-overlay");
             solventOverlayOpened = true;
             $scope.overlaySolventVisible = true;
+
             var distances = [];
             for (var j = 0; j < solvents.length; j++) {
                 if (j !== (clickEvent.index - 1)) {

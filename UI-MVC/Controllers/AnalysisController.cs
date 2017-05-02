@@ -20,6 +20,7 @@ using SS.UI.Web.MVC.Controllers.Utils;
 using SS.UI.Web.MVC.Models;
 using Newtonsoft.Json.Linq;
 
+
 namespace SS.UI.Web.MVC.Controllers
 {
     [Authorize]
@@ -63,9 +64,8 @@ namespace SS.UI.Web.MVC.Controllers
         {
             return Ok(_analysisManager.ReadAnalysesForOrganisation(id).ToList());
         }
-
-        //GET api/Analysis/GetAnalysesByMonth
-        [Route("GetAnalysesByMonth")]
+      //GET api/Analysis/GetAnalysesByMonth
+      [Route("GetAnalysesByMonth")]
         [HttpGet]
         public IHttpActionResult GetAnalyses()
         {
@@ -142,6 +142,7 @@ namespace SS.UI.Web.MVC.Controllers
         {
             return _analysisManager.ReadFeatures().ToList();
         }
+   
 
         [Route("FillAlgorithms")]
         [HttpGet]
