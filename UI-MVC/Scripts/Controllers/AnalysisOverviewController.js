@@ -1303,6 +1303,7 @@
                                     break;
 
                                 default:
+                                    //Hier kunnen wij de kleuren aan toevoegen
                                     return color(d.group);
                             }
 
@@ -1324,6 +1325,8 @@
                         if (window.event.ctrlKey) {
                             if (d.casNumber !== "None") {
                                 handleCtrlClick(d, clusterTemp);
+                            } else {
+                                handleCtrlClickCenter(d, clusterTemp);
                             }
                         } else {
                             if (d.casNumber === "None") {
@@ -1336,7 +1339,10 @@
                                 d3.select(this).style("stroke", "red");
 
 
+
                                 selectedCluster = this;
+
+                                
 
                             } else {
                                 delete $scope.selectedCluster;
@@ -1568,7 +1574,74 @@
             $scope.numberOfOtherSolvents = solvents.length;
             $scope.$apply();
         }
+        function handleCtrlClickCenter(clickEvent, clusterTemp) {
+            var copiedCluster = jQuery.extend(true, {}, clusterTemp);
+            var matrix = buildMatrix(copiedCluster);
+            
+            drawDistanceMatrix(matrix);
+            //alert($scope.matrix[0][0]);
+        }
+
+        function drawDistanceMatrix(matrix) {
+            $scope.matrix = matrix;
+            $scope.$apply();
+
+            $('#distanceMatrixDiv').removeClass("not-visible");
+            $('#distanceMatrixDiv').addClass("div-overlay");
+            //$scope.selectedCentroid = true;
+            var parentDiv = document.getElementById('distanceMatrixDiv');
+            var tbl = document.createElement('table')
+            tbl.style.width = '80%';
+            tbl.style.height = '30%';
+            tbl.setAttribute('border', '1');
+            var tbdy = document.createElement('tbody');
+            var maxRow = matrix.map(function (row) { return Math.max.apply(Math, row); });
+            var max = Math.max.apply(null, maxRow);
+            for (var i = 0; i < matrix.length; i++) {
+                var tr = document.createElement('tr');
+                for (var j = 0; j < matrix.length; j++) {
+                    var td = document.createElement('td');
+                    td.style.backgroundColor = getColorForPercentage(parseFloat(matrix[i][j]).toFixed(2) / max)
+                    td.appendChild(document.createTextNode(parseFloat(matrix[i][j]).toFixed(2)));
+                    tr.appendChild(td)
+                    
+                }
+                tbdy.appendChild(tr);
+            }
+            tbl.appendChild(tbdy);
+            parentDiv.appendChild(tbl);
+            $scope.$apply();
+            
+        }
+
+        var percentColors = [
+    { pct: 0.0, color: { r: 220, g: 150, b: 232 } },
+    { pct: 0.5, color: { r: 206, g: 108, b: 222 } },
+    { pct: 1.0, color: { r: 192, g: 66, b: 213 } }];
+
+        var getColorForPercentage = function (pct) {
+            for (var i = 1; i < percentColors.length - 1; i++) {
+                if (pct < percentColors[i].pct) {
+                    break;
+                }
+            }
+            var lower = percentColors[i - 1];
+            var upper = percentColors[i];
+            var range = upper.pct - lower.pct;
+            var rangePct = (pct - lower.pct) / range;
+            var pctLower = 1 - rangePct;
+            var pctUpper = rangePct;
+            var color = {
+                r: Math.floor(lower.color.r * pctLower + upper.color.r * pctUpper),
+                g: Math.floor(lower.color.g * pctLower + upper.color.g * pctUpper),
+                b: Math.floor(lower.color.b * pctLower + upper.color.b * pctUpper)
+            };
+            return 'rgb(' + [color.r, color.g, color.b].join(',') + ')';
+            // or output as hex if preferred
+        }
     });
+
+
 
 
 
