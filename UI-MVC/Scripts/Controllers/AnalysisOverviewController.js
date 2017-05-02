@@ -1591,16 +1591,22 @@
             //$scope.selectedCentroid = true;
             var parentDiv = document.getElementById('distanceMatrixDiv');
             var tbl = document.createElement('table')
-            tbl.style.width = '80%';
-            tbl.style.height = '30%';
+            //tbl.style.tableLayout = 'fixed';
+            tbl.style.width = '100%';
+            tbl.style.height = '100%';
+            tbl.style.overflow = 'scroll';
             tbl.setAttribute('border', '1');
             var tbdy = document.createElement('tbody');
+            tbdy.style.overflow = 'scroll';
             var maxRow = matrix.map(function (row) { return Math.max.apply(Math, row); });
             var max = Math.max.apply(null, maxRow);
             for (var i = 0; i < matrix.length; i++) {
                 var tr = document.createElement('tr');
                 for (var j = 0; j < matrix.length; j++) {
                     var td = document.createElement('td');
+                    td.style.minWidth = '100px';
+                    td.style.minHeight = '50px';
+                    td.style.textAlign = 'center';
                     td.style.backgroundColor = getColorForPercentage(parseFloat(matrix[i][j]).toFixed(2) / max)
                     td.appendChild(document.createTextNode(parseFloat(matrix[i][j]).toFixed(2)));
                     tr.appendChild(td)
