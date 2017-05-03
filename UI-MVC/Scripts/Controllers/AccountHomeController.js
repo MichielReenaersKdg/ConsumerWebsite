@@ -87,6 +87,10 @@
             deleteAnalysisFromDatabase(analysisToDelete);
             analysisToDelete = null;
         }
+        $scope.declineDeleteAnalysis = function () {
+            $('#delete-analysis').modal("hide");
+            analysisToDelete = null;
+        }
         $scope.declineDeleteUser = function () {
             $('#delete-analysis').modal("hide");
             analysisToDelete = null;

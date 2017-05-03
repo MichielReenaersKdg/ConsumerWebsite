@@ -1772,6 +1772,22 @@
             $('#distanceMatrixDiv').removeClass("div-overlay");
             $('#distanceMatrixDiv').addClass("not-visible");
         }
+
+
+        $scope.showSolventInfo = function() {
+            var parentDiv = document.getElementById('solventDetailsDiv');
+            var otherDiv = document.getElementById('ChemSolPicDiv');
+            parentDiv.style.visibility = 'visible';
+            otherDiv.style.visibility = 'collapse';
+
+        }
+
+        $scope.showChemPic = function() {
+            var parentDiv = document.getElementById('ChemSolPicDiv');
+            var otherDiv = document.getElementById('solventDetailsDiv');
+            parentDiv.style.visibility = 'visible';
+            otherDiv.style.visibility = 'collapse';
+        }
     });
 
 
