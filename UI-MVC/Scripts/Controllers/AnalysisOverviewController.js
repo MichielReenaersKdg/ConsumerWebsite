@@ -4,7 +4,8 @@
         var solvents = [];
         var selectedAlgorithm;
         var organisationUser = organisation.data;
-        
+        var casnrRegex = new RegExp("^\\d{2,6}-\\d{2}-\\d{1}$");
+        var egRegex = new RegExp("^\\d{3}-\\d{3}-\\d{1}$");
         var prevClassifiedInstances;
         var prevClusters;
         var clusters;
@@ -17,6 +18,13 @@
         var currentChart = null;
         var showInstance = false;
         $scope.allValuesValid = false;
+        $scope.classify = false;
+        $scope.upload = true;
+        $scope.download = true;
+        $scope.check = false;
+        $scope.errorMessageMeta = "wrong value";
+        $scope.errorMessageFeature = "is not a number";
+        $scope.validation = [];
         var algorithms = [];
         var totalSolvents = 0;
         var colors = [
@@ -220,6 +228,8 @@
         //0.5.0.11
         function addSolvent(solvent, values, $http) {
             $('#load').button('loading');
+            $scope.classify = false;
+            $scope.check = false;
             var metadata = values[0];
             var features = values[1]
             document.getElementById('closecross').disabled = true;
@@ -1030,9 +1040,55 @@
             //setMinMaxValues();
             delete $scope.errorMessage;
         }
+        $scope.validateMetaData = function (metadata) {
+            
+            if (metadata.MetaDataName == "ID CAS Nr") {
+                if (!casnrRegex.test(metadata.value)) {
+                    $scope.validation[2] = true;
+                } else {
+                    $scope.validation[2] = false;
+                }
+            } else if (metadata.MetaDataName == "ID EG Nr") {
+                if (!egRegex.test(metadata.value)) {
+                    $scope.validation[3] = true;
+                } else {
+                    $scope.validation[3] = false;
+                }
+            }
+            var classify = true;
+            for (var i = 0; i < $scope.validation.length; i++) {
+                if ($scope.validation[i] == true) {
+                    classify = false;
+                }
+            }
+            $scope.classify = classify;
+        }
+
+        $scope.validateFeatureData = function (featuredata, index) {
+            
+            if (isNaN(featuredata.value)) {
+                $scope.validation[index + 9] = true;
+            } else {
+                $scope.validation[index + 9] = false;
+
+            }
+            var classify = true;
+            for (var i = 0; i < $scope.validation.length; i++) {
+                if ($scope.validation[i] == true) {
+                    classify = false;
+                }
+            }
+            $scope.classify = classify;
+            $scope.errorMessageFeature = "Is not a number";
+        }
         $scope.triggerDownload = function () {
-            var url = "http://localhost:14719/Resources/template.csv";
-            window.open(url, "template");
+            //var url = "http://localhost:14719/Resources/template.csv";
+            //window.open(url, "template");
+
+            var data = "Source;ID Name;ID CAS Nr;ID EG Nr;ID EG Annex Nr;EHS S Score; EHS H Score;EHS E Score;EHS Color Code;";
+            var blob = new Blob([data], { type: 'text/csv' });
+            var url = $window.URL || $window.webkitURL;
+            $scope.url = url.createObjectURL(blob);
         }
 
 
@@ -1071,36 +1127,50 @@
                 var tempFeaters = headers.slice(9, headers.length); // 0.5.0.13
                 var MetaDataObjects = [];
                 var FeatureObjects = [];
+                var error = [];
                 for (var i = 0; i < tempMetadata.length; i++) {
                     MetaDataObjects.push({ MetaDataName: tempMetadata[i], value: values[i] });
+                    error.push(false);
                 }
                 for (var i = 0; i < tempFeaters.length; i++) {
                     tempFeaters[i].value = values[i];
                     FeatureObjects.push({ FeatureName: tempFeaters[i], value: "" });
-                   
+                    error.push(false);
                 }
 
                 for (var i = 0; i < FeatureObjects.length; i++) {
                     FeatureObjects[i].value = Number(values[i + 9].replace(',', '.')); // 0.5.0.13
                 }
                 $scope.headerz = [];
-                $scope.headerz.push(MetaDataObjects);
-                $scope.headerz.push(FeatureObjects);
-                //$scope.features = FeatureObjects;
+                $scope.validation = error;
+                var h = []
+
+                h.push(MetaDataObjects);
+                h.push(FeatureObjects);
+                $scope.headerz = h;
                 if (checkHeaders(headers)) {
                     checkValues(values, headers);
                 }
+                $scope.check = true;
                 $scope.allValuesValid = true;
                 $scope.$apply();
                 $("#csvFile").val('');
                 return true;
             }
             reader.readAsText(files[0]);
-
+            
         };
-        
+        $scope.validateAll = function (values) {
+            var meta = values[0];
+            var features = values[1];
 
-
+            for (var i = 0; i < meta.length; i++) {
+                $scope.validateMetaData(meta[i]);
+            }
+            for (var i = 0; i < features.length; i++) {
+                $scope.validateFeatureData(features[i],i);
+            }
+        }
         function checkValues(arrValues, arrHeaders) {
            
             $scope.headerz[0][1].value = arrValues[1];
