@@ -244,7 +244,8 @@
                                 </div>
                             </div>
                         </div>
-                            <div ng-if="matrix" id="distanceMatrixDiv" style="overflow-y:auto; overflow-x:auto; ">
+                            <div ng-if="matrix" id="distanceMatrixDiv" style="overflow-y:auto; overflow-x:auto">
+                                <i class="fa fa-times closecross" aria-hidden="true" ng-click="distanceMatrixClose()" data-dismiss="modal"></i>
 
                             </div>
                     </div>
@@ -352,50 +353,31 @@
             <hr class="primary">
         </div>
         <a href="#" class="xs-button absolute-button" ng-click="triggerUpload()">Upload csv</a>
-        <input type="file" id="csvFile" accept=".csv" name="csvFile" ng-model="csvFile" style="display: none" file-change="getFile($event,files)" />
+        <input type="file" id="csvFileUpload" accept=".csv" name="csvFileUpload" ng-model="csvFile" style="display: none" file-change="getFile($event,files)" />
+
+        <a href="#" download="template.csv" class="button" ng-click="triggerDownload()">Download template</a>
+
         <form role="form" name="form.features" id="newSolvent" ng-submit="newSolvent()" novalidate>
-            <div>
-                
-                <p style="color: darkorange;">{{errorMessage}}</p>
-                <label for="newSolventName">Name of solvent</label>
-                <!-- 0.5.0.4 checken op mogelijke error? -->
-                <input type="text"  id="newSolventName" ng-model="headerz.name"   required/>
-                <label for="newSolventCasNr">Cas-number of solvent</label>
-              <!--  <div angucomplete-alt
-                     id="ex1"
-                     placeholder="Search cas number"
-                     maxlength="50"
-                     pause="100"
-                     selected-object="selectedSolventFunc"
-                     local-data="solvents"
-                     search-fields="CasNumber"
-                     title-field="CasNumber"
-                     focus-in="focusSearch($index)"
-                     focus-out="focusOutSearch($index)"
-                     minlength="1"
-                     input-class="form-control form-control-small"
-                     style="margin-top: 12px; display: block;"
-                     match-class="highlight"
-                     clear-selected="true">
-                </div>-->
-               <input type="text" id="newSolventCasNr" name="regex"  ng-pattern="/^\d{2,6}-\d{2}-\d$/" ng-model="headerz.casNumber" required/>
+           <div>   
+              <p style="color: darkorange;">{{errorMessage}}</p>
                 <div>
                     <span style="color: darkorange;" ng-show="form.features.regex.$error.pattern">Not a valid CAS number!</span>
-                    <table class="classify-solvent-table col-lg-12">
-                        <tr ng-if="headerz && headerz.length>0" style="padding-bottom: 10px;">
+                    
+                    <table class="classify-solvent-table col-lg-12" ng-if="headerz && headerz.length>0">
+                        <tr style="padding-bottom: 10px;">
                             <th class="col-lg-7">Feature name</th>
                             <th class="col-lg-3" style="padding-left: 20%; padding-bottom: 12px">Value</th>
                         </tr>
-                        <tr ng-repeat="feature in headerz">
-                            <td class="col-lg-7">{{feature.FeatureName}}
-                                <!--<span ng-if="feature.valid === false" style="margin-left: 5px; color: darkorange;">
-                                    The value must be in range {{feature.MinValue}} to {{feature.MaxValue}}!
-                                </span>
-                                <span ng-show="form.features['feature_' + $index].$dirty && form.features['feature_' + $index].$error.required" style="margin-left: 5px; color: darkorange;">
-                                    This value cannot be empty!
-                                </span>-->
-                               
+                        <tr ng-repeat="metadata in headerz[0]">
+                            <td class="col-lg-7">{{metadata.MetaDataName}}</td>
+
+
+                            <td class="classify-solvent-row col-lg-4">
+                                <input class="feature-input" type="text" ng-change="SetStyle($index)" id="feature_{{$index}}" title="{{$index}}" name="feature_{{$index}}" ng-model="metadata.value" required />
                             </td>
+                        </tr>
+                        <tr ng-repeat="feature in headerz[1]">
+                            <td class="col-lg-7">{{feature.FeatureName}}</td>
 
 
                             <td class="classify-solvent-row col-lg-4">

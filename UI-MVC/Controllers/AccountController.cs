@@ -373,9 +373,8 @@ namespace SS.UI.Web.MVC.Controllers
 
             return Ok();
         }
-
-        // GET api/Account/ExternalLogin
-        [System.Web.Http.OverrideAuthentication]
+      // GET api/Account/ExternalLogin
+      [System.Web.Http.OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
         [System.Web.Http.AllowAnonymous]
         [System.Web.Http.Route("ExternalLogin", Name = "ExternalLogin")]
