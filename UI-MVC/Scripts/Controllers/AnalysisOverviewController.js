@@ -1585,6 +1585,15 @@
         function drawDistanceMatrix(matrix) {
             $scope.matrix = matrix;
             $scope.$apply();
+            var normalizeddistancevalues = [];
+            
+            
+            for (o = 0; o < matrix.length; o++) {
+
+                normalizeddistancevalues[o] = getNormalizedValues(matrix[o]);
+                
+            }
+                
 
             $('#distanceMatrixDiv').removeClass("not-visible");
             $('#distanceMatrixDiv').addClass("div-overlay");
@@ -1598,7 +1607,8 @@
             tbl.setAttribute('border', '1');
             var tbdy = document.createElement('tbody');
             tbdy.style.overflow = 'scroll';
-            var maxRow = matrix.map(function (row) { return Math.max.apply(Math, row); });
+            
+            var maxRow = normalizeddistancevalues.map(function (row) { return Math.max.apply(Math, row); });
             var max = Math.max.apply(null, maxRow);
             for (var i = 0; i < matrix.length; i++) {
                 var tr = document.createElement('tr');
@@ -1607,8 +1617,8 @@
                     td.style.minWidth = '100px';
                     td.style.minHeight = '50px';
                     td.style.textAlign = 'center';
-                    td.style.backgroundColor = getColorForPercentage(parseFloat(matrix[i][j]).toFixed(2) / max)
-                    td.appendChild(document.createTextNode(parseFloat(matrix[i][j]).toFixed(2)));
+                    td.style.backgroundColor = getColorForPercentage(parseFloat(normalizeddistancevalues[i][j]).toFixed(2) / max)
+                    td.appendChild(document.createTextNode(parseFloat(normalizeddistancevalues[i][j]).toFixed(2)));
                     tr.appendChild(td)
                     
                 }

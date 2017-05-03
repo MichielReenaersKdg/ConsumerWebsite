@@ -70,14 +70,7 @@
                 <a href="#" id="CANOPY" class="list-group-item disabled blurless text-center">
                     <h4 class="fa fa-cogs fa-3x"></h4><br/>CANOPY
                 </a>
-                <a href="#" id="EM" class="list-group-item disabled blurless text-center">
-                    <h4 class="fa fa-wrench fa-3x"></h4><br/>EM
-                </a>
-                <a href="#" id="KMEANS" class="list-group-item disabled blurless text-center">
-                    <h4 class="fa fa-tachometer fa-3x"></h4><br/>KMEANS
-                </a>
-
-                <a href="#" id="SOM" class="list-group-item disabled blurless text-center">
+                    <a href="#" id="SOM" class="list-group-item disabled blurless text-center">
                     <h4 class="fa fa-sitemap fa-3x"></h4><br/>SOM
                 </a>
                 <a href="#" id="XMEANS" class="list-group-item disabled blurless text-center">
@@ -119,8 +112,8 @@
                                      local-data="solvents"
                                      search-fields="Name"
                                      title-field="Name"
-                                     focus-in="focusSearch(1)"
-                                     focus-out="focusOutSearch(1)"
+                                     focus-in="focusSearch()"
+                                     focus-out="focusOutSearch()"
                                      minlength="1"
                                      input-class="form-control form-control-small"
                                      style="margin-top: 12px; display: block;"
@@ -169,7 +162,7 @@
                                 </div>
                                 <div angucomplete-alt
                                      id="ex1"
-                                     placeholder="Search solvent"
+                                     placeholder="Search CAS no."
                                      maxlength="50"
                                      pause="100"
                                      selected-object="selectedSolventCasFunc"
@@ -251,7 +244,7 @@
                                 </div>
                             </div>
                         </div>
-                            <div ng-if="matrix" id="distanceMatrixDiv" style="overflow-y:auto; overflow-x:auto">
+                            <div ng-if="matrix" id="distanceMatrixDiv" style="overflow-y:auto; overflow-x:auto; ">
 
                             </div>
                     </div>
