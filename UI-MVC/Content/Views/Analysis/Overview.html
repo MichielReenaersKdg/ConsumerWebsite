@@ -252,6 +252,8 @@
 
                     <div class="col-lg-4 col-md-4 padding-less">
                         <div class="grid grid-right col-lg-12" style="color: lightgray; overflow: auto; font-size: 15px; padding-left: 20px; padding-right: 15px;">
+                            <a href="{{ url }}" download="template.csv" class="button" ng-click="showSolventInfo()"> Solvent</a>
+                            <a href="{{ url }}" download="template.csv" class="button" ng-click="showChemicalStructure()">Chemical Structure</a>
                             <h3 class="text-primary text-center" ng-if="selectedCluster === undefined">Solvent Details</h3>
                             <h3 class="text-primary text-center" ng-if="selectedCluster !== undefined">Cluster Solvents</h3>
 
