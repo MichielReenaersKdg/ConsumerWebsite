@@ -45,16 +45,16 @@
             <div class="navbar-collapse collapse" id="bs-navbar">
                 <ul class="nav navbar-nav" id="navbaar">
                     <li>
-                        <a class="page-scroll" href="#" ng-click="scrollPage('#section-0')">Why</a>
+                        <a class="page-scroll" href="#" ng-click="scrollPage('#section-0')" style="color:#ffffff;">Why</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#" ng-click="scrollPage('#section-2')">Algorithms</a>
+                        <a class="page-scroll" href="#" ng-click="scrollPage('#section-2')"style="color:#ffffff;">Algorithms</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#" ng-click="scrollPage('#section-3')">How it works</a>
+                        <a class="page-scroll" href="#" ng-click="scrollPage('#section-3')"style="color:#ffffff;">How it works</a>
                     </li>
                     <li>
-                        <a class="page-scroll" data-toggle="modal" data-target="#ml-modal" href="#">Machine Learning</a>
+                        <a class="page-scroll" data-toggle="modal" data-target="#ml-modal" href="#"style="color:#ffffff;">Machine Learning</a>
                     </li>
 
 
@@ -64,12 +64,12 @@
                     
                     <li>
                         <a href="#" data-toggle="modal" data-target="#login-modal" ng-if="username===undefined">Log in</a>
-                        <a href="/account/{{userId}}" ng-if="username!==undefined && admin === 'false'">My Dashboard</a>
+                        <a href="/account/{{userId}}" ng-if="username!==undefined && admin === 'false'"style="color:#ffffff;">My Dashboard</a>
                         <a href="/account/admin" ng-if="admin === 'true'">Admin</a>
                         
                     </li>
                     <li ng-controller="LoginController as login">
-                         <a href="home.html" ng-click="logOut()"  ng-if="username!==undefined">Log out</a>
+                         <a href="home.html" ng-click="logOut()"  ng-if="username!==undefined"style="color:#ffffff;">Log out</a>
                     </li>
 
                     
@@ -83,10 +83,10 @@
         @RenderBody()
     <div class="second-footer" ng-if="footer">
         <div class="footer-right">
-            <a href="#"><i class="fa fa-facebook"></i></a>
-            <a href="#"><i class="fa fa-twitter"></i></a>
-            <a href="#"><i class="fa fa-linkedin"></i></a>
-            <a href="#"><i class="fa fa-github"></i></a>
+            <a href="#"style="color:ffffff;"><i class="fa fa-facebook"></i></a>
+            <a href="#"style="color:ffffff;"><i class="fa fa-twitter"></i></a>
+            <a href="#"style="color:ffffff;"><i class="fa fa-linkedin"></i></a>
+            <a href="#"style="color:ffffff;"><i class="fa fa-github"></i></a>
         </div>
        
         
