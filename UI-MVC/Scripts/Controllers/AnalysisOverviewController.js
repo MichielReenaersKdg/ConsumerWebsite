@@ -1595,11 +1595,11 @@
             var copiedCluster = jQuery.extend(true, {}, clusterTemp);
             var matrix = buildMatrix(copiedCluster);
             
-            drawDistanceMatrix(matrix);
+            drawDistanceMatrix(matrix, clusterTemp);
             //alert($scope.matrix[0][0]);
         }
 
-        function drawDistanceMatrix(matrix) {
+        function drawDistanceMatrix(matrix, clustertemp) {
             $scope.matrix = matrix;
             $scope.$apply();
             var normalizeddistancevalues = [];
@@ -1616,20 +1616,44 @@
             $('#distanceMatrixDiv').addClass("div-overlay");
             //$scope.selectedCentroid = true;
             var parentDiv = document.getElementById('distanceMatrixDiv');
-            var tbl = document.createElement('table')
+            if (document.getElementById('distanceMatrixTable')) {
+                document.getElementById('distanceMatrixTable').remove();
+            }
+            
+            var tbl = document.createElement('table');
+            tbl.setAttribute("id", "distanceMatrixTable");
             //tbl.style.tableLayout = 'fixed';
             tbl.style.width = '100%';
             tbl.style.height = '100%';
             tbl.style.overflow = 'scroll';
+            tbl.style.textShadow = '1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000';
             tbl.setAttribute('border', '1');
             var tbdy = document.createElement('tbody');
             tbdy.style.overflow = 'scroll';
             
             var maxRow = normalizeddistancevalues.map(function (row) { return Math.max.apply(Math, row); });
             var max = Math.max.apply(null, maxRow);
+            var tr = document.createElement('tr');
+            var tdhf = document.createElement('td');
+            tr.appendChild(tdhf);
+            for (var i = 0; i < clustertemp.Solvents.length; i++){
+
+                var tdh = document.createElement('td');
+
+                tdh.style.minWidth = '100px';
+                tdh.style.minHeight = '50px';
+                tdh.style.textAlign = 'center';
+                tdh.appendChild(document.createTextNode(clustertemp.Solvents[i].Name));
+                tr.appendChild(tdh);
+            }
+            tbdy.appendChild(tr);
             for (var i = 0; i < matrix.length; i++) {
                 var tr = document.createElement('tr');
-                for (var j = 0; j < matrix.length; j++) {
+                var tdhs = document.createElement('td');
+                tdhs.appendChild(document.createTextNode(clustertemp.Solvents[i].Name))
+                tr.appendChild(tdhs);
+                
+                for (var j = 0; j < matrix.length ; j++) {
                     var td = document.createElement('td');
                     td.style.minWidth = '100px';
                     td.style.minHeight = '50px';
@@ -1648,9 +1672,9 @@
         }
 
         var percentColors = [
-    { pct: 0.0, color: { r: 220, g: 150, b: 232 } },
-    { pct: 0.5, color: { r: 206, g: 108, b: 222 } },
-    { pct: 1.0, color: { r: 192, g: 66, b: 213 } }];
+    { pct: 0.0, color: { r: 178, g: 178, b: 242 } }, 	
+    { pct: 0.5, color: { r: 127, g: 127, b: 234 } }, //	127	127	234
+    { pct: 1.0, color: { r: 76, g: 76, b: 226 } }]; //76 76	226
 
         var getColorForPercentage = function (pct) {
             for (var i = 1; i < percentColors.length - 1; i++) {
