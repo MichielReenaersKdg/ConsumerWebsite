@@ -1085,7 +1085,7 @@
             //var url = "http://localhost:14719/Resources/template.csv";
             //window.open(url, "template");
 
-            var data = "Source;ID Name;ID CAS Nr;ID EG Nr;ID EG Annex Nr;EHS S Score; EHS H Score;EHS E Score;EHS Color Code;";
+            var data = "Source;ID Name;ID CAS Nr;ID EG Nr;ID EG Annex Nr;EHS S Score;EHS H Score;EHS E Score;EHS Color Code;";
             var solvent = solvents[0];
             for (var i = 0; i < solvent.Features.length; i++) {
                 if (i == solvent.Features.length - 1) {
