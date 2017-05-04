@@ -1086,6 +1086,15 @@
             //window.open(url, "template");
 
             var data = "Source;ID Name;ID CAS Nr;ID EG Nr;ID EG Annex Nr;EHS S Score; EHS H Score;EHS E Score;EHS Color Code;";
+            var solvent = solvents[0];
+            for (var i = 0; i < solvent.Features.length; i++) {
+                if (i == solvent.Features.length - 1) {
+                    data += solvent.Features[i].featureName;
+                } else {
+                    data += solvent.Features[i].featureName + ";";
+                }
+                
+            }
             var blob = new Blob([data], { type: 'text/csv' });
             var url = $window.URL || $window.webkitURL;
             $scope.url = url.createObjectURL(blob);
