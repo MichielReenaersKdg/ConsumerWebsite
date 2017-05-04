@@ -1,6 +1,6 @@
 ﻿angular.module('sussol.controllers')
     .controller('AnalysisOverviewController',
-    function ($scope, $window, $http, $routeParams, constants, result,features, solvents, $timeout, organisation, $rootScope) {
+    function ($scope, $sce, $window, $http, $routeParams, constants, result, features, solvents, $timeout, organisation, $rootScope) {
         var solvents = [];
         var selectedAlgorithm;
         var organisationUser = organisation.data;
@@ -1777,17 +1777,49 @@
         $scope.showSolventInfo = function() {
             var parentDiv = document.getElementById('solventDetailsDiv');
             var otherDiv = document.getElementById('ChemSolPicDiv');
-            parentDiv.style.visibility = 'visible';
-            otherDiv.style.visibility = 'collapse';
+            parentDiv.style.display = 'unset';
+            otherDiv.style.display = 'none';
 
         }
 
         $scope.showChemPic = function() {
             var parentDiv = document.getElementById('ChemSolPicDiv');
             var otherDiv = document.getElementById('solventDetailsDiv');
-            parentDiv.style.visibility = 'visible';
-            otherDiv.style.visibility = 'collapse';
+            parentDiv.style.display = 'unset';
+            otherDiv.style.display = 'none';
+            if (typeof $scope.selectedSolvent === 'undefined' || $scope.selectedSolvent == 'null') {
+                alert('no solvent selected');
+            } else {
+               
+               
+                
+                
+                //xmlresponse = xmlParse(getURL(paste("http://www.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pccompound&retmax=100&term=", query, sep = "")));
+
+                var result;
+                    $.ajax({
+                        type: "GET",
+                        url: "http://www.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pccompound&retmax=100&term=" + $scope.selectedSolvent.CasNumber,
+                        dataType: "xml",
+                        success: function (xml) {
+                            result = $(xml).find("Id").text();
+                            $scope.cidurl = "https://embed.molview.org/v1/?mode=balls&cid=" + result.toString();
+                            $sce.trustAsResourceUrl($scope.cidurl);
+                            $scope.$apply();
+                        },
+                        error: function (xml) {
+                            alert('Er ging iets mis, gelieve de volgende code naar de administrator te sturen: ' + xml.status + ' ' + xml.statusText);
+                        },
+                    });
+            }
         }
+
+        $scope.trustSrc = function (src) {
+            return $sce.trustAsResourceUrl(src);
+        }
+
+
+        
     });
 
 
