@@ -1790,12 +1790,7 @@
             if (typeof $scope.selectedSolvent === 'undefined' || $scope.selectedSolvent == 'null') {
                 alert('no solvent selected');
             } else {
-               
-               
-                
-                
-                //xmlresponse = xmlParse(getURL(paste("http://www.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pccompound&retmax=100&term=", query, sep = "")));
-                var urlPic = "http://www.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pccompound&retmax=100&term=" + $scope.selectedSolvent.CasNumber; 
+                var urlPic = $scope.trustSrc("http://www.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pccompound&retmax=100&term=" + $scope.selectedSolvent.CasNumber); 
                 var result;
                     $.ajax({
                         type: "GET",
