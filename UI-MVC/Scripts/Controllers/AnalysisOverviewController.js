@@ -11,6 +11,7 @@
         var clusters;
         var overlayOpened = false;
         var solventOverlayOpened = false;
+        var solvInfo = true;
         //0.5.0.5 mogelijke errors door verwijdering minmax
         //var featureModel = minMax.data;
         var models;
@@ -962,6 +963,7 @@
             $('#overlay_' + name).removeClass("div-overlay");
             d3.selectAll("svg > *").remove();
             overlayOpened = false;
+            $scope.showSolventInfo();
 
         }
 
@@ -1424,6 +1426,7 @@
                             }
                         } else {
                             if (d.casNumber === "None") {
+                                $scope.showSolventInfo();
                                 $scope.selectedCluster = d.cluster;
                                 if (selectedNode !== undefined) {
                                     d3.select(selectedNode).style("stroke", "white");
@@ -1439,6 +1442,11 @@
                                 
 
                             } else {
+                                if (solvInfo) {
+                                    $scope.showSolventInfo();
+                                } else {
+                                    $scope.showChemPic();
+                                }
                                 delete $scope.selectedCluster;
                                 if (d.solvent !== undefined) {
                                     var selectedNodeObject = {
@@ -1783,21 +1791,40 @@
         }
 
 
-        $scope.showSolventInfo = function() {
+        $scope.showSolventInfo = function () {
+            solvInfo = true;
             var parentDiv = document.getElementById('solventDetailsDiv');
             var otherDiv = document.getElementById('ChemSolPicDiv');
+            var ButChem = document.getElementById('ButChemStruct');
+            var ButSolv = document.getElementById('ButSolvDet');
+            ButChem.style.backgroundColor = 'transparent';
+            ButSolv.style.backgroundColor = '#b92ed1';
             parentDiv.style.display = 'unset';
             otherDiv.style.display = 'none';
 
+            
         }
 
-        $scope.showChemPic = function() {
+        $scope.showChemPic = function () {
+            solvInfo = false;
             var parentDiv = document.getElementById('ChemSolPicDiv');
             var otherDiv = document.getElementById('solventDetailsDiv');
+
+            var ButChem = document.getElementById('ButChemStruct');
+            var ButSolv = document.getElementById('ButSolvDet');
+
+            ButChem.style.backgroundColor = '#b92ed1';
+
+            ButSolv.style.backgroundColor = 'transparent';
+
             parentDiv.style.display = 'unset';
             otherDiv.style.display = 'none';
+            if (typeof $scope.selectedCluster !== 'undefined') {
+                $scope.showSolventInfo();
+            }
             if (typeof $scope.selectedSolvent === 'undefined' || $scope.selectedSolvent == 'null') {
-                alert('no solvent selected');
+                
+                //alert('no solvent selected');
             } else {
                 var urlPic = $scope.trustSrc("https://www.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pccompound&retmax=100&term=" + $scope.selectedSolvent.CasNumber); 
                 var result;
