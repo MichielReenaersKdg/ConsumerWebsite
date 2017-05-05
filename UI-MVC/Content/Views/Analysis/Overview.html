@@ -252,17 +252,17 @@
 
                     <div class="col-lg-4 col-md-4 padding-less">
                         <div class="grid grid-right col-lg-12" style="color: lightgray; overflow: auto; font-size: 15px; padding-left: 20px; padding-right: 15px;">
-                            <div style="float:left">
-                                <a href="#" class="button" style="width:90%; height:60px; line-height:60px; text-align:center; font-size:14px; padding:0;" ng-click="showSolventInfo()">Solvent Details</a>
+                            <div style="float:left; width:40%; display: table; margin-top:5%;">
+                                <a href="#" class="button" id="ButSolvDet" style="width:90%; height:60px; display: table-cell; vertical-align: middle; text-align:center; font-size:21px; padding:0; background-color:#b92ed1;" ng-click="showSolventInfo()"><h4 style="font-size:21px;">Solvent Details</h4></a>
                             </div>
-                            <div style="float:right">
-                                <a href="#" class="button" style="width:90%; height:60px; line-height:60px; text-align:center; font-size:14px; padding:0;" ng-click="showChemPic()">Chemical Structure</a>
+                            <div style="float:right; width:40%; display: table; margin-top:5%;">
+                                <a href="#" class="button" id="ButChemStruct" style="width:90%; height:60px; display: table-cell; vertical-align: middle; text-align:center; padding:0;" ng-click="showChemPic()"><h4 style="font-size:21px;">Chemical Structure</h4></a>
                                 </div>
-                            <div class="clear" style="clear:both">
+                            <div class="clear" style="clear:both;">
                             </div>
                                 <div class="SolventDetails" id="solventDetailsDiv" style="display:normal;">
-                                    <h3 class="text-primary text-center" ng-if="selectedCluster === undefined">Solvent Details</h3>
-                                    <h3 class="text-primary text-center" ng-if="selectedCluster !== undefined">Cluster Solvents</h3>
+                                    <h3 class="text-primary text-center" ng-if="selectedCluster === undefined">Solvent details</h3>
+                                    <h3 class="text-primary text-center" ng-if="selectedCluster !== undefined">Cluster solvents</h3>
 
                                     <div class="classified-solvent-alt" ng-if="selectedSolvent === undefined && selectedCluster === undefined">
                                         <p style="margin-top: 140px; color:rgba(80,80,80,1)">No solvent selected</p>
@@ -287,13 +287,17 @@
                                         </tr>
                                     </table>
                                 </div>
-                                <div class="ChemSolPic" id="ChemSolPicDiv" style="display:none; padding:0; margin: 0;">
-                                    <iframe style="width:100%; height:50%;" frameborder="0" ng-src="{{trustSrc(cidurl)}}" alt="Description"></iframe>
+                                <div class="ChemSolPic" id="ChemSolPicDiv" style="display:none; padding: 0; margin: 0;">
+                                    <h3 class="text-primary text-center" ng-if="selectedCluster === undefined">Chemical structure</h3>
+                                    <div class="classified-solvent-alt" ng-if="selectedSolvent === undefined && selectedCluster === undefined">
+                                        <p style="margin-top: 140px; color:rgba(80,80,80,1)">No solvent selected</p>
+                                    </div>
+                                    <iframe ng-if="selectedSolvent !== undefined" style="width:100%; height:50%;" frameborder="0" ng-src="{{trustSrc(cidurl)}}" alt="Description"></iframe>
                                 </div>
                             </div>
                         
                     </div>
-                        <!--Test-->
+                       
                 </div>
                     
             </div>
