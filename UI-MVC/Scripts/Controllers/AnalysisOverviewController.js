@@ -299,18 +299,7 @@
 
 
 
-        function getNormalizedValues(lengths) {
-            if (lengths.length === 1) {
-                return [0];
-            }
-            var max = Math.max.apply(Math, lengths);
-            var min = Math.min.apply(Math, lengths);
-            var normalizedValues = [];
-            for (var i = 0; i < lengths.length; i++) {
-                normalizedValues.push((lengths[i] - min) / (max - min));
-            }
-            return normalizedValues;
-        }
+        
         function getNormalizedValuesWithFixedMin(lengths, minimum) {
             if (lengths.length === 1) {
                 return [0];
@@ -1683,13 +1672,33 @@
             $scope.$apply();
             var normalizeddistancevalues = [];
             
-            
-            for (o = 0; o < matrix.length; o++) {
 
-                normalizeddistancevalues[o] = getNormalizedValues(matrix[o]);
+            var largestdis = 0;
+            var smallestdis = 0;
+            
+            for (var i = 0; i < matrix.length; i++) {
+                for (var j = 0; j < matrix[i].length; j++) {
+
+                    if (largestdis < matrix[i][j]) {
+                        largestdis = matrix[i][j];
+                    }
+                    
+                    if (smallestdis > matrix[i][j]) {
+                        smallestdis = matrix[i][j];
+                    }
+                    
+
+                }
                 
             }
-                
+            window.alert(largestdis);
+
+            for (o = 0; o < matrix.length; o++) {
+
+                normalizeddistancevalues[o] = getNormalizedValuesDis(matrix[o], largestdis,smallestdis);
+                var l = 'l';
+            }
+            window.alert(normalizeddistancevalues[0] + "\n" + normalizeddistancevalues[1] + "\n" + normalizeddistancevalues[2]);
 
             $('#distanceMatrixDiv').removeClass("not-visible");
             $('#distanceMatrixDiv').addClass("div-overlay");
@@ -1749,7 +1758,30 @@
             $scope.$apply();
             
         }
+        function getNormalizedValues(lengths) {
+            if (lengths.length === 1) {
+                return [0];
+            }
+            var max = Math.max.apply(Math, lengths);
+            var min = Math.min.apply(Math, lengths);
+            var normalizedValues = [];
+            for (var i = 0; i < lengths.length; i++) {
+                normalizedValues.push((lengths[i] - min) / (max - min));
+            }
+            return normalizedValues;
+        }
 
+        function getNormalizedValuesDis(lengths, maxdis,mindis) {
+            if (lengths.length === 1) {
+                return [0];
+            }
+           
+            var normalizedValues = [];
+            for (var i = 0; i < lengths.length; i++) {
+                normalizedValues.push((lengths[i] - mindis) / (maxdis - mindis));
+            }
+            return normalizedValues;
+        }
         var percentColors = [
     { pct: 0.0, color: { r: 178, g: 178, b: 242 } }, 	
     { pct: 0.5, color: { r: 127, g: 127, b: 234 } }, //	127	127	234
