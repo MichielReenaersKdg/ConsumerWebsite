@@ -1699,14 +1699,12 @@
                 }
                 
             }
-            window.alert(largestdis);
 
             for (o = 0; o < matrix.length; o++) {
 
                 normalizeddistancevalues[o] = getNormalizedValuesDis(matrix[o], largestdis,smallestdis);
                 var l = 'l';
             }
-            window.alert(normalizeddistancevalues[0] + "\n" + normalizeddistancevalues[1] + "\n" + normalizeddistancevalues[2]);
 
             $('#distanceMatrixDiv').removeClass("not-visible");
             $('#distanceMatrixDiv').addClass("div-overlay");
