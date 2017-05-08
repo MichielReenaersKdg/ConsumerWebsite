@@ -44,5 +44,6 @@ namespace SS.BL.Analyses
         IEnumerable<Feature> ReadFeatures();
 
         IEnumerable<Solvent> ReadSolvents();
+        Cluster readCluster(int id);
     }
 }

@@ -145,6 +145,16 @@
 
         }
 
+        function selectCluster(id) {
+            $http({
+                method: 'GET',
+                url: 'api/Analysis/GetCluster',
+                params: { clusterId: id }
+            }).success(function succesCallback(data) {
+                $scope.ClusterMatrix = data;
+            });
+        }
+
 
         function getClusters(model) {
             clusters = [];
@@ -722,6 +732,20 @@
         $scope.clusterChange = function (clusternumber) {
             $scope.closeOverlay(selectedAlgorithm);
             drawSolventChart(clusternumber);
+
+            if (document.getElementById('distanceMatrixTable')) {
+                //selectCluster(clusternumber);
+                var clusterTemp = $scope.models[0].Model.Clusters[clusternumber];
+                var copiedCluster = jQuery.extend(true, {}, clusterTemp);
+                var matrix = buildMatrix(copiedCluster);
+
+                drawDistanceMatrix(matrix, clusterTemp);
+
+
+            }
+            
+
+            
 
         }
 
@@ -1677,7 +1701,11 @@
 
         function drawDistanceMatrix(matrix, clustertemp) {
             $scope.matrix = matrix;
-            $scope.$apply();
+            if(!$scope.$$phase) {
+                //$digest or $apply
+                $scope.$apply();
+            }
+            
             var normalizeddistancevalues = [];
             
 
