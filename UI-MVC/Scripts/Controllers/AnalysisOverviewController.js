@@ -144,16 +144,6 @@
 
         }
 
-        function selectCluster(id) {
-            $http({
-                method: 'GET',
-                url: 'api/Analysis/GetCluster',
-                params: { clusterId: id }
-            }).success(function succesCallback(data) {
-                $scope.ClusterMatrix = data;
-            });
-        }
-
 
         function getClusters(model) {
             clusters = [];

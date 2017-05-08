@@ -48,7 +48,5 @@ namespace SS.DAL.EFAnalyses
         IEnumerable<Feature> ReadFeatures();
 
         IEnumerable<Solvent> ReadSolvents();
-
-        Cluster readCluster(int id);
     }
 }
