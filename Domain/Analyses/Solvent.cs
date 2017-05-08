@@ -22,5 +22,6 @@ namespace SS.BL.Domain.Analyses
       public string EHS_Color_Code { get; set; }
       public double DistanceToClusterCenter { get; set; }
         public ICollection<Feature> Features { get; set; }
+        public TrainingSet trainingSet { get; set; }
     }
 }

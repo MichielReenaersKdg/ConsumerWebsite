@@ -73,6 +73,7 @@
     <Compile Include="Analyses\Feature.cs" />
     <Compile Include="Analyses\Model.cs" />
     <Compile Include="Analyses\Solvent.cs" />
+    <Compile Include="Analyses\TrainingSet.cs" />
     <Compile Include="Analyses\VectorData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Users\Organisation.cs" />
