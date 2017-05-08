@@ -22,7 +22,6 @@
         $scope.classify = false;
         $scope.upload = true;
         $scope.download = true;
-        $scope.check = false;
         $scope.errorMessageMeta = "wrong value";
         $scope.errorMessageFeature = "is not a number";
         $scope.validation = [];
@@ -230,7 +229,6 @@
         function addSolvent(solvent, values, $http) {
             $('#load').button('loading');
             $scope.classify = false;
-            $scope.check = false;
             var metadata = values[0];
             var features = values[1]
             document.getElementById('closecross').disabled = true;
@@ -1151,14 +1149,12 @@
                 if (checkHeaders(headers)) {
                     checkValues(values, headers);
                 }
-                $scope.check = true;
                 $scope.allValuesValid = true;
                 $scope.$apply();
                 $("#csvFile").val('');
                 return true;
             }
             reader.readAsText(files[0]);
-            
         };
         $scope.validateAll = function (values) {
             var meta = values[0];
@@ -1816,6 +1812,11 @@
             // or output as hex if preferred
         }
 
+        $scope.closeClassify = function () {
+            $scope.headerz = null;
+            $scope.classify = false;
+            document.getElementById("csvFileUpload").value = "";
+        }
         $scope.distanceMatrixClose = function() {
 
             $('#distanceMatrixDiv').removeClass("div-overlay");
