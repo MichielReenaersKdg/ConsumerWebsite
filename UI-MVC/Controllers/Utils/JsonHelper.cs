@@ -93,8 +93,9 @@ namespace SS.UI.Web.MVC.Controllers.Utils
       
                     solventTemp.CasNumber = solventTemp.CasNumber.Replace("\"", "");
                     solventTemp.Name = solventTemp.Name.Replace("\"", "");
+                    solventTemp.EHS_Color_Code = solventTemp.EHS_Color_Code.Replace("\"", "");
 
-                    foreach (var feature in solvent.features)
+               foreach (var feature in solvent.features)
                     {
                         string featureName;
                         //0.4.9 - Changed TryParse of FeatureName to .ToString() as featureName was changed from type FeatureName to a string

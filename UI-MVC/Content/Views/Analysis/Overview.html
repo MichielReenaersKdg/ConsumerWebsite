@@ -3,7 +3,7 @@
     <div class="row" style="margin-top: 10px">
         <div class="col-lg-7 overview-top-left">
             <div class="col-lg-12 main-cluster-info" >
-                <p class="admin-card-title">general cluster analysis information</p>
+                <p class="admin-card-title">General cluster analysis information</p>
                 <div class="analysis-header">
                     <h1>{{analysisName}}</h1>
                     <h4>{{models[0].Model.NumberOfSolvents}} Solvents - {{models[0].Model.NumberOfFeatures}} Features</h4>
@@ -20,7 +20,7 @@
                             <a href="#" class="xs-button" data-toggle="modal" data-target="#organisation-model">Share</a>
                         </li>
                         <li ng-if="sharedWith !== null && isOwner" style="margin-top: 5px;">
-                            <a href="#" class="xs-button" ng-click="undoShare()">Undo Share</a>
+                            <a href="#" class="xs-button" ng-click="undoShare()">Undo share</a>
                         </li>
 
                     </ul>
@@ -38,7 +38,7 @@
         </div>
         <div class="col-lg-5 overview-top-right">
             <div class="col-lg-12 main-cluster-info">
-                <p class="admin-card-title">Classified Solvent</p>
+                <p class="admin-card-title">Classified solvent</p>
                 <div class="analysis-settings">
                     <ul style="list-style: none;">
                         <li>
@@ -122,8 +122,8 @@
                                 </div>
                                 
                             
-                            <h3 class="text-primary">Cluster analysis Graph</h3>
-                            <div class="chart-legend">Size of Bubble: Max. Solvent Distance</div>
+                            <h3 class="text-primary">Cluster analysis graph</h3>
+                            <div class="chart-legend">Size of bubble: max. solvent distance</div>
                             <div id="chartContainer_{{model.Model.AlgorithmName}}" class="chartContainer">
                             </div>
 
@@ -148,15 +148,15 @@
                                         </div>
                                         <div style="margin-top: 6px;">
                                             <img src="/Content/Images/farrestsolvent.png" style="width: 22px; height: 22px; margin-right: 8px;"/>
-                                            <p style="display: inline">Max. Distance Solvent</p>
+                                            <p style="display: inline">Max. distance solvent</p>
                                         </div>
                                         <div style="margin-top: 6px;">
                                             <img src="/Content/Images/closestsolvent.png" style="width: 22px; height: 22px; margin-right: 8px;"/>
-                                            <p style="display: inline">Min. Distance Solvent</p>
+                                            <p style="display: inline">Min. distance solvent</p>
                                         </div>
                                         <div ng-if="ClassifiedInstance !== null && ClassifiedInstance.ClusterNumber === cluster" style="margin-top: 6px;">
                                             <img src="/Content/Images/classifiedsolventball.png" style="width: 22px; height: 22px; margin-right: 8px;"/>
-                                            <p style="display: inline">Classified Solvent</p>
+                                            <p style="display: inline">Classified solvent</p>
                                         </div>
                                     </div>
                                 </div>
@@ -250,16 +250,17 @@
                             </div>
                     </div>
 
-                    <div class="col-lg-4 col-md-4 padding-less">
-                        <div class="grid grid-right col-lg-12" style="color: lightgray; overflow: auto; font-size: 15px; padding-left: 20px; padding-right: 15px;">
-                            <div style="float:left; width:40%; display: table; margin-top:5%;">
-                                <a href="#" class="button" id="ButSolvDet" style="width:90%; height:60px; display: table-cell; vertical-align: middle; text-align:center; font-size:21px; padding:0; background-color:#b92ed1;" ng-click="showSolventInfo()"><h4 style="font-size:21px;">Solvent Details</h4></a>
-                            </div>
-                            <div style="float:right; width:40%; display: table; margin-top:5%;">
-                                <a href="#" class="button" id="ButChemStruct" style="width:90%; height:60px; display: table-cell; vertical-align: middle; text-align:center; padding:0;" ng-click="showChemPic()"><h4 style="font-size:21px;">Chemical Structure</h4></a>
+                    <div class="col-lg-4 col-md-4 padding-less" style="border:solid; border-color:black">
+                            <div style="background-color: #{{selectedSolvent.EHS_Color_Code}}; position: absolute; top: 0; left: 0; height: 100%; width: 100%; opacity:0.4;"></div>
+                            <div class="grid grid-right col-lg-12" style="color: lightgray; overflow: auto; font-size: 15px; padding-left: 20px; padding-right: 15px; background-color:transparent;">
+                                <div style="float:left; width:40%; display: table; margin-top:5%;">
+                                    <a href="#" class="button" id="ButSolvDet" style="width:90%; height:60px; display: table-cell; vertical-align: middle; text-align:center; font-size:21px; padding:0; background-color:#b92ed1;" ng-click="showSolventInfo()"><h4 style="font-size:21px;">Solvent details</h4></a>
                                 </div>
-                            <div class="clear" style="clear:both;">
-                            </div>
+                                <div style="float:right; width:40%; display: table; margin-top:5%;">
+                                    <a href="#" class="button" id="ButChemStruct" style="width:90%; height:60px; display: table-cell; vertical-align: middle; text-align:center; padding:0;" ng-click="showChemPic()"><h4 style="font-size:21px;">Chemical structure</h4></a>
+                                </div>
+                                <div class="clear" style="clear:both;">
+                                </div>
                                 <div class="SolventDetails" id="solventDetailsDiv" style="display:normal;">
                                     <h3 class="text-primary text-center" ng-if="selectedCluster === undefined">Solvent details</h3>
                                     <h3 class="text-primary text-center" ng-if="selectedCluster !== undefined">Cluster solvents</h3>
@@ -295,9 +296,7 @@
                                     <iframe ng-if="selectedSolvent !== undefined" style="width:100%; height:50%;" frameborder="0" ng-src="{{trustSrc(cidurl)}}" alt="Description"></iframe>
                                 </div>
                             </div>
-                        
                     </div>
-                       
                 </div>
                     
             </div>
@@ -334,7 +333,7 @@
             <i class="fa fa-times closecross" data-dismiss="modal" id="closecross-solvents" aria-hidden="true"></i>
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h2 class="margin-top-0 wow fadeInDown">Classified Solvents</h2>
+                    <h2 class="margin-top-0 wow fadeInDown">Classified solvents</h2>
                     <hr class="primary">
                 </div>
             </div>
@@ -365,7 +364,7 @@
 
 <div class="modal fade analysis-modals" id="addSolvent-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;" >
     <div class="loginmodal-container classify-container">
-        <i class="fa fa-times closecross" id="closecross-newSolvent" data-dismiss="modal"  aria-hidden="true"></i>
+        <i class="fa fa-times closecross" id="closecross-newSolvent" data-dismiss="modal"  aria-hidden="true" ng-click="closeClassify()"></i>
         <div class="col-lg-12 text-center">
             <h2 class="margin-top-0 wow fadeInDown">Classify new solvent</h2>
             <hr class="primary">
@@ -398,10 +397,12 @@
                             <td class="classify-solvent-row col-lg-4">
                                 <input class="feature-input" type="text" ng-change="SetStyle($index); validateFeatureData(feature, $index)" id="feature_{{$index}}" title="{{$index}}" name="feature_{{$index}}" ng-model="feature.value" required/>
                             </td>
-<td><p ng-if="validation[$index+9]" style="color: darkorange;">{{errorMessageFeature}}</p></td>
-</tr>
+                            <td><p ng-if="validation[$index+9]" style="color: darkorange;">{{errorMessageFeature}}</p></td>
+                            </tr>
                     </table>
-                    <a class="small-button" ng-if="check" ng-click="validateAll(headerz)">check values</a>
+                    <div ng-if="headerz && headerz.length>0">
+                        {{validateAll(headerz)}}
+                    </div>
                     <button ng-if="classify" type="submit" from="features" name="submit" id="load" class="small-button" ng-class="{disabledForm: !valid}" tabindex="-1"  data-loading-text="<i class='fa fa-spinner fa-spin fa-fw'></i>Classifying...">Classify solvent</button>
 
                 </div>

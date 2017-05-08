@@ -143,9 +143,19 @@ namespace SS.BL.Analyses
             return repo.ReadSolvents();
         }
 
-        public Cluster readCluster(int id)
-        {
-            return repo.readCluster(id);
-        }
-    }
+      public TrainingSet CreateTrainingSet(TrainingSet set)
+      {
+         return repo.addTrainingSet(set);
+      }
+
+      public IEnumerable<TrainingSet> ReadTrainingSets()
+      {
+         return repo.ReadTrainingSets();
+      }
+
+      public TrainingSet ReadTrainingSetById(int id)
+      {
+         return repo.ReadTrainingSetById(id);
+      }
+   }
 }

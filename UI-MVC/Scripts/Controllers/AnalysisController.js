@@ -50,11 +50,19 @@
             return false;
         }
 
-        function fillarray() {
-            $https({
+        //function fillarray() {
+        //    $https({
+        //        method: 'GET',
+        //        url: 'api/Analysis/FillAlgorithms',
+        //        params: {algorithms: algorithms}
+        //    })
+        //}
+
+        $scope.fillAlgorithm = function fillAlgorithm() {
+            $http({
                 method: 'GET',
-                url: 'api/Analysis/FillAlgorithms',
-                params: {algorithms: algorithms}
+                url: 'api/Analysis/FillAlgorithmTwo',
+                params: { algorithms: algorithms, Id: selectedModel.Id}
             })
         }
         
@@ -76,6 +84,7 @@
         }
         var selectedModel;
         var analyseName;
+
         $scope.selectModel = function selectModel($event) {
             if (selectedModel !== undefined) {
                 selectedModel.style.borderColor = "lightgray";
@@ -117,6 +126,7 @@
         }
 
         $scope.showAlgorithms = function showAlgorithms() {
+            $scope.fillAlgorithm();
             $http({
                 method: 'POST',
                 url: 'api/Analysis/CreateAnalysis',

@@ -143,12 +143,7 @@ namespace SS.UI.Web.MVC.Controllers
             return _analysisManager.ReadFeatures().ToList();
         }
 
-        [Route("GetCluster")]
-        [HttpGet]
-        public Cluster GetCluster(int clusterId)
-        {
-            return _analysisManager.readCluster(clusterId);
-        }
+
 
 
         [Route("FillAlgorithms")]
@@ -157,39 +152,90 @@ namespace SS.UI.Web.MVC.Controllers
         //POST api/Analysis/FillAlgorithm
         public List<Model> FillAlgorithms(AlgorithmName algorithm)
         {
-            String test = Properties.Resources.datasetqframe.ToString();
-            var pathWithEnv = @"%USERPROFILE%\";
-            var filePath = Environment.ExpandEnvironmentVariables(pathWithEnv);
-            com.sussol.domain.utilities.Globals.STORAGE_PATH = filePath;
-            com.sussol.web.controller.ServiceModel sus = new com.sussol.web.controller.ServiceModel();
+            int x = 0;
+            List<Model> modal = new List<Model>();
+            foreach (var file in _analysisManager.ReadTrainingSets())
+            {
+                var pathWithEnv = @"%USERPROFILE%\";
+                var filePath = Environment.ExpandEnvironmentVariables(pathWithEnv);
+                com.sussol.domain.utilities.Globals.STORAGE_PATH = filePath;
+                com.sussol.web.controller.ServiceModel sus = new com.sussol.web.controller.ServiceModel();
+                JObject jObject = new JObject();
+                //0.5.0.9
+                switch (algorithm)
+                {
+                    case AlgorithmName.CANOPY: jObject = JObject.Parse(sus.canopyModeller(file.dataSet, "", "").ToString()); break;
+                    case AlgorithmName.SOM: jObject = JObject.Parse(sus.somModeller(file.dataSet, "").ToString()); break;
+                    case AlgorithmName.XMEANS: jObject = JObject.Parse(sus.xmeansModeller(file.dataSet, "", "", "").ToString()); break;
+                }
+                //var perso = JsonConvert.DeserializeObject<dynamic>();
+
+                JToken jModel = jObject["model"];
+
+
+                //0.4.9 _analysisManager.ReadMinMaxValues().ToList()).Models.ToList() -> _analysisManager.ReadFeatures().ToList()).Models.ToList()
+                List<Model> mod = JsonHelper.ParseJson(jObject.ToString()).Models.ToList();
+                int y = 0;
+                foreach (Model m in mod)
+                {
+                    m.DataSet = algorithm + "_" + x + y;
+                    y++;
+                }
+                
+                Algorithm algo = new Algorithm()
+                {
+                    AlgorithmName = algorithm,
+                    Models = mod
+                };
+                _analysisManager.CreateAlgorithm(algo);
+                modal.AddRange(mod);
+                x++;
+            }
+            return modal;
+         
+
+        }
+
+      [Route("FillAlgorithmTwo")]
+      [HttpGet]
+      //0.4.0 Added method to utilize new dataset in Weka dll instead of API
+      //POST api/Analysis/FillAlgorithm
+      public List<Model> FillAlgorithms(AlgorithmName algorithm, int Id)
+      {
+         TrainingSet traingingset = _analysisManager.ReadTrainingSetById(Id);
+
+         var pathWithEnv = @"%USERPROFILE%\";
+         var filePath = Environment.ExpandEnvironmentVariables(pathWithEnv);
+         com.sussol.domain.utilities.Globals.STORAGE_PATH = filePath;
+         com.sussol.web.controller.ServiceModel sus = new com.sussol.web.controller.ServiceModel();
          JObject jObject = new JObject();
          //0.5.0.9
          switch (algorithm)
          {
-            case AlgorithmName.CANOPY: jObject = JObject.Parse(sus.canopyModeller(test, "", "").ToString()); break;
-            case AlgorithmName.SOM: jObject = JObject.Parse(sus.somModeller(test, "").ToString()); break;
-            case AlgorithmName.XMEANS: jObject = JObject.Parse(sus.xmeansModeller(test, "", "", "").ToString()); break;
+            case AlgorithmName.CANOPY: jObject = JObject.Parse(sus.canopyModeller(traingingset.dataSet, "", "").ToString()); break;
+            case AlgorithmName.SOM: jObject = JObject.Parse(sus.somModeller(traingingset.dataSet, "").ToString()); break;
+            case AlgorithmName.XMEANS: jObject = JObject.Parse(sus.xmeansModeller(traingingset.dataSet, "", "", "").ToString()); break;
          }
-            //var perso = JsonConvert.DeserializeObject<dynamic>();
-            
-            JToken jModel = jObject["model"];
+         //var perso = JsonConvert.DeserializeObject<dynamic>();
+
+         JToken jModel = jObject["model"];
 
 
-            //0.4.9 _analysisManager.ReadMinMaxValues().ToList()).Models.ToList() -> _analysisManager.ReadFeatures().ToList()).Models.ToList()
-            List<Model> mod = JsonHelper.ParseJson(jObject.ToString()).Models.ToList(); 
-            Algorithm algo = new Algorithm()
-            {
-                AlgorithmName = 0,
-                Models = mod
-            };
-            _analysisManager.CreateAlgorithm(algo);
-            return mod;
+         //0.4.9 _analysisManager.ReadMinMaxValues().ToList()).Models.ToList() -> _analysisManager.ReadFeatures().ToList()).Models.ToList()
+         List<Model> mod = JsonHelper.ParseJson(jObject.ToString()).Models.ToList();
+         Algorithm algo = new Algorithm()
+         {
+            AlgorithmName = 0,
+            Models = mod
+         };
+         _analysisManager.CreateAlgorithm(algo);
+         return mod;
 
-        }
+      }
 
 
-        //POST api/Analysis/Createanalysis
-        [Route("CreateAnalysis")]
+      //POST api/Analysis/Createanalysis
+      [Route("CreateAnalysis")]
         [HttpPost]
         public IHttpActionResult CreateAnalysis([FromUri] List<string> algorithms, [FromUri] string dataSet, [FromUri] string name)
         {

@@ -50,6 +50,7 @@ namespace SS.DAL.EFAnalyses
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.VectorData)))
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.VectorData.Select(v => v.feature))))
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.Features))))
+                .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.trainingSet))))
                 //0.5.0 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.Features.Select(b => b.minMaxValue)))))
                 .FirstOrDefault(i => i.Id == id);
         }
@@ -134,6 +135,7 @@ namespace SS.DAL.EFAnalyses
                 .Include(p => p.Clusters.Select(pt => pt.DistanceToClusters))
                 .Include(p => p.Clusters.Select(pt => pt.Solvents))
                 .Include(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.Features)))
+                .Include(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.trainingSet)))
                 .Where(t => t.DataSet.Equals(dataSet))
                 .FirstOrDefault(a => a.AlgorithmName == algorithmName);
         }
@@ -195,6 +197,7 @@ namespace SS.DAL.EFAnalyses
                 .Include(a => a.Model.Clusters.Select(p => p.VectorData.Select(v => v.feature)))
                 .Include(a => a.Model.Clusters.Select(p => p.Solvents))
                 .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.Features)))
+                .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.trainingSet)))
                 // 0.5.0 .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.Features.Select(o => o.minMaxValue))))
                 .Single(a => a.Id == modelId);
             classifiedInstance.AnalysisModelId = modelId;
@@ -251,19 +254,21 @@ namespace SS.DAL.EFAnalyses
             return _context.Solvents.ToList();
         }
 
-        public Cluster readCluster(int id)
-        {
-            //var cluster = _context.Clusters
-            //   .Include(a => a.Solvents)
-            //   .Include(a => a.Solvents.Select(an => an.))
-            //   .Include(a => a.Model.Clusters.Select(p => p.VectorData))
-            //   .Include(a => a.Model.Clusters.Select(p => p.VectorData.Select(v => v.feature)))
-            //   .Include(a => a.Model.Clusters.Select(p => p.Solvents))
-            //   .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.Features)))
-            //   // 0.5.0 .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.Features.Select(o => o.minMaxValue))))
-            //   .Single(a => a.Id == modelId);
-            return _context.Clusters.ToList().ElementAt(id);
+      public TrainingSet addTrainingSet(TrainingSet set)
+      {
+        TrainingSet trainingSet = _context.TrainingSet.Add(set);
+         _context.SaveChanges();
+         return trainingSet;
+      }
 
-        }
-    }
+      public IEnumerable<TrainingSet> ReadTrainingSets()
+      {
+         return _context.TrainingSet.ToList();
+      }
+
+      public TrainingSet ReadTrainingSetById(int id)
+      {
+         return _context.TrainingSet.Find(id);
+      }
+   }
 }

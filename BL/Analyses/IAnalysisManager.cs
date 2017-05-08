@@ -42,8 +42,9 @@ namespace SS.BL.Analyses
 
         //0.4.9 - Add featurefunctionality In order to solve new architecture (Dynamic Database)
         IEnumerable<Feature> ReadFeatures();
-
+      TrainingSet CreateTrainingSet(TrainingSet set);
         IEnumerable<Solvent> ReadSolvents();
-        Cluster readCluster(int id);
+      IEnumerable<TrainingSet> ReadTrainingSets();
+      TrainingSet ReadTrainingSetById(int id);
     }
 }

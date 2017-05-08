@@ -153,7 +153,6 @@
   padding: 15px 0px;
   font-size: 16px;
   letter-spacing: 3px;
-    text-transform: lowercase;
   border-radius: 6px;
   -webkit-transition: all .5s;
   -moz-transition: all .5s;
@@ -176,7 +175,6 @@
   text-decoration: none;
     
     font-size: 15px;
-    text-transform: lowercase;
     font-family: 'Questrial', 'Roboto';
   color: white;
   font-weight: 300;
