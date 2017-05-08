@@ -144,6 +144,16 @@
 
         }
 
+        function selectCluster(id) {
+            $http({
+                method: 'GET',
+                url: 'api/Analysis/GetCluster',
+                params: { clusterId: id }
+            }).success(function succesCallback(data) {
+                $scope.ClusterMatrix = data;
+            });
+        }
+
 
         function getClusters(model) {
             clusters = [];
@@ -184,7 +194,7 @@
                 }
                 for (var j = 0; j < models[i].Model.Clusters.length; j++) {
                     for (var k = 0; k < models[i].Model.Clusters[j].VectorData.length; k++) {
-                        //console.log(models[i]);
+                        
                         models[i].Model.Clusters[j].VectorData[k].feature.featureName = constants.FeatureName[models[i].Model.Clusters[j].VectorData[k].feature.featureName]; //0.4.9
                     }
                     for (var k = 0; k < models[i].Model.Clusters[j].Solvents.length; k++) {
@@ -721,6 +731,20 @@
             $scope.closeOverlay(selectedAlgorithm);
             drawSolventChart(clusternumber);
 
+            if (document.getElementById('distanceMatrixTable')) {
+                //selectCluster(clusternumber);
+                var clusterTemp = $scope.models[0].Model.Clusters[clusternumber];
+                var copiedCluster = jQuery.extend(true, {}, clusterTemp);
+                var matrix = buildMatrix(copiedCluster);
+
+                drawDistanceMatrix(matrix, clusterTemp);
+
+
+            }
+            
+
+            
+
         }
 
         function drawSolventChart(clusternumber) {
@@ -800,16 +824,16 @@
                 });
             });
 
-            var datapointX = (((datapoint.x + 0.1) / (1.2)) * 100) * (xAxisLength / 100);
-            var maxX = currentChart.options.axisY.viewportMaximum;
-            var datapointY = canvas.height - (((datapoint.y / maxX) * 100) * (yAxisLength / 100));
+            var datapointX = (xAxisLength / 2) + datapoint.x;
+            var maxy = yAxisLength;
+            var datapointY = ((maxy + 44) / 2) - datapoint.y;//canvas.height - (((datapoint.y / maxX) * 100) * (yAxisLength / 100));
 
             arc.animate({
                 x: datapointX,
                 y: datapointY,
                 radius: 0
             }, {
-                duration: 5000,
+                duration: 10000,
                 easing: "ease-in-expo",
                 callback: function () {
                     currentChart.render();
@@ -1673,7 +1697,11 @@
 
         function drawDistanceMatrix(matrix, clustertemp) {
             $scope.matrix = matrix;
-            $scope.$apply();
+            if(!$scope.$$phase) {
+                //$digest or $apply
+                $scope.$apply();
+            }
+            
             var normalizeddistancevalues = [];
             
 
@@ -1695,14 +1723,12 @@
                 }
                 
             }
-            window.alert(largestdis);
 
             for (o = 0; o < matrix.length; o++) {
 
                 normalizeddistancevalues[o] = getNormalizedValuesDis(matrix[o], largestdis,smallestdis);
                 var l = 'l';
             }
-            window.alert(normalizeddistancevalues[0] + "\n" + normalizeddistancevalues[1] + "\n" + normalizeddistancevalues[2]);
 
             $('#distanceMatrixDiv').removeClass("not-visible");
             $('#distanceMatrixDiv').addClass("div-overlay");

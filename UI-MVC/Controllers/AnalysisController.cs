@@ -142,7 +142,14 @@ namespace SS.UI.Web.MVC.Controllers
         {
             return _analysisManager.ReadFeatures().ToList();
         }
-   
+
+        [Route("GetCluster")]
+        [HttpGet]
+        public Cluster GetCluster(int clusterId)
+        {
+            return _analysisManager.readCluster(clusterId);
+        }
+
 
         [Route("FillAlgorithms")]
         [HttpGet]

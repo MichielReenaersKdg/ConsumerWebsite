@@ -250,5 +250,20 @@ namespace SS.DAL.EFAnalyses
         {
             return _context.Solvents.ToList();
         }
+
+        public Cluster readCluster(int id)
+        {
+            //var cluster = _context.Clusters
+            //   .Include(a => a.Solvents)
+            //   .Include(a => a.Solvents.Select(an => an.))
+            //   .Include(a => a.Model.Clusters.Select(p => p.VectorData))
+            //   .Include(a => a.Model.Clusters.Select(p => p.VectorData.Select(v => v.feature)))
+            //   .Include(a => a.Model.Clusters.Select(p => p.Solvents))
+            //   .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.Features)))
+            //   // 0.5.0 .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.Features.Select(o => o.minMaxValue))))
+            //   .Single(a => a.Id == modelId);
+            return _context.Clusters.ToList().ElementAt(id);
+
+        }
     }
 }

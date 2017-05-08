@@ -97,6 +97,8 @@
             
         }
 
+
+
         $scope.setName = function setName(name) {
             if (name === "") {
                 $scope.btnclass = "button-right disabled";
@@ -125,6 +127,8 @@
                 $scope.errorMessage = data.Message;
             });
         }
+
+
 
         $scope.previous = function previous() {
             algorithms = [];

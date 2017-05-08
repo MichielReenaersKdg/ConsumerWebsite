@@ -142,5 +142,10 @@ namespace SS.BL.Analyses
         {
             return repo.ReadSolvents();
         }
+
+        public Cluster readCluster(int id)
+        {
+            return repo.readCluster(id);
+        }
     }
 }
