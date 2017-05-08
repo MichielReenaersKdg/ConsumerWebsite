@@ -185,7 +185,7 @@
                 }
                 for (var j = 0; j < models[i].Model.Clusters.length; j++) {
                     for (var k = 0; k < models[i].Model.Clusters[j].VectorData.length; k++) {
-                        //console.log(models[i]);
+                        
                         models[i].Model.Clusters[j].VectorData[k].feature.featureName = constants.FeatureName[models[i].Model.Clusters[j].VectorData[k].feature.featureName]; //0.4.9
                     }
                     for (var k = 0; k < models[i].Model.Clusters[j].Solvents.length; k++) {
@@ -802,16 +802,16 @@
                 });
             });
 
-            var datapointX = (((datapoint.x + 0.1) / (1.2)) * 100) * (xAxisLength / 100);
-            var maxX = currentChart.options.axisY.viewportMaximum;
-            var datapointY = canvas.height - (((datapoint.y / maxX) * 100) * (yAxisLength / 100));
+            var datapointX = (xAxisLength / 2) + datapoint.x;
+            var maxy = yAxisLength;
+            var datapointY = ((maxy + 44) / 2) - datapoint.y;//canvas.height - (((datapoint.y / maxX) * 100) * (yAxisLength / 100));
 
             arc.animate({
                 x: datapointX,
                 y: datapointY,
                 radius: 0
             }, {
-                duration: 5000,
+                duration: 10000,
                 easing: "ease-in-expo",
                 callback: function () {
                     currentChart.render();
