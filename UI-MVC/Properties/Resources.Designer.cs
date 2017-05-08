@@ -71,31 +71,12 @@ namespace SS.UI.Web.MVC.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Source;ID Name;ID CAS Nr;ID EG Nr;ID EG Annex Nr;EHS S Score;EHS H Score;EHS E Score;EHS Color Code;Boiling Point  (øC);Melting Point  (øC);Vapour Pressure (25øC mmHg);Flash Point  (øC);Autoignition Temperature  (øC);Hansen Delta D (MPa1/2);Hansen Delta P (MPa1/2);Hansen Delta H (MPa1/2);Solubility Water (20 øC g/L);Density (25øC  kg/L);Viscosity (25øC  mPa.s);Relative Vapour Density  (Air=1);Log P Octanol Water (20øC);Refractive Index (20øC);Surface Tension (25øC mN/m);Test1;Test2
-        ///DataType;string;string;s [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string datasetqframeVersie2 {
-            get {
-                return ResourceManager.GetString("datasetqframeVersie2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         public static byte[] JavaSussolApplicationV12 {
             get {
                 object obj = ResourceManager.GetObject("JavaSussolApplicationV12", resourceCulture);
                 return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Source;ID Name;ID CAS Nr;ID EG Nr;ID EG Annex Nr;EHS S Score;EHS H Score;EHS E Score;EHS Color Code;Boiling_Point__C;Melting_Point__C;Vapour_Pressure_25C_mmHg;Flash_Point__C;Autoignition_Temperature__C;Hansen_Delta_D_MPa1_2;Hansen_Delta_P_MPa1_2;Hansen_Delta_H_MPa1_2;Solubility_Water_20_C_g_L;Density_25C__kg_L;Viscosity_25C__mPa_s;Relative_Vapour_Density__Air1;Log_P_Octanol_Water_20C;Refractive_Index_20C;Surface_Tension_25C_mN_m.
-        /// </summary>
-        public static string template {
-            get {
-                return ResourceManager.GetString("template", resourceCulture);
             }
         }
     }

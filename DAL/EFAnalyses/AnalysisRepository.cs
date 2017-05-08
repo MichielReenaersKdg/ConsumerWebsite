@@ -253,5 +253,22 @@ namespace SS.DAL.EFAnalyses
         {
             return _context.Solvents.ToList();
         }
-    }
+
+      public TrainingSet addTrainingSet(TrainingSet set)
+      {
+        TrainingSet trainingSet = _context.TrainingSet.Add(set);
+         _context.SaveChanges();
+         return trainingSet;
+      }
+
+      public IEnumerable<TrainingSet> ReadTrainingSets()
+      {
+         return _context.TrainingSet.ToList();
+      }
+
+      public TrainingSet ReadTrainingSetById(int id)
+      {
+         return _context.TrainingSet.Find(id);
+      }
+   }
 }

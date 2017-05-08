@@ -32,7 +32,7 @@ namespace SS.DAL
         public DbSet<VectorData> VectorData { get; set; }
       
         public DbSet<ClassifiedInstance> ClassifiedInstances { get; set; }
-       
+       public DbSet<TrainingSet> TrainingSet { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

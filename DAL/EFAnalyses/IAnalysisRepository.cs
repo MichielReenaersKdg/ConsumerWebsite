@@ -46,7 +46,9 @@ namespace SS.DAL.EFAnalyses
 
         //0.4.9 - Add featurefunctionality In order to solve new architecture (Dynamic Database)
         IEnumerable<Feature> ReadFeatures();
-
+         TrainingSet addTrainingSet(TrainingSet set);
         IEnumerable<Solvent> ReadSolvents();
+      IEnumerable<TrainingSet> ReadTrainingSets();
+      TrainingSet ReadTrainingSetById(int id);
     }
 }
