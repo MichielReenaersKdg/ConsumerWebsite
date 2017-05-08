@@ -733,8 +733,10 @@
             $scope.closeOverlay(selectedAlgorithm);
             drawSolventChart(clusternumber);
 
-            if (document.getElementById('distanceMatrixTable')) {
-                //selectCluster(clusternumber);
+            if (document.getElementsByClassName('div-overlay-matrix') === undefined || document.getElementsByClassName('div-overlay-matrix') === null || document.getElementsByClassName('div-overlay-matrix').length === 0) {
+                //doSomething
+
+            } else {
                 var clusterTemp = $scope.models[0].Model.Clusters[clusternumber];
                 var copiedCluster = jQuery.extend(true, {}, clusterTemp);
                 var matrix = buildMatrix(copiedCluster);
@@ -1733,9 +1735,9 @@
                 normalizeddistancevalues[o] = getNormalizedValuesDis(matrix[o], largestdis,smallestdis);
                 var l = 'l';
             }
-
-            $('#distanceMatrixDiv').removeClass("not-visible");
-            $('#distanceMatrixDiv').addClass("div-overlay");
+                
+            $('#distanceMatrixDiv').removeClass("not-visible-matrix");
+            $('#distanceMatrixDiv').addClass("div-overlay-matrix");
             //$scope.selectedCentroid = true;
             var parentDiv = document.getElementById('distanceMatrixDiv');
             if (document.getElementById('distanceMatrixTable')) {
@@ -1750,12 +1752,14 @@
             tbl.style.overflow = 'scroll';
             tbl.style.textShadow = '1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000';
             tbl.setAttribute('border', '1');
+           
             var tbdy = document.createElement('tbody');
             tbdy.style.overflow = 'scroll';
             
             var maxRow = normalizeddistancevalues.map(function (row) { return Math.max.apply(Math, row); });
             var max = Math.max.apply(null, maxRow);
             var tr = document.createElement('tr');
+        
             var tdhf = document.createElement('td');
             tr.appendChild(tdhf);
             for (var i = 0; i < clustertemp.Solvents.length; i++){
@@ -1765,8 +1769,10 @@
                 tdh.style.minWidth = '100px';
                 tdh.style.minHeight = '50px';
                 tdh.style.textAlign = 'center';
+                
                 tdh.appendChild(document.createTextNode(clustertemp.Solvents[i].Name));
                 tr.appendChild(tdh);
+
             }
             tbdy.appendChild(tr);
             for (var i = 0; i < matrix.length; i++) {
@@ -1792,6 +1798,7 @@
             $scope.$apply();
             
         }
+      
         function getNormalizedValues(lengths) {
             if (lengths.length === 1) {
                 return [0];
@@ -1843,9 +1850,13 @@
         }
 
         $scope.distanceMatrixClose = function() {
+            //$('#distanceMatrixDiv').removeClass("ng-scope div-overlay-matrix");
 
-            $('#distanceMatrixDiv').removeClass("div-overlay");
-            $('#distanceMatrixDiv').addClass("not-visible");
+            $('#distanceMatrixDiv').removeClass("div-overlay-matrix");
+
+            $('#distanceMatrixDiv').addClass("not-visible-matrix");
+            //$scope.apply();
+            //document.getElementById('distanceMatrixDiv').remove();
         }
 
 
