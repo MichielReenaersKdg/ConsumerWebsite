@@ -244,11 +244,18 @@
                                 </div>
                             </div>
                         </div>
-                            <div ng-if="matrix" id="distanceMatrixDiv" style="overflow-y:auto; overflow-x:auto">
+                            <div id="distanceMatrixDiv" class="zui-wrapper">
                                 <i class="fa fa-times closecross" aria-hidden="true" ng-click="distanceMatrixClose()" data-dismiss="modal"></i>
+                               <table class="zui-table zui-table-highlight-all" >
+                                   <thead id="zui-table-header">
 
+                                   </thead>
+                                   <tbody id="zui-table-body" scroller>
+
+                                   </tbody>
+                               </table>
                             </div>
-                    </div>
+                        </div>
 
                     <div class="col-lg-4 col-md-4 padding-less" style="border:solid; border-color:black">
                             <div style="background-color: #{{selectedSolvent.EHS_Color_Code}}; position: absolute; top: 0; left: 0; height: 100%; width: 100%; opacity:0.4;"></div>
@@ -412,3 +419,8 @@
     </div>
     </div>
     </div>
+
+    <script>
+
+
+    </script>

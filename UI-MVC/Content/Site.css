@@ -2006,7 +2006,6 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active){
     height: 100%;
     z-index: 200;
     background-color: rgb(25,25,25);
-    opacity: 0.97;
     padding: 10px;
     transition: all 0.4s ease-in-out, padding 1ms;
 }
@@ -2504,4 +2503,106 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active){
 .cluster-div.selected{
    
     border: 1.75px solid #b92ed1;
+}
+
+
+/*distanceMatrixTable*/
+.zui-table {
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+    position: relative;
+    left: 0;
+     /*Necesarry*/
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-collapse: collapse;
+}
+
+.zui-table thead{
+    position: relative;
+    display: block; /*seperates the header from the body allowing it to be positioned*/
+    width: 100%;
+    overflow: visible;
+    left: 0;
+}
+.zui-table thead th {
+    padding: 10px;
+    text-align: left;
+    /*text-shadow: 1px 1px 1px #fff;*/
+    background-color: black;
+    height: 48px;
+    /*Necesarry*/
+    column-width: 120px;
+    width:120px;
+    min-width:120px;
+}
+
+/*belangrijk*/
+.zui-table thead th:nth-child(1) {/*first cell in the header*/
+  position: relative;
+  text-align: left;
+  display: block; /*seperates the first cell in the header from the header*/
+  background-color: black;
+  left: 0;
+  padding: 10px;
+  height: 48px;
+  width: 120px;
+  z-index: 5000;
+}
+
+.zui-table tbody tr td:nth-child(1) {  /*the first cell in each tr*/
+  position: relative;
+  display: block; /*seperates the first column from the tbody*/
+  height: 40px;
+  background-color: black;
+  left: 0;
+  width:120px;
+  z-index: 5000;
+}
+/*belangrijk*/
+
+.zui-table tbody td {
+    padding: 10px;
+    text-shadow: 1px 1px 1px #fff;
+    width: 120px;
+}
+
+.zui-table tbody{
+    position: relative;
+    display: block; /*seperates the tbody from the header*/
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    left: 0;
+
+}
+
+.zui-table-highlight-all {
+    overflow: hidden;
+    z-index: -1;
+}
+.zui-table-highlight-all tbody td, .zui-table-highlight-all thead th {
+    position: relative;
+}
+.zui-table-highlight-all tbody td:hover::before {
+    background-color: #CCE7E7;
+    content:'\00a0';
+    height: 100%;
+    left: 0px;
+    position: absolute;
+    top: 0px;
+    width: 10000px;
+    z-index: -1;
+}
+.zui-table-highlight-all tbody td:hover::after {
+    background-color: #CCE7E7;
+    content:'\00a0';
+    height: 10000px;
+    left: 0;
+    position: absolute;
+    float:right;
+    top: 0;
+    width: 100%;
+    z-index: -1;
 }
