@@ -84,7 +84,6 @@
                 }
                 
             }
-            window.alert("de stdevs eindelijk" + standarddeviate);
 
 
 
@@ -1925,7 +1924,12 @@
             ButSolv.style.backgroundColor = '#b92ed1';
             parentDiv.style.display = 'unset';
             otherDiv.style.display = 'none';
-
+            //var solventinfo = document.getElementById('solventinfo');
+            if ($('#solventinfo').length)         //check if exists
+            {
+                // it exists
+                document.getElementById("solventinfo").setAttribute("id", "unblurred");
+            }
             
         }
 

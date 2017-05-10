@@ -1342,7 +1342,14 @@ form.ng-submitted .ng-valid {
     }
 
 }
-
+#solventinfo {
+    pointer-events: none;
+    -webkit-filter: blur(6px);
+    -moz-filter: blur(6px);
+    -o-filter: blur(6px);
+    -ms-filter: blur(6px);
+    filter: blur(6px);
+}
 .classified-solvent-alt{
     display: inline;
     color: black;
