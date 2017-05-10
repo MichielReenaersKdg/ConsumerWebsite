@@ -11,12 +11,14 @@
         var clusters;
         var overlayOpened = false;
         var solventOverlayOpened = false;
+        var distancematrixOverlayOpened = false;
         var solvInfo = true;
         //0.5.0.5 mogelijke errors door verwijdering minmax
         //var featureModel = minMax.data;
         var models;
         var selectedModel = null;
         var currentChart = null;
+        var standarddeviate = [];
         var showInstance = false;
         $scope.allValuesValid = false;
         $scope.classify = false;
@@ -64,13 +66,40 @@
             models = modelsTemp;
             setEnumNames();
             
-            
+
+            for (var teller = 0; teller < models.length; teller++) {
+                var solventenincluster = [];
+                for (var i = 0; i < models[teller].Model.Clusters.length; i++) {
+                    
+                   
+                    for (var j = 0; j < models[teller].Model.Clusters[i].Solvents.length; j++) {
+                        
+                        solventenincluster.push(models[teller].Model.Clusters[i].Solvents[j].DistanceToClusterCenter);
+                       
+
+                    }
+                   
+                    standarddeviate.push(getStandardDev(solventenincluster));
+                    
+                }
+                
+            }
+            window.alert("de stdevs eindelijk" + standarddeviate);
+
+
+
+
             for (var i = 0; i < models.length; i++) {
                 clusters = getClusters(models[i].Model);
+               
                 var clusterPositions = [];
                 for (var j = 0; j < clusters.length; j++) {
+                   
                     clusterPositions.push(getClusterPosition(clusters[j]));
+               
+                   
                 }
+               
                 var normalizedValues = getNormalizedValues(clusterPositions);
                 models[i].Model.NormalizedValues = normalizedValues;
             }
@@ -87,6 +116,31 @@
             }
             
 
+        }
+
+        function getStandardDev(solventen) {
+           
+            var gemiddelde = 0;
+            var gemiddeldeDev = 0;
+            var deviatie = [];
+            for (var i = 0; i<solventen.length; i++) {
+                gemiddelde = gemiddelde + solventen[i];
+            
+            }
+            gemiddelde = gemiddelde / solventen.length;
+            for (var i = 0; i<solventen.length; i++) {
+                deviatie.push(Math.pow(solventen[i] - gemiddelde,2));
+               
+            }
+            for (var i = 0; i < deviatie.length; i++) {
+                gemiddeldeDev = gemiddeldeDev + deviatie[i];
+                
+            }
+            gemiddeldeDev = Math.sqrt(gemiddeldeDev / deviatie.length);
+
+            
+            return gemiddeldeDev;
+            
         }
 
         selectedAlgorithm = models[0].Model.AlgorithmName;
@@ -329,7 +383,7 @@
 
                     valuesSolvents.push(model.Model.Clusters[i].Solvents[j].DistanceToClusterCenter);
                 }
-                var max = Math.max.apply(Math, valuesSolvents);
+               
 
 
                 var percentage = ((valuesSolvents.length) / totalSolvents) * 100;
@@ -337,7 +391,7 @@
                 percentages.push(percentage);
                 //x = object[0], y = object[1] from the object returned from calculatePcoA, z changes the size of the bubbles.
                 json[i] = ({
-                    'x': data[0], 'y': data[1], 'z': Number(max.toFixed(3)), 'name': model.Model.Clusters[i].Number, 'cursor': 'pointer', 'solvents': model.Model.Clusters[i].Solvents.length, 'color': colors[i], 'markerBorderColor': "#F4FE00", //change color here
+                    'x': data[0], 'y': data[1], 'z': standarddeviate[i], 'name': model.Model.Clusters[i].Number, 'cursor': 'pointer', 'solvents': model.Model.Clusters[i].Solvents.length, 'color': colors[i], 'markerBorderColor': "#F4FE00", //change color here
                     'markerBorderThickness': 0
                 });
 
@@ -1636,9 +1690,19 @@
         $(document).keyup(function (e) {
             if (e.keyCode == 27) { // escape key maps to keycode `27`
                 if (solventOverlayOpened) {
+                    if (distancematrixOverlayOpened) {
+                        $scope.distanceMatrixClose();
+                    } else { 
                     closeSolventOverlay(selectedAlgorithm);
+                }
                 } else if (overlayOpened) {
-                    $scope.closeOverlay(selectedAlgorithm);
+                    if (distancematrixOverlayOpened) {
+                        $scope.distanceMatrixClose();
+                    } else {
+                        $scope.closeOverlay(selectedAlgorithm);
+                    }
+                } else if (distancematrixOverlayOpened) {
+                    $scope.distanceMatrixClose();
                 }
 
                 $scope.$apply();
@@ -1697,7 +1761,7 @@
             }
             
             var normalizeddistancevalues = [];
-            
+            distancematrixOverlayOpened = true;
 
             var largestdis = 0;
             var smallestdis = 0;
@@ -1846,9 +1910,19 @@
             document.getElementById("csvFileUpload").value = "";
         }
         $scope.distanceMatrixClose = function() {
+<<<<<<< HEAD
+=======
+            delete $scope.selectedCluster;
+          
+>>>>>>> origin/MichielDriesChristophe
             $('#distanceMatrixDiv').removeClass("div-overlay-matrix");
             $('#distanceMatrixDiv').addClass("not-visible-matrix");
+<<<<<<< HEAD
             //$scope.apply();
+=======
+            distancematrixOverlayOpened = false;
+            
+>>>>>>> origin/MichielDriesChristophe
         }
 
 
