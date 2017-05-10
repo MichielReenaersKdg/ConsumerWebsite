@@ -84,7 +84,6 @@
                 }
                 
             }
-            window.alert("de stdevs eindelijk" + standarddeviate);
 
 
 
@@ -2013,6 +2012,7 @@ angular.module('sussol.services')
         link: function (scope, elem, attrs) {
             $(elem).on('scroll', function (evt) {
                 //voorkom meerdere triggers
+                //alert($(".zui-wrapper").scrollLeft());
                 evt.preventDefault();
                 evt.stopPropagation();
                 //detect a scroll event on the tbody
@@ -2021,11 +2021,16 @@ angular.module('sussol.services')
                 of the tbody element. Setting an elements left value to that of the tbody.scrollLeft left makes it maintain 			it's relative position at the left of the table.    
                 */
 
-                $('.zui-table thead').css("left", -($(".zui-table tbody").scrollLeft())); //fix the thead relative to the body scrolling
-                $('.zui-table thead th:nth-child(1)').css("left", $(".zui-table tbody").scrollLeft()); //fix the first cell of the header
-                $('.zui-table tbody td:nth-child(1)').css("left", $(".zui-table tbody").scrollLeft()); //fix the first column of tdbody
-                //apply the changes
+                $('.zui-table thead').css("top", ($(".zui-wrapper").scrollTop())); //fix the thead relative to the body scrolling
+                //$('.zui-table tbody').css("left", -($(".zui-wrapper").scrollLeft())); //fix the thead relative to the body scrolling
+                $('.closecrossdis').css("left", ($(".zui-wrapper").scrollLeft() + $(".closecrossdis").css("left")));
+                $('.zui-table thead th:nth-child(1)').css("left", ($(".zui-wrapper").scrollLeft()));
+                $('.zui-table tbody td:nth-child(1)').css("left", ($(".zui-wrapper").scrollLeft())); //fix the first column of tdbody
+                    //apply the changes
+                    
+                
                 scope.$apply();
+                
             });
         }
 
