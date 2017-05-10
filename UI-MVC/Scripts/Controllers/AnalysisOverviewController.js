@@ -1910,19 +1910,15 @@
             document.getElementById("csvFileUpload").value = "";
         }
         $scope.distanceMatrixClose = function() {
-<<<<<<< HEAD
-=======
-            delete $scope.selectedCluster;
-          
->>>>>>> origin/MichielDriesChristophe
+
             $('#distanceMatrixDiv').removeClass("div-overlay-matrix");
             $('#distanceMatrixDiv').addClass("not-visible-matrix");
-<<<<<<< HEAD
+
             //$scope.apply();
-=======
+
             distancematrixOverlayOpened = false;
             
->>>>>>> origin/MichielDriesChristophe
+
         }
 
 
