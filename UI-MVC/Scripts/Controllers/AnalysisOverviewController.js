@@ -1989,7 +1989,12 @@
             showdetails();
             
         }
+        $scope.show = function () {
+            var parentDiv = document.getElementById('ChemSolPic2D');
+            ButSolv.style.backgroundColor = 'transparent';
 
+            $scope.casPath = "~/Content/Images/" + $scope.selectedSolvent.CasNumber + ".png"
+        }
         $scope.showChemPic = function () {
             solvInfo = false;
             var parentDiv = document.getElementById('ChemSolPicDiv');
