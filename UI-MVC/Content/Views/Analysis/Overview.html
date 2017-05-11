@@ -70,9 +70,11 @@
                 <h2 class="margin-top-0 wow fadeInDown">Classify new solvent</h2>
                 <hr class="primary">
             </div>
-            <a href="{{ url }}" ng-if="download" download="template.csv" class="button" ng-click="triggerDownload()">Download template</a>
-
-            <a href="#" class="button" ng-click="triggerUpload()">Upload csv</a>
+            <div id="classifyButtons">
+                <a href="{{ url }}" id="downloadButton" ng-if="download" download="template.csv" class="small-button" ng-click="triggerDownload()">Download template</a>
+                <a href="#" id="uploadButton" class="small-button" ng-click="triggerUpload()">Upload csv</a>
+            </div>
+           
             <input ng-if="upload" type="file" id="csvFileUpload" accept=".csv" name="csvFileUpload" ng-model="csvFile" style="display: none" file-change="getFile($event,files)" />
 
             <form role="form" name="form.features" id="newSolvent" ng-submit="newSolvent()" novalidate>
