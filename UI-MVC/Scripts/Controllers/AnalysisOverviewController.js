@@ -1540,7 +1540,7 @@
                                 if (solvInfo) {
                                     $scope.showSolventInfo();
                                 } else {
-                                    $scope.showChemPic();
+                                    $scope.showChem2D();
                                 }
                                 delete $scope.selectedCluster;
                                 if (d.solvent !== undefined) {
@@ -2008,6 +2008,8 @@
             var ButSolv = document.getElementById('ButSolvDet');
             ButChem.style.backgroundColor = '#b92ed1';
 
+            
+
             ButSolv.style.backgroundColor = 'transparent';
 
             parentDiv.style.display = 'unset';
@@ -2015,6 +2017,11 @@
 
             var chemSolPic2D = document.getElementById('ChemSolPic2D');
             var chemSolPic3D = document.getElementById('ChemSolPic3D');
+
+            var but2D = document.getElementById('But2D');
+            var but3D = document.getElementById('But3D');
+            but2D.style.backgroundColor = '#b92ed1';
+            but3D.style.backgroundColor = 'transparent';
 
             chemSolPic2D.style.display = 'unset';
             chemSolPic3D.style.display = 'none';
@@ -2041,13 +2048,16 @@
             var chemSolPic2D = document.getElementById('ChemSolPic2D');
             var chemSolPic3D = document.getElementById('ChemSolPic3D');
 
+            var but2D = document.getElementById('But2D');
+            var but3D = document.getElementById('But3D');
+
             chemSolPic2D.style.display = 'none';
             chemSolPic3D.style.display = 'unset';
-
+            but2D.style.backgroundColor = 'transparent';
             ButChem.style.backgroundColor = '#b92ed1';
 
             ButSolv.style.backgroundColor = 'transparent';
-
+            but3D.style.backgroundColor = '#b92ed1';
             parentDiv.style.display = 'unset';
             otherDiv.style.display = 'none';
             if (typeof $scope.selectedCluster !== 'undefined') {
