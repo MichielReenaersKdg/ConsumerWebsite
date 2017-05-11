@@ -275,7 +275,8 @@ footer {
   font-family: 'Questrial', 'Roboto';
   text-shadow: 0 1px rgba(0,0,0,0.1); 
   background-color: transparent;
-    padding: 21px 70px;
+   /** padding: 21px 70px;*/
+   max-width:180px;
   font-size: 20px;
   letter-spacing: 3px;
   border-radius: 6px;
@@ -1350,10 +1351,18 @@ form.ng-submitted .ng-valid {
     -ms-filter: blur(6px);
     filter: blur(6px);
 }
-.classified-solvent-alt{
+#ButChemStruct, #ButSolvDet {
+    max-width: 180px;
+    text-align: center;
+}
+#ButSolvDet h4, #ButChemStruct h4 {
+    height: 100%;
+    width: 100%;
+}
+
+.classified-solvent-alt {
     display: inline;
     color: black;
-    
 }
 .classified-solvent-alt p{
     font-size: 30px;
