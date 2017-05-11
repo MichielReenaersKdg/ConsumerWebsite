@@ -2075,7 +2075,7 @@
                         dataType: "xml",
                         success: function (xml) {
                             result = $(xml).find("Id").text();
-                            $scope.cidurl = "http://embed.molview.org/v1/?mode=balls&cid=" + result.toString();
+                            $scope.cidurl = "http://embed.molview.org/v1/?mode=balls&bg=white&cid=" + result.toString();
                             $sce.trustAsResourceUrl($scope.cidurl);
                             $scope.$apply();
                         },
