@@ -1989,12 +1989,35 @@
             showdetails();
             
         }
-        $scope.show = function () {
-            var parentDiv = document.getElementById('ChemSolPic2D');
+        $scope.showChem2D = function () {
+            solvInfo = false;
+            var parentDiv = document.getElementById('ChemSolPicDiv');
+            var otherDiv = document.getElementById('solventDetailsDiv');
+            var ButChem = document.getElementById('ButChemStruct');
+            var ButSolv = document.getElementById('ButSolvDet');
+            ButChem.style.backgroundColor = '#b92ed1';
+
             ButSolv.style.backgroundColor = 'transparent';
 
-            $scope.casPath = "~/Content/Images/" + $scope.selectedSolvent.CasNumber + ".png"
+            parentDiv.style.display = 'unset';
+            otherDiv.style.display = 'none';
+
+            var chemSolPic2D = document.getElementById('ChemSolPic2D');
+            var chemSolPic3D = document.getElementById('ChemSolPic3D');
+
+            chemSolPic2D.style.display = 'unset';
+            chemSolPic3D.style.display = 'none';
+
+            ButSolv.style.backgroundColor = 'transparent';
+
+            if (typeof $scope.selectedCluster !== 'undefined') {
+                $scope.showSolventInfo();
+            } else {
+                $scope.casPath = "Content/Images/Png/" + $scope.selectedSolvent.CasNumber + ".png";
+            }
+            
         }
+
         $scope.showChemPic = function () {
             solvInfo = false;
             var parentDiv = document.getElementById('ChemSolPicDiv');
@@ -2016,7 +2039,7 @@
                 
                 //alert('no solvent selected');
             } else {
-                var urlPic = $scope.trustSrc("https://www.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pccompound&retmax=100&term=" + $scope.selectedSolvent.CasNumber); 
+                var urlPic = $scope.trustSrc("http://www.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pccompound&retmax=100&term=" + $scope.selectedSolvent.CasNumber); 
                 var result;
                     $.ajax({
                         type: "GET",
@@ -2024,7 +2047,7 @@
                         dataType: "xml",
                         success: function (xml) {
                             result = $(xml).find("Id").text();
-                            $scope.cidurl = "https://embed.molview.org/v1/?mode=balls&cid=" + result.toString();
+                            $scope.cidurl = "http://embed.molview.org/v1/?mode=balls&cid=" + result.toString();
                             $sce.trustAsResourceUrl($scope.cidurl);
                             $scope.$apply();
                         },
