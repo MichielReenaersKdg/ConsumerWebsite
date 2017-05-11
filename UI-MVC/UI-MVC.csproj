@@ -156,9 +156,6 @@
     <Reference Include="IKVM.Runtime.JNI, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
       <HintPath>..\packages\IKVM.8.1.5717.0\lib\IKVM.Runtime.JNI.dll</HintPath>
     </Reference>
-    <Reference Include="JavaSussolApplicationV12_4">
-      <HintPath>..\..\..\..\..\..\ikvm\bin\JavaSussolApplicationV12_4.dll</HintPath>
-    </Reference>
     <Reference Include="JavaSussolApplicationV12_5, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Downloads\JavaSussolApplicationV12_5.dll</HintPath>

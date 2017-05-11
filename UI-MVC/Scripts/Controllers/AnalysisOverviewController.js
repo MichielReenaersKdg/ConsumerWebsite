@@ -12,6 +12,8 @@
         var overlayOpened = false;
         var solventOverlayOpened = false;
         var distancematrixOverlayOpened = false;
+        var classifyOverlayOpened = false;
+        var historyOverlayOpened = false;
         var solvInfo = true;
         //0.5.0.5 mogelijke errors door verwijdering minmax
         //var featureModel = minMax.data;
@@ -84,6 +86,7 @@
                 }
                 
             }
+            
 
 
 
@@ -897,7 +900,7 @@
                 y: datapointY,
                 radius: 0
             }, {
-                duration: 10000,
+                duration: 1000,
                 easing: "ease-in-expo",
                 callback: function () {
                     currentChart.render();
@@ -1032,7 +1035,7 @@
                 notie.alert(1, "Cluster Analysis is no longer shared with the organisation", 2);
             });
         }
-        
+
         $scope.closeOverlay = function closeOverlay(name) {
 
             $(".cluster-div").removeClass("selected");
@@ -1124,8 +1127,10 @@
             }
         }
 
-        $scope.clearNewSolvent = function() {
-            //setMinMaxValues();
+        $scope.clearNewSolvent = function () {
+   
+            classifyOverlayOpened = true;
+            $scope.classify = false;
             delete $scope.errorMessage;
         }
         $scope.validateMetaData = function (metadata) {
@@ -1738,10 +1743,15 @@
                 if (solventOverlayOpened) {
                     if (distancematrixOverlayOpened) {
                         $scope.distanceMatrixClose();
-                    } else { 
-                    closeSolventOverlay(selectedAlgorithm);
+                    } else {
+                        closeSolventOverlay(selectedAlgorithm);
+                    }
+                } else if (classifyOverlayOpened) {
+                    classifyOverlayOpened = false;
+                    document.getElementById("closecross-newSolvent").click();
+                    document.getElementById("closecross-solvents").click();
                 }
-                } else if (overlayOpened) {
+                else if (overlayOpened) {
                     if (distancematrixOverlayOpened) {
                         $scope.distanceMatrixClose();
                     } else {
@@ -1796,7 +1806,7 @@
             drawDistanceMatrix(matrix, clusterTemp);
             $('#distanceMatrixDiv').removeClass("not-visible-matrix");
             $('#distanceMatrixDiv').addClass("div-overlay-matrix");
-            //alert($scope.matrix[0][0]);
+            
         }
 
         function drawDistanceMatrix(matrix, clustertemp) {
@@ -1989,6 +1999,7 @@
             showdetails();
             
         }
+<<<<<<< HEAD
         $scope.showChem2D = function () {
             solvInfo = false;
             var parentDiv = document.getElementById('ChemSolPicDiv');
@@ -2016,6 +2027,13 @@
                 $scope.casPath = "Content/Images/Png/" + $scope.selectedSolvent.CasNumber + ".png";
             }
             
+=======
+        $scope.show = function () {
+            var parentDiv = document.getElementById('ChemSolPic2D');
+            ButSolv.style.backgroundColor = 'transparent';
+
+            $scope.casPath = "~/Content/Images/" + $scope.selectedSolvent.CasNumber + ".png"
+>>>>>>> origin/MichielDriesChristophe
         }
 
         $scope.showChemPic = function () {
@@ -2037,7 +2055,7 @@
             }
             if (typeof $scope.selectedSolvent === 'undefined' || $scope.selectedSolvent == 'null') {
                 
-                //alert('no solvent selected');
+                
             } else {
                 var urlPic = $scope.trustSrc("http://www.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pccompound&retmax=100&term=" + $scope.selectedSolvent.CasNumber); 
                 var result;

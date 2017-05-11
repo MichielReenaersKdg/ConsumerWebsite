@@ -49,6 +49,9 @@ namespace SS.DAL.EFAnalyses
          TrainingSet addTrainingSet(TrainingSet set);
         IEnumerable<Solvent> ReadSolvents();
       IEnumerable<TrainingSet> ReadTrainingSets();
+      //trainingset
       TrainingSet ReadTrainingSetById(int id);
-    }
+      TrainingSet RemoveTrainingSet(TrainingSet set);
+
+   }
 }

@@ -26,34 +26,6 @@ namespace SS.UI.Web.MVC.Migrations
         protected override void Seed(ApplicationDbContext context)
         {
          AddUserAndRole(context);
-         AddTrainingset(context);
-        }
-
-      private void AddTrainingset(ApplicationDbContext context)
-      {
-            //First
-         String golden = Properties.Resources.datasetqframe.ToString();
-         var training = new TrainingSet();
-         training.Name = "Golden standard";
-         training.dataSet = golden;
-         var manager = new AnalysisManager(new AnalysisRepository(new EFDbContext()));
-         var trainingSet = manager.CreateTrainingSet(training);
-         if (trainingSet == null)
-         {
-            throw new Exception("trainingSet not created");
-         }
-
-            //Second
-            String notgolden = Properties.Resources.datasetqframe.ToString();
-            var training2 = new TrainingSet();
-            training2.Name = "Not golden";
-            training2.dataSet = notgolden;
-            var manager2 = new AnalysisManager(new AnalysisRepository(new EFDbContext()));
-            var trainingSet2 = manager.CreateTrainingSet(training2);
-            if (trainingSet2 == null)
-            {
-                throw new Exception("trainingSet not created");
-            }
         }
 
       bool AddUserAndRole(ApplicationDbContext context)
