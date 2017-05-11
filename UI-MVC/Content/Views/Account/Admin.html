@@ -137,18 +137,14 @@
                 <div class="admin-card col-lg-12 col-md-12">
                     <p class="admin-card-title">TRAINING SET ADMINISTRATION</p>
                     <div id="chartCont-training" class="chart-container-fullwidth" style="overflow-y: auto; padding-bottom: 10px; padding-top: 20px;">
-                        <!--<div class="user-admin-row" ng-repeat="user in users">
-                            <div style="display: inline-block; float: left; padding-left: 40px; margin-top: 5px;">{{user.Email}}</div>
-                            <i class="fa fa-trash-o delete-usr-btn" aria-hidden="true" ng-click="deleteUser(user)"></i>
-                            <div class="onoffswitch" style="display: inline-block; float: right; margin-right: 10px;">
-                                <input type="checkbox" class="onoffswitch-checkbox" id="onoffswitch-{{user.Email}}" ng-model="user.LockoutEnabled" ng-click="changeUser(user)">
-                                <label class="onoffswitch-label" for="onoffswitch-{{user.Email}}">
-                                    <span class="onoffswitch-inner"></span>
-                                    <span class="onoffswitch-switch"></span>
-                                </label>
-                            </div>
-                        </div>-->
-                        <input type="button" class="small-button" value="test" />
+                        <div class="user-admin-row" ng-repeat="set in trainingsets">
+                            <div style="display: inline-block; float: left; padding-left: 40px; margin-top: 5px;">{{set.Name}}</div>
+                            <i class="fa fa-trash-o delete-usr-btn" aria-hidden="true" ng-click="deleteTrainingSet(set)"></i>
+                        </div>
+
+                        <a href="#" class="xs-button" ng-click="triggerUpload()">Upload csv</a>
+                        <input type="file" id="csvFileUpload" accept=".csv" name="csvFileUpload" ng-model="csvFile" style="display: none" file-change="getFile($event,files)" />
+                        <p ng-if="validate" style="color: darkorange;">{{errorMessage}}</p>
                     </div>
 
                 </div>

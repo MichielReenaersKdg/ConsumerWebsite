@@ -5928,8 +5928,8 @@ button.close {
     right: 0;
     bottom: 0;
     left: 0;
-    /*z-index: 1040;*/
-    z-index: -1;
+    z-index: 1040;
+    /*z-index: -1;*/
     background-color: #000;
 }
 .modal-backdrop.fade {
@@ -6503,6 +6503,7 @@ button.close {
 .modal-footer:after {
   display: table;
   content: " ";
+  z-index: -1;
 }
 .clearfix:after,
 .dl-horizontal dd:after,

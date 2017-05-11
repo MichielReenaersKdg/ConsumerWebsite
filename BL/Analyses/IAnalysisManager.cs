@@ -45,6 +45,9 @@ namespace SS.BL.Analyses
       TrainingSet CreateTrainingSet(TrainingSet set);
         IEnumerable<Solvent> ReadSolvents();
       IEnumerable<TrainingSet> ReadTrainingSets();
+      //trainingSet
       TrainingSet ReadTrainingSetById(int id);
-    }
+      TrainingSet RemoveTrainingSet(TrainingSet set);
+
+   }
 }

@@ -25,7 +25,12 @@ namespace SS.BL.Analyses
             return repo.CreateAlgorithm(algorithm);
         }
 
-        public Analysis CreateAnalysis(string name, DateTime dateCreated, User createdBy)
+      public TrainingSet RemoveTrainingSet(TrainingSet set)
+      {
+         return repo.RemoveTrainingSet(set);
+      }
+
+      public Analysis CreateAnalysis(string name, DateTime dateCreated, User createdBy)
         {
             Analysis analysis = new Analysis()
             {

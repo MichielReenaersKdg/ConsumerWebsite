@@ -34,7 +34,14 @@ namespace SS.DAL.EFAnalyses
             return analysis;
         }
 
-        public Analysis ReadAnalysis(long id)
+      public TrainingSet RemoveTrainingSet(TrainingSet trainingset)
+      {
+         TrainingSet set = _context.TrainingSet.Remove(trainingset);
+         _context.SaveChanges();
+         return set;
+      }
+
+      public Analysis ReadAnalysis(long id)
         {
             return _context.Analyses
                 .Include(a => a.CreatedBy)

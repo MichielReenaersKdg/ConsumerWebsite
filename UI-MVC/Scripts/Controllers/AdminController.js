@@ -11,6 +11,9 @@
                 "#0093D1"
 
         ];
+        $scope.errorMessage = "Training set already exists";
+        $scope.validate = false;
+
         var data = result.data;
         for (var i = 0; i < data.BlockedUsers.length; i++) {
             if (data.BlockedUsers[i].AvatarUrl !== "" && data.BlockedUsers[i].AvatarUrl !== null) {
@@ -182,6 +185,77 @@
                 notie.alert(1, data, 2);
             });
         }
+        $scope.triggerUpload = function () {
+            $scope.validate = false;
+            $("#csvFileUpload").click();
+        }
+
+        $scope.getFile = function (e, files) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var result = reader.result;
+                var trainingSet = { Name: reader.fileName, dataSet: result }
+                for (var i = 0; i < $scope.trainingsets.length; i++) {
+                    if (trainingSet.Name === $scope.trainingsets[i].Name) {
+                        $scope.validate = true;
+                        $scope.$apply();
+                        return false;
+                    }
+                }
+                addNewTrainingSet(trainingSet);
+                $scope.fillAlgorithm("Canopy");
+                $scope.trainingsets.push(trainingSet);
+                notie.alert(1, "Training Set has been added", 2);
+                $scope.$apply();
+                return true;
+            }
+            reader.fileName = files[0].name;
+            reader.readAsText(files[0]);
+            document.getElementById("csvFileUpload").value = "";
+        };
+
+        $scope.fillAlgorithm = function fillAlgorithm(algorithm) {
+            $http({
+                method: 'GET',
+                url: 'api/Analysis/FillAlgorithm',
+                params: { algorithm: algorithm, Id: 1 }
+            })
+        }
+
+        function addNewTrainingSet(trainingSet) {
+            $http({
+                method: 'POST',
+                url: 'api/Analysis/AddTrainingSet',
+                data: trainingSet
+            }).success(function (data) {
+                $scope.trainingSetId = data.ID;
+            });
+        }
+        loadAllTrainingsSets();
+        //Load all trainingsets
+        function loadAllTrainingsSets() {
+            $http({
+                method: 'GET',
+                url: 'api/Analysis/GetTrainingSets'
+            }).success(function (data) {
+                $scope.trainingsets = data;
+            });
+        }
+        $scope.deleteTrainingSet = function (set) {
+            $('#delete-trainingset').modal('hide');
+            $http({
+                method: 'POST',
+                url: 'api/Analysis/DeleteTrainingSet/ ' + set.ID
+            }).success(function succesCallback() {
+                notie.alert(1, "The Training Set has been removed", 2);
+                $('body').removeClass('modal-open');
+                var index = $scope.trainingsets.indexOf(set);
+                if (index > -1) {
+                    $scope.trainingsets.splice(index, 1);
+                }
+            });
+
+        }
 
         //Load all organisations
         var newOrganisations;
@@ -324,3 +398,19 @@
 
 
     });
+angular.module('sussol.services')
+    .directive('fileChange', ['$parse', function ($parse) {
+        return {
+            require: 'ngModel',
+            restrict: 'A',
+            link: function ($scope, element, attrs, ngModel) {
+                var attrHandler = $parse(attrs['fileChange']);
+                var handler = function (e) {
+                    $scope.$apply(function () {
+                        attrHandler($scope, { $event: e, files: e.target.files });
+                    });
+                };
+                element[0].addEventListener('change', handler, false);
+            }
+        }
+    }]);

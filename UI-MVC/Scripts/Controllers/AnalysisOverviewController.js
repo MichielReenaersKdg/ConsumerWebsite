@@ -12,6 +12,8 @@
         var overlayOpened = false;
         var solventOverlayOpened = false;
         var distancematrixOverlayOpened = false;
+        var classifyOverlayOpened = false;
+        var historyOverlayOpened = false;
         var solvInfo = true;
         //0.5.0.5 mogelijke errors door verwijdering minmax
         //var featureModel = minMax.data;
@@ -84,7 +86,7 @@
                 }
                 
             }
-            window.alert("de stdevs eindelijk" + standarddeviate);
+            
 
 
 
@@ -1007,7 +1009,7 @@
                 notie.alert(1, "Cluster Analysis is no longer shared with the organisation", 2);
             });
         }
-        
+
         $scope.closeOverlay = function closeOverlay(name) {
 
             $(".cluster-div").removeClass("selected");
@@ -1095,8 +1097,10 @@
             }
         }
 
-        $scope.clearNewSolvent = function() {
-            //setMinMaxValues();
+        $scope.clearNewSolvent = function () {
+   
+            classifyOverlayOpened = true;
+            $scope.classify = false;
             delete $scope.errorMessage;
         }
         $scope.validateMetaData = function (metadata) {
@@ -1692,10 +1696,15 @@
                 if (solventOverlayOpened) {
                     if (distancematrixOverlayOpened) {
                         $scope.distanceMatrixClose();
-                    } else { 
-                    closeSolventOverlay(selectedAlgorithm);
+                    } else {
+                        closeSolventOverlay(selectedAlgorithm);
+                    }
+                } else if (classifyOverlayOpened) {
+                    classifyOverlayOpened = false;
+                    document.getElementById("closecross-newSolvent").click();
+                    document.getElementById("closecross-solvents").click();
                 }
-                } else if (overlayOpened) {
+                else if (overlayOpened) {
                     if (distancematrixOverlayOpened) {
                         $scope.distanceMatrixClose();
                     } else {
@@ -1750,7 +1759,7 @@
             drawDistanceMatrix(matrix, clusterTemp);
             $('#distanceMatrixDiv').removeClass("not-visible-matrix");
             $('#distanceMatrixDiv').addClass("div-overlay-matrix");
-            //alert($scope.matrix[0][0]);
+            
         }
 
         function drawDistanceMatrix(matrix, clustertemp) {
@@ -1955,7 +1964,7 @@
             }
             if (typeof $scope.selectedSolvent === 'undefined' || $scope.selectedSolvent == 'null') {
                 
-                //alert('no solvent selected');
+                
             } else {
                 var urlPic = $scope.trustSrc("https://www.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pccompound&retmax=100&term=" + $scope.selectedSolvent.CasNumber); 
                 var result;
