@@ -684,6 +684,7 @@
         //[0.5.0.6] Draws the cluster-chart (mode 1)
         //Gets model from selected algorithm and draws the chart
         function createChart(model) {
+            hidedetails();
             CanvasJS.addColorSet("greenShades", colors
                 );
             var jsonModel = createJsonModel(findAnalysisModelOnName(selectedAlgorithm));
@@ -772,19 +773,37 @@
             currentChart = chart;
             
         }
+        function hidedetails() {
+            document.getElementById("ButSolvDet").setAttribute("style","display: none;");
+            document.getElementById("ButChemStruct").setAttribute("style", "display: none;");
+            document.getElementById("solventDetailsDiv").setAttribute("style", "display: none;");
+            document.getElementById("ehskleur").setAttribute("style", "background-color: #;");
+           
+            document.getElementById("rand").setAttribute("style", "border:none;");
+        }
+        function showdetails() {
+            document.getElementById("solventDetailsDiv").setAttribute("style", "display: visible;");
 
+        
+            document.getElementById("rand").setAttribute("style", "border:solid; border-color:black");
+
+
+        }
         $scope.clusterChange = function (clusternumber) {
             $scope.closeOverlay(selectedAlgorithm);
             drawSolventChart(clusternumber);
 
             if (document.getElementsByClassName('div-overlay-matrix') === undefined || document.getElementsByClassName('div-overlay-matrix') === null || document.getElementsByClassName('div-overlay-matrix').length === 0) {
-                //doSomething
+
+
+                hidedetails();
+               
 
             } else {
                 var clusterTemp = $scope.models[0].Model.Clusters[clusternumber];
                 var copiedCluster = jQuery.extend(true, {}, clusterTemp);
                 var matrix = buildMatrix(copiedCluster);
-
+               
                 drawDistanceMatrix(matrix, clusterTemp);
 
 
@@ -941,6 +960,10 @@
             $scope.overlayvisible = true;
             overlayOpened = true;
 
+            
+                showdetails();
+           
+
         }
         $scope.selectedSolventCasFunc = function ($item) {
             $scope.selectedSolvent = $item.originalObject;
@@ -950,6 +973,9 @@
             element[0].style.width = '50px';
             $scope.overlayvisible = true;
             overlayOpened = true;
+           
+                showdetails();
+            
 
         }
         $scope.focusSearch = function (index) {
@@ -1023,6 +1049,10 @@
             d3.selectAll("svg > *").remove();
             overlayOpened = false;
             $scope.showSolventInfo();
+            
+                hidedetails();
+
+            
 
         }
 
@@ -1479,12 +1509,16 @@
                     .on("click", function (d) {
                         if (window.event.ctrlKey) {
                             if (d.casNumber !== "None") {
+                                
                                 handleCtrlClick(d, clusterTemp);
+                              
                             } else {
                                 handleCtrlClickCenter(d, clusterTemp);
+                                hidedetails();
                             }
                         } else {
                             if (d.casNumber === "None") {
+                                hidedetails();
                                 $scope.showSolventInfo();
                                 $scope.selectedCluster = d.cluster;
                                 if (selectedNode !== undefined) {
@@ -1501,6 +1535,8 @@
                                 
 
                             } else {
+                                document.getElementById("ButSolvDet").setAttribute("style", "display: normal;");
+                                document.getElementById("ButChemStruct").setAttribute("style", "display: normal; ");
                                 if (solvInfo) {
                                     $scope.showSolventInfo();
                                 } else {
@@ -1680,6 +1716,17 @@
                         
                         $scope.selectedSolvent = d.solvent;
                         $scope.$apply();
+                        
+                        if ($('#solventinfo').length)         //check if exists
+                        {
+
+                            document.getElementById("solventinfo").setAttribute("id", "unblurred");
+
+                        }
+                     
+
+                        
+                        showdetails();
                     }
                 });
 
@@ -1763,6 +1810,7 @@
         }
 
         function drawDistanceMatrix(matrix, clustertemp) {
+            
             $scope.matrix = matrix;
             if(!$scope.$$phase) {
                 //$digest or $apply
@@ -1926,7 +1974,7 @@
             //$scope.apply();
 
             distancematrixOverlayOpened = false;
-            
+            hidedetails();
 
         }
 
@@ -1941,10 +1989,22 @@
             ButSolv.style.backgroundColor = '#b92ed1';
             parentDiv.style.display = 'unset';
             otherDiv.style.display = 'none';
-
+            //var solventinfo = document.getElementById('solventinfo');
+            if ($('#solventinfo').length)         //check if exists
+            {
+               
+                document.getElementById("solventinfo").setAttribute("id", "unblurred");
+                
+            }
+            showdetails();
             
         }
+        $scope.show = function () {
+            var parentDiv = document.getElementById('ChemSolPic2D');
+            ButSolv.style.backgroundColor = 'transparent';
 
+            $scope.casPath = "~/Content/Images/" + $scope.selectedSolvent.CasNumber + ".png"
+        }
         $scope.showChemPic = function () {
             solvInfo = false;
             var parentDiv = document.getElementById('ChemSolPicDiv');
@@ -2024,17 +2084,23 @@ angular.module('sussol.services')
                 //voorkom meerdere triggers
                 evt.preventDefault();
                 evt.stopPropagation();
-                //detect a scroll event on the tbody
+                var myElement = angular.element(document.querySelector('#closecrossdis'));
+                //alert('left: ' + myElement[0].offsetLeft);
                 /*
                 Setting the thead left value to the negative valule of tbody.scrollLeft will make it track the movement
                 of the tbody element. Setting an elements left value to that of the tbody.scrollLeft left makes it maintain 			it's relative position at the left of the table.    
                 */
 
-                $('.zui-table thead').css("left", -($(".zui-table tbody").scrollLeft())); //fix the thead relative to the body scrolling
-                $('.zui-table thead th:nth-child(1)').css("left", $(".zui-table tbody").scrollLeft()); //fix the first cell of the header
-                $('.zui-table tbody td:nth-child(1)').css("left", $(".zui-table tbody").scrollLeft()); //fix the first column of tdbody
-                //apply the changes
+                $('.zui-table thead').css("top", ($(".zui-wrapper").scrollTop())); //fix the thead relative to the body scrolling
+                $('.closecrossdis').css("right", -($(".zui-wrapper").scrollLeft()));
+                $('.closecrossdis').css("top", ($(".zui-wrapper").scrollTop()));
+                $('.zui-table thead th:nth-child(1)').css("left", ($(".zui-wrapper").scrollLeft()));
+                $('.zui-table tbody td:nth-child(1)').css("left", ($(".zui-wrapper").scrollLeft())); //fix the first column of tdbody
+                    //apply the changes
+                    
+                
                 scope.$apply();
+                
             });
         }
 
