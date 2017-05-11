@@ -63,7 +63,112 @@
             </div>
         </div>
     </div>
+    <div class="modal fade analysis-modals" id="addSolvent-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="loginmodal-container classify-container">
+            <i class="fa fa-times closecross" id="closecross-newSolvent" data-dismiss="modal" aria-hidden="true" ng-click="closeClassify()"></i>
+            <div class="col-lg-12 text-center">
+                <h2 class="margin-top-0 wow fadeInDown">Classify new solvent</h2>
+                <hr class="primary">
+            </div>
+            <a href="{{ url }}" ng-if="download" download="template.csv" class="button" ng-click="triggerDownload()">Download template</a>
 
+            <a href="#" class="button" ng-click="triggerUpload()">Upload csv</a>
+            <input ng-if="upload" type="file" id="csvFileUpload" accept=".csv" name="csvFileUpload" ng-model="csvFile" style="display: none" file-change="getFile($event,files)" />
+
+            <form role="form" name="form.features" id="newSolvent" ng-submit="newSolvent()" novalidate>
+                <div>
+                    <p style="color: darkorange;">{{errorMessage}}</p>
+                    <div>
+                        <!--<span style="color: darkorange;" ng-show="form.features.regex.$error.pattern">Not a valid CAS number!</span>-->
+
+                        <table id="table" class="classify-solvent-table col-lg-12" ng-if="headerz && headerz.length>0">
+                            <tr style="padding-bottom: 10px;">
+                                <th class="col-lg-7">Feature name</th>
+                                <th class="col-lg-3" style="padding-left: 20%; padding-bottom: 12px">Value</th>
+                            </tr>
+                            <tr ng-repeat="metadata in headerz[0]">
+                                <td class="col-lg-7">{{metadata.MetaDataName}}</td>
+                                <td class="classify-solvent-row col-lg-4">
+                                    <input class="feature-input" type="text" ng-change="SetStyle($index); validateMetaData(metadata)" id="metadata_{{$index}}" title="{{$index}}" name="metadata_{{$index}}" ng-model="metadata.value" required />
+                                </td>
+                                <td><p ng-if="validation[$index]" style="color: darkorange;">{{errorMessageMeta}}</p>
+                            </tr>
+                            <tr ng-repeat="feature in headerz[1]">
+                                <td class="col-lg-7">{{feature.FeatureName}}</td>
+                                <td class="classify-solvent-row col-lg-4">
+                                    <input class="feature-input" type="text" ng-change="SetStyle($index); validateFeatureData(feature, $index)" id="feature_{{$index}}" title="{{$index}}" name="feature_{{$index}}" ng-model="feature.value" required />
+                                </td>
+                                <td><p ng-if="validation[$index+9]" style="color: darkorange;">{{errorMessageFeature}}</p></td>
+                            </tr>
+                        </table>
+                        <div ng-if="headerz && headerz.length>0">
+                            {{validateAll(headerz)}}
+                        </div>
+                        <button ng-if="classify" type="submit" from="features" name="submit" id="load" class="small-button" ng-class="{disabledForm: !valid}" tabindex="-1" data-loading-text="<i class='fa fa-spinner fa-spin fa-fw'></i>Classifying...">Classify solvent</button>
+
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade" id="organisation-model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="loginmodal-container password-container">
+            <i class="fa fa-times closecross" id="closecross" data-dismiss="modal" aria-hidden="true"></i>
+            <h1>Share your analysis with an organisation</h1>
+            <div class="text-center" ng-if="organisationUser !== null">
+                <h2>{{organisationUser.Name}}</h2>
+                <button class="login loginmodal-submit" style="width: 100%;" ng-click="shareWithOrganisation()">Share with organisation</button>
+            </div>
+            <div class="text-center" ng-if="organisationUser === null">
+                <h2>You have no organisation</h2>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade analysis-modals" id="changeName-model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="loginmodal-container password-container">
+            <i class="fa fa-times closecross" id="closecross" data-dismiss="modal" aria-hidden="true"></i>
+            <h1>Change the name of your analysis</h1>
+            <div>
+                <h2 class="text-center" style="color: red;">{{errorChangeName}}</h2>
+                <input type="text" id="analysisName" ng-model="newName" placeholder="{{analysisName}}" />
+                <button ng-click="changeName()" style="width: 100%;" class="login loginmodal-submit">Change name</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade analysis-modals" id="prevClassified-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="loginmodal-container password-container classified-solvents-container">
+            <i class="fa fa-times closecross" data-dismiss="modal" id="closecross-solvents" aria-hidden="true"></i>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="margin-top-0 wow fadeInDown">Classified solvents</h2>
+                    <hr class="primary">
+                </div>
+            </div>
+            <div class="modal-overflow">
+                <div ng-if="prevClassifiedInstances.length === 0">
+                    <h2 style="text-align: center;">
+                        You have no previous classified solvents for this training set
+                    </h2>
+                </div>
+                <div class="prev-instances" ng-if="prevClassifiedInstances.length !== 0">
+                    <ul style="">
+                        <li ng-repeat="instance in prevClassifiedInstances" class="col-lg-12">
+                            <div class="prev-instance" style="margin: 5px; margin-left: 20px">
+                                <div class="col-lg-9 ">
+                                    <h4>{{instance.Name}}</h4>
+                                    <h5>{{instance.CasNumber}}</h5>
+                                </div>
+                                <div style="top: 20px; right: 0px;" class="col-lg-3 ">
+                                    <button class="xs-button classifiedBtn" id="classBtn_{{$index}}" ng-click="selectClassifiedSolvent(instance, $index)" data-loading-text="<i class='fa fa-spinner fa-spin fa-fw'></i>">Classify</button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  bhoechie-tab-container">
         <div class="col-lg-1 col-md-2 col-sm-2 col-xs-2 bhoechie-tab-menu">
             <div class="list-group">
@@ -102,7 +207,7 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-8 padding-less" style="width:100%; padding-top:1%;">
 
-                        <div class="grid grid-graph col-lg-12 text-center"  chart-container-{{model.Model.AlgorithmName}}" style="width:62%; margin-right:2%; height:480px;">    
+                        <div class="grid grid-graph col-lg-12 text-center"  id="chart-container-{{model.Model.AlgorithmName}}" style="width:62%; margin-right:2%; height:480px;">    
                                 <div angucomplete-alt
                                      id="ex1"
                                      placeholder="Search solvent"
@@ -264,7 +369,7 @@
                                     <a href="#" class="button" id="ButSolvDet"  ng-click="showSolventInfo()"><h4 style="font-size:21px;">Solvent details</h4></a>
                                 </div>
                                 <div style="float:right; width:40%; display: table; margin-top:5%;">
-                                    <a href="#" class="button" id="ButChemStruct" ng-click="showChemPic()"><h4 style="font-size:21px;">Chemical structure</h4></a>
+                                    <a href="#" class="button" id="ButChemStruct" ng-click="showChem2D()"><h4 style="font-size:21px;">Chemical structure</h4></a>
                                   
                                 </div>
                                 <div class="clear" style="clear:both;">
@@ -298,16 +403,18 @@
                                 </div>
                                 <div class="ChemSolPic" id="ChemSolPicDiv" style="display:none; padding: 0; margin: 0;">                                    
                                     <a href="#" class="button" style="float:right;text-align:center;max-width:60px;" id="But3D" ng-click="showChemPic()"><h4 style="font-size:21px;">3D</h4></a>
-                                    <a href="#" class="button" style="float:right;text-align:center;max-width:60px;" id="But2D" ng-click="showPNG()"><h4 style="font-size:21px;">2D</h4></a>
+                                    <a href="#" class="button" style="float:right;text-align:center;max-width:60px;" id="But2D" ng-click="showChem2D()"><h4 style="font-size:21px;">2D</h4></a>
                                     <h3 class="text-primary text-center" style="float:left;"ng-if="selectedCluster === undefined">Chemical structure</h3>
                                     <div class="classified-solvent-alt" ng-if="selectedSolvent === undefined && selectedCluster === undefined">
                                         <p style="margin-top: 140px; color:rgba(80,80,80,1)">No solvent selected</p>
                                     </div>
-                                    <div >
+                                    <div id="ChemSolPic2D" style="display:none;">
+                                        <img id="ChemSolPic2DImg" src="{{casPath}}" />
                                     </div>
-                                    <div>
+                                    <div id="ChemSolPic3D" style="display:none;">
+                                        <iframe style="width:100%; height:50%;" frameborder="0" ng-src="{{trustSrc(cidurl)}}" alt="Description"></iframe>
                                     </div>
-                                    <iframe ng-if="selectedSolvent !== undefined" style="width:100%; height:50%;" frameborder="0" ng-src="{{trustSrc(cidurl)}}" alt="Description"></iframe>
+                                    
                                 </div>
                             </div>
                     </div>
@@ -317,113 +424,6 @@
 
         </div>
         </div>
-    </div>
-    <div class="modal fade" id="organisation-model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-        <div class="loginmodal-container password-container">
-            <i class="fa fa-times closecross" id="closecross" data-dismiss="modal" aria-hidden="true"></i>
-            <h1>Share your analysis with an organisation</h1>
-            <div class="text-center" ng-if="organisationUser !== null">
-                <h2>{{organisationUser.Name}}</h2>
-                <button class="login loginmodal-submit" style="width: 100%;" ng-click="shareWithOrganisation()">Share with organisation</button>
-            </div>
-            <div class="text-center" ng-if="organisationUser === null">
-                <h2>You have no organisation</h2>
-            </div>
-        </div>
-    </div>
-<div class="modal fade analysis-modals" id="changeName-model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-    <div class="loginmodal-container password-container">
-        <i class="fa fa-times closecross" id="closecross" data-dismiss="modal" aria-hidden="true"></i>
-        <h1>Change the name of your analysis</h1>
-        <div>
-            <h2 class="text-center" style="color: red;">{{errorChangeName}}</h2>
-            <input type="text" id="analysisName" ng-model="newName" placeholder="{{analysisName}}"/>
-            <button ng-click="changeName()" style="width: 100%;" class="login loginmodal-submit">Change name</button>
-        </div>
-    </div>
-</div>
-    <div class="modal fade analysis-modals" id="prevClassified-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-        <div class="loginmodal-container password-container classified-solvents-container">
-            <i class="fa fa-times closecross" data-dismiss="modal" id="closecross-solvents" aria-hidden="true"></i>
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2 class="margin-top-0 wow fadeInDown">Classified solvents</h2>
-                    <hr class="primary">
-                </div>
-            </div>
-            <div class="modal-overflow">
-                <div ng-if="prevClassifiedInstances.length === 0">
-                    <h2 style="text-align: center;">
-                        You have no previous classified solvents for this training set
-                    </h2>
-                </div>
-                <div class="prev-instances" ng-if="prevClassifiedInstances.length !== 0">
-                    <ul style="">
-                        <li ng-repeat="instance in prevClassifiedInstances" class="col-lg-12">
-                            <div class="prev-instance" style="margin: 5px; margin-left: 20px">
-                                <div class="col-lg-9 ">
-                                    <h4>{{instance.Name}}</h4>
-                                    <h5>{{instance.CasNumber}}</h5>
-                                </div>
-                                <div style="top: 20px; right: 0px;" class="col-lg-3 ">
-                                    <button class="xs-button classifiedBtn" id="classBtn_{{$index}}" ng-click="selectClassifiedSolvent(instance, $index)" data-loading-text="<i class='fa fa-spinner fa-spin fa-fw'></i>">Classify</button>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-<div class="modal fade analysis-modals" id="addSolvent-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;" >
-    <div class="loginmodal-container classify-container">
-        <i class="fa fa-times closecross" id="closecross-newSolvent" data-dismiss="modal"  aria-hidden="true" ng-click="closeClassify()"></i>
-        <div class="col-lg-12 text-center">
-            <h2 class="margin-top-0 wow fadeInDown">Classify new solvent</h2>
-            <hr class="primary">
-        </div>
-        <a href="{{ url }}" ng-if="download" download="template.csv" class="button" ng-click="triggerDownload()">Download template</a>
-
-        <a href="#" class="button" ng-click="triggerUpload()">Upload csv</a>
-        <input ng-if="upload" type="file" id="csvFileUpload" accept=".csv" name="csvFileUpload" ng-model="csvFile" style="display: none" file-change="getFile($event,files)" />
-
-        <form role="form" name="form.features" id="newSolvent" ng-submit="newSolvent()" novalidate>
-           <div>   
-              <p style="color: darkorange;">{{errorMessage}}</p>
-                <div>
-                    <!--<span style="color: darkorange;" ng-show="form.features.regex.$error.pattern">Not a valid CAS number!</span>-->
-                    
-                    <table id="table" class="classify-solvent-table col-lg-12" ng-if="headerz && headerz.length>0" >
-                        <tr style="padding-bottom: 10px;">
-                            <th class="col-lg-7">Feature name</th>
-                            <th class="col-lg-3" style="padding-left: 20%; padding-bottom: 12px">Value</th>
-                        </tr>
-                        <tr ng-repeat="metadata in headerz[0]">
-                            <td class="col-lg-7">{{metadata.MetaDataName}}</td>
-                            <td class="classify-solvent-row col-lg-4">
-                                <input class="feature-input" type="text" ng-change="SetStyle($index); validateMetaData(metadata)" id="metadata_{{$index}}" title="{{$index}}" name="metadata_{{$index}}" ng-model="metadata.value" required />
-                           </td>
-                           <td><p ng-if="validation[$index]" style="color: darkorange;">{{errorMessageMeta}}</p>
-                        </tr>
-                        <tr ng-repeat="feature in headerz[1]">
-                            <td class="col-lg-7">{{feature.FeatureName}}</td>
-                            <td class="classify-solvent-row col-lg-4">
-                                <input class="feature-input" type="text" ng-change="SetStyle($index); validateFeatureData(feature, $index)" id="feature_{{$index}}" title="{{$index}}" name="feature_{{$index}}" ng-model="feature.value" required/>
-                            </td>
-                            <td><p ng-if="validation[$index+9]" style="color: darkorange;">{{errorMessageFeature}}</p></td>
-                            </tr>
-                    </table>
-                    <div ng-if="headerz && headerz.length>0">
-                        {{validateAll(headerz)}}
-                    </div>
-                    <button ng-if="classify" type="submit" from="features" name="submit" id="load" class="small-button" ng-class="{disabledForm: !valid}" tabindex="-1"  data-loading-text="<i class='fa fa-spinner fa-spin fa-fw'></i>Classifying...">Classify solvent</button>
-
-                </div>
-
-            </div>
-        </form>
-    </div>
     </div>
     </div>
 

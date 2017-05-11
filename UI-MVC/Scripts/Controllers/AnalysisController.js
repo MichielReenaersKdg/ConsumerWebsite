@@ -58,13 +58,13 @@
         //    })
         //}
 
-        $scope.fillAlgorithm = function fillAlgorithm() {
-            $http({
-                method: 'GET',
-                url: 'api/Analysis/FillAlgorithmTwo',
-                params: { algorithms: algorithms, Id: selectedModel.Id}
-            })
-        }
+        //$scope.fillAlgorithm = function fillAlgorithm() {
+        //    $http({
+        //        method: 'GET',
+        //        url: 'api/Analysis/FillAlgorithmTwo',
+        //        params: { algorithms: algorithms, Id: selectedModel.Id}
+        //    })
+        //}
         
         $scope.startAnalysis = function startAnalysis() {
             $rootScope.loadingView = true;
@@ -126,7 +126,7 @@
         }
 
         $scope.showAlgorithms = function showAlgorithms() {
-            $scope.fillAlgorithm();
+            //$scope.fillAlgorithm();
             $http({
                 method: 'POST',
                 url: 'api/Analysis/CreateAnalysis',

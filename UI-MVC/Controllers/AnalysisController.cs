@@ -196,7 +196,7 @@ namespace SS.UI.Web.MVC.Controllers
 
         }
 
-      [Route("FillAlgorithmTwo")]
+      [Route("FillAlgorithm")]
       [HttpGet]
       //0.4.0 Added method to utilize new dataset in Weka dll instead of API
       //POST api/Analysis/FillAlgorithm
@@ -225,12 +225,46 @@ namespace SS.UI.Web.MVC.Controllers
          List<Model> mod = JsonHelper.ParseJson(jObject.ToString()).Models.ToList();
          Algorithm algo = new Algorithm()
          {
-            AlgorithmName = 0,
+            AlgorithmName = algorithm,
             Models = mod
          };
          _analysisManager.CreateAlgorithm(algo);
          return mod;
 
+      }
+      [Route("AddTrainingSet")]
+      [HttpPost]
+      public IHttpActionResult AddTrainingSet([FromBody]TrainingSet trainingSet)
+      {
+         TrainingSet set = _analysisManager.CreateTrainingSet(trainingSet);
+         return Ok(set);
+      }
+
+      [Route("GetTrainingSets")]
+      [HttpGet]
+      public List<TrainingSet> GetTrainingSets()
+      {
+         List<TrainingSet> sets = _analysisManager.ReadTrainingSets().ToList();
+         return sets;
+      }
+      //DELETE api/Analysis/DeleteTrainingSet
+      [Route("DeleteTrainingSet/{id:int}")]
+      [HttpPost]
+      public IHttpActionResult DeleteTrainingSet(int id)
+      {
+         TrainingSet trainingSet = _analysisManager.ReadTrainingSetById(id);
+         if (trainingSet == null)
+         {
+            return BadRequest("TrainingSet not found");
+         }
+
+         TrainingSet set = _analysisManager.RemoveTrainingSet(trainingSet);
+         if (set == null)
+         {
+            return BadRequest("TrainingSet not deleted");
+         }
+
+         return Ok("TrainingSet deleted");
       }
 
 
