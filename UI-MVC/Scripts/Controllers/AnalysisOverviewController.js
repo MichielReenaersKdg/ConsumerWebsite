@@ -1999,7 +1999,7 @@
             showdetails();
             
         }
-<<<<<<< HEAD
+
         $scope.showChem2D = function () {
             solvInfo = false;
             var parentDiv = document.getElementById('ChemSolPicDiv');
@@ -2027,13 +2027,7 @@
                 $scope.casPath = "Content/Images/Png/" + $scope.selectedSolvent.CasNumber + ".png";
             }
             
-=======
-        $scope.show = function () {
-            var parentDiv = document.getElementById('ChemSolPic2D');
-            ButSolv.style.backgroundColor = 'transparent';
 
-            $scope.casPath = "~/Content/Images/" + $scope.selectedSolvent.CasNumber + ".png"
->>>>>>> origin/MichielDriesChristophe
         }
 
         $scope.showChemPic = function () {
