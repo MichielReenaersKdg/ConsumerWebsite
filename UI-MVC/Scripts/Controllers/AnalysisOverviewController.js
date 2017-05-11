@@ -2038,6 +2038,12 @@
             var ButChem = document.getElementById('ButChemStruct');
             var ButSolv = document.getElementById('ButSolvDet');
 
+            var chemSolPic2D = document.getElementById('ChemSolPic2D');
+            var chemSolPic3D = document.getElementById('ChemSolPic3D');
+
+            chemSolPic2D.style.display = 'none';
+            chemSolPic3D.style.display = 'unset';
+
             ButChem.style.backgroundColor = '#b92ed1';
 
             ButSolv.style.backgroundColor = 'transparent';
