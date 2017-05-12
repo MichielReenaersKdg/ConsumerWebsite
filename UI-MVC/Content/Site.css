@@ -2630,6 +2630,7 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active){
 
 #ChemSolPic2DImg {
     width: 100%;
-
+    max-width: 480px;
+    max-height: 400px;
 }
 

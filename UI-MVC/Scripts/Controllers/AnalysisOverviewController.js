@@ -783,11 +783,12 @@
             document.getElementById("rand").setAttribute("style", "border:none;");
         }
         function showdetails() {
-            document.getElementById("solventDetailsDiv").setAttribute("style", "display: visible;");
-
-        
+            document.getElementById("solventDetailsDiv").setAttribute("style", "display: unset;");
             document.getElementById("rand").setAttribute("style", "border:solid; border-color:black");
-
+            document.getElementById("ButSolvDet").setAttribute("style", "display: block; background-color: #b92ed1");
+            document.getElementById("ButChemStruct").setAttribute("style", "display: block;");
+            var ButSolv = document.getElementById('ButSolvDet');
+            ButSolv.style.backgroundColor = '#b92ed1';
 
         }
         $scope.clusterChange = function (clusternumber) {
@@ -1543,7 +1544,7 @@
                                 if (solvInfo) {
                                     $scope.showSolventInfo();
                                 } else {
-                                    $scope.showChem2D();
+                                    $scope.showSolventInfo();
                                 }
                                 delete $scope.selectedCluster;
                                 if (d.solvent !== undefined) {
@@ -1726,10 +1727,11 @@
                             document.getElementById("solventinfo").setAttribute("id", "unblurred");
 
                         }
-                     
-
                         
                         showdetails();
+                        
+                        $scope.showSolventInfo();
+                        
                     }
                 });
 
@@ -2036,6 +2038,8 @@
             } else {
                 $scope.casPath = "Content/Images/Png/" + $scope.selectedSolvent.CasNumber + ".png";
             }
+
+            //$scope.$digest();
             
 
         }
@@ -2087,6 +2091,8 @@
                         },
                     });
             }
+
+            
         }
 
         $scope.trustSrc = function (src) {
