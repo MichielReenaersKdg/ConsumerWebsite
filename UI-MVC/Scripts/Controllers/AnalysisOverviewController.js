@@ -786,17 +786,20 @@
             
 
             document.getElementById("rand").setAttribute("style", "border:none;");
+            document.getElementById("solventinfo").setAttribute("style", "box-shadow: none; background-color: transparent;");
         }
 
 
 
         function showdetails() {
+
             document.getElementById("solventDetailsDiv").setAttribute("style", "display: unset;");
             document.getElementById("rand").setAttribute("style", "border:solid; border-color:black");
             document.getElementById("ButSolvDet").setAttribute("style", "display: block; background-color: #b92ed1");
             document.getElementById("ButChemStruct").setAttribute("style", "display: block;");
             var ButSolv = document.getElementById('ButSolvDet');
             ButSolv.style.backgroundColor = '#b92ed1';
+            document.getElementById("solventinfo").setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all; overflow: scroll;box-shadow: 8px 8px 15px rgba(0,0,0,0.8);");
 
         }
 
@@ -804,7 +807,7 @@
             document.getElementById("solventinfo").setAttribute("style", "display: unset;");
             document.getElementById("solventDetailsDiv").setAttribute("style", "display: unset;");
             document.getElementById("rand").setAttribute("style", "border:solid; border-color:black");
-            document.getElementById("solventinfo").setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all");
+            document.getElementById("solventinfo").setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all; overflow: scroll; box-shadow: 8px 8px 15px rgba(0,0,0,0.8);");
 
         }
 
@@ -1532,7 +1535,7 @@
                         document.getElementById("solventinfo").setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all");
                         if (window.event.ctrlKey) {
                             if (d.casNumber !== "None") {
-                                
+                                hidedetails();
                                 handleCtrlClick(d, clusterTemp);
                               
                             } else {
@@ -1741,12 +1744,7 @@
                         $scope.selectedSolvent = d.solvent;
                         $scope.$apply();
                         
-                        if ($('#solventinfo').length)         //check if exists
-                        {
-
-                            //document.getElementById("solventinfo").setAttribute("class", "unblurred");
-
-                        }
+                        
                         
                         showdetails();
                         
