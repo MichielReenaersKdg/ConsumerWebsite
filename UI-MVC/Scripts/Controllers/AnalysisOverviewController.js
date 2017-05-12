@@ -1728,7 +1728,7 @@
                         if ($('#solventinfo').length)         //check if exists
                         {
 
-                            document.getElementById("solventinfo").setAttribute("id", "unblurred");
+                            //document.getElementById("solventinfo").setAttribute("class", "unblurred");
 
                         }
                         
@@ -1878,7 +1878,7 @@
             
             //creating the first element for the header - we do this because the first column is not data that needs to be fetched drom the table
             var th = document.createElement('th');
-            th.textContent = 'Solvent naam';
+            th.textContent = ' ';
             th.height = '100%';
             th.width = '100%';
             //we append it to the row
@@ -1996,13 +1996,13 @@
             var ButSolv = document.getElementById('ButSolvDet');
             ButChem.style.backgroundColor = 'transparent';
             ButSolv.style.backgroundColor = '#b92ed1';
-            parentDiv.style.display = 'unset';
+            parentDiv.style.display = 'block';
             otherDiv.style.display = 'none';
             //var solventinfo = document.getElementById('solventinfo');
             if ($('#solventinfo').length)         //check if exists
             {
                
-                document.getElementById("solventinfo").setAttribute("id", "unblurred");
+                //document.getElementById("solventinfo").setAttribute("class", "unblurred");
                 
             }
             showdetails();

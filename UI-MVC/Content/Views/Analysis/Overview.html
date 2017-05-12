@@ -418,7 +418,7 @@
                                 <div class="ChemSolPic" id="ChemSolPicDiv" style="display:none; padding: 0; margin: 0;">                                    
                                     <a href="#" class="button" style="float:right;text-align:center;max-width:60px;" id="But3D" ng-click="showChemPic()"><h4 style="font-size:21px;">3D</h4></a>
                                     <a href="#" class="button" style="float:right;text-align:center;max-width:60px;" id="But2D" ng-click="showChem2D()"><h4 style="font-size:21px;">2D</h4></a>
-                                    <h3 class="text-primary text-center" style="float:left;"ng-if="selectedCluster === undefined">Chemical structure</h3>
+                                    <h3 class="text-primary text-center" style="float:left;"ng-if="selectedCluster === undefined">{{selectedSolvent.Name}}</h3>
                                     <div class="classified-solvent-alt" ng-if="selectedSolvent === undefined && selectedCluster === undefined">
                                         <p style="margin-top: 140px; color:rgba(80,80,80,1)">No solvent selected</p>
                                     </div>
