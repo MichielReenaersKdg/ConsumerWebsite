@@ -901,7 +901,7 @@
                 y: datapointY,
                 radius: 0
             }, {
-                duration: 1000,
+                duration: 0,
                 easing: "ease-in-expo",
                 callback: function () {
                     currentChart.render();
