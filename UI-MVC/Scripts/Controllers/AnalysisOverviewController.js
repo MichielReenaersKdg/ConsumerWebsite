@@ -23,7 +23,7 @@
         var standarddeviate = [];
         var showInstance = false;
         $scope.allValuesValid = false;
-        $scope.classify = false;
+        $scope.classify = true;
         $scope.upload = true;
         $scope.download = true;
         $scope.errorMessageMeta = "wrong value";
@@ -277,7 +277,6 @@
         
 
         $scope.newSolvent = function newSolvent() {
-            console.log($scope.headerz)
             addSolvent($scope.solvent,$scope.headerz, $http);
 
         };
@@ -320,6 +319,8 @@
                 showInstance = true;
                 showClusterAnalysis(data);
                 $scope.errorMessage = undefined;
+                $scope.classify = false;
+                document.getElementById("csvFileUpload").value = "";
                 $('#load').button('reset');
                 delete $scope.headerz;
 
@@ -1250,6 +1251,8 @@
                 h.push(MetaDataObjects);
                 h.push(FeatureObjects);
                 $scope.headerz = h;
+                //validation turned off
+                $scope.classify = true;
                 if (checkHeaders(headers)) {
                     checkValues(values, headers);
                 }

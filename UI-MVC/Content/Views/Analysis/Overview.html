@@ -79,7 +79,7 @@
 
             <form role="form" name="form.features" id="newSolvent" ng-submit="newSolvent()" novalidate>
                 <div>
-                    <p style="color: darkorange;">{{errorMessage}}</p>
+                    <!--<p style="color: darkorange;">{{errorMessage}}</p>-->
                     <div>
                         <!--<span style="color: darkorange;" ng-show="form.features.regex.$error.pattern">Not a valid CAS number!</span>-->
 
@@ -88,24 +88,36 @@
                                 <th class="col-lg-7">Feature name</th>
                                 <th class="col-lg-3" style="padding-left: 20%; padding-bottom: 12px">Value</th>
                             </tr>
-                            <tr ng-repeat="metadata in headerz[0]">
+                            <!--<tr ng-repeat="metadata in headerz[0]">
                                 <td class="col-lg-7">{{metadata.MetaDataName}}</td>
                                 <td class="classify-solvent-row col-lg-4">
                                     <input class="feature-input" type="text" ng-change="SetStyle($index); validateMetaData(metadata)" id="metadata_{{$index}}" title="{{$index}}" name="metadata_{{$index}}" ng-model="metadata.value" required />
                                 </td>
                                 <td><p ng-if="validation[$index]" style="color: darkorange;">{{errorMessageMeta}}</p>
+                            </tr>-->
+                            <tr ng-repeat="metadata in headerz[0]">
+                                <td class="col-lg-7">{{metadata.MetaDataName}}</td>
+                                <td class="classify-solvent-row col-lg-4">
+                                    <input class="feature-input" type="text" ng-change="SetStyle($index);" id="metadata_{{$index}}" title="{{$index}}" name="metadata_{{$index}}" ng-model="metadata.value"/>
+                                </td>
                             </tr>
-                            <tr ng-repeat="feature in headerz[1]">
+                            <!--<tr ng-repeat="feature in headerz[1]">
                                 <td class="col-lg-7">{{feature.FeatureName}}</td>
                                 <td class="classify-solvent-row col-lg-4">
                                     <input class="feature-input" type="text" ng-change="SetStyle($index); validateFeatureData(feature, $index)" id="feature_{{$index}}" title="{{$index}}" name="feature_{{$index}}" ng-model="feature.value" required />
                                 </td>
                                 <td><p ng-if="validation[$index+9]" style="color: darkorange;">{{errorMessageFeature}}</p></td>
+                            </tr>-->
+                            <tr ng-repeat="feature in headerz[1]">
+                                <td class="col-lg-7">{{feature.FeatureName}}</td>
+                                <td class="classify-solvent-row col-lg-4">
+                                    <input class="feature-input" type="text" ng-change="SetStyle($index);" id="feature_{{$index}}" title="{{$index}}" name="feature_{{$index}}" ng-model="feature.value" required />
+                                </td>
                             </tr>
                         </table>
-                        <div ng-if="headerz && headerz.length>0">
+                        <!--<div ng-if="headerz && headerz.length>0">
                             {{validateAll(headerz)}}
-                        </div>
+                        </div>-->
                         <button ng-if="classify" type="submit" from="features" name="submit" id="load" class="small-button" ng-class="{disabledForm: !valid}" tabindex="-1" data-loading-text="<i class='fa fa-spinner fa-spin fa-fw'></i>Classifying...">Classify solvent</button>
 
                     </div>

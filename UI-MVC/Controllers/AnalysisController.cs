@@ -433,26 +433,27 @@ namespace SS.UI.Web.MVC.Controllers
         public IHttpActionResult ClassifyNewSolvent([FromBody]ClassifySolventModel model, [FromUri] long analysisId)
         {
             var instances = _analysisManager.ReadClassifiedInstancesForUser(model.UserId, analysisId).ToList();
-            foreach (var cluster in model.AnalysisModels[0].Model.Clusters)
-            {
-                if (cluster.Solvents.FirstOrDefault(a => a.CasNumber.Equals(model.CasNumber)) != null)
-                {
-                    return BadRequest("Cas number is already in use!");
-                }
-                if (cluster.Solvents.FirstOrDefault(a => a.Name.Equals(model.Name)) != null)
-                {
-                    return BadRequest("Name is already in use!");
-                }
-            }
+         //Turned off validation   
+         //foreach (var cluster in model.AnalysisModels[0].Model.Clusters)
+            //{
+            //    if (cluster.Solvents.FirstOrDefault(a => a.CasNumber.Equals(model.CasNumber)) != null)
+            //    {
+            //        return BadRequest("Cas number is already in use!");
+            //    }
+            //    if (cluster.Solvents.FirstOrDefault(a => a.Name.Equals(model.Name)) != null)
+            //    {
+            //        return BadRequest("Name is already in use!");
+            //    }
+            //}
 
-            if (instances.FirstOrDefault(a => a.Name.Equals(model.Name)) != null)
-            {
-                return BadRequest("You used this name already for a classified solvent!");
-            }
-            if (instances.FirstOrDefault(a => a.CasNumber == model.CasNumber) != null)
-            {
-                return BadRequest("You used this cas nr already for a classified solvent!");
-            }
+            //if (instances.FirstOrDefault(a => a.Name.Equals(model.Name)) != null)
+            //{
+            //    return BadRequest("You used this name already for a classified solvent!");
+            //}
+            //if (instances.FirstOrDefault(a => a.CasNumber == model.CasNumber) != null)
+            //{
+            //    return BadRequest("You used this cas nr already for a classified solvent!");
+            //}
 
             using (var client = new WebClient())
             {
