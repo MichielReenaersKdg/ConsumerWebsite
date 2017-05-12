@@ -1447,6 +1447,7 @@ form.ng-submitted .ng-valid {
     -o-filter: blur(6px);
     -ms-filter: blur(6px);
     filter: blur(6px);
+    overflow: scroll;
 }
 
 #ButChemStruct, #ButSolvDet {

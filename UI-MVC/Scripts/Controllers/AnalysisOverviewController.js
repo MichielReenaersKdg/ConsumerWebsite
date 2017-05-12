@@ -779,7 +779,12 @@
             document.getElementById("ButChemStruct").setAttribute("style", "display: none;");
             document.getElementById("solventDetailsDiv").setAttribute("style", "display: none;");
             document.getElementById("ehskleur").setAttribute("style", "background-color: #;");
-           
+            //**wijziging!!**
+            if (document.getElementById("ChemSolPicDiv") != null) {
+                document.getElementById("ChemSolPicDiv").setAttribute("style", "display: none;");
+            }
+            
+
             document.getElementById("rand").setAttribute("style", "border:none;");
         }
 
@@ -2055,7 +2060,27 @@
             } else {
                 $scope.casPath = "Content/Images/Png/" + $scope.selectedSolvent.CasNumber + ".png";
             }
+            if (typeof $scope.selectedSolvent === 'undefined' || $scope.selectedSolvent == 'null') {
 
+
+            } else {
+                var urlPic = $scope.trustSrc("http://www.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pccompound&retmax=100&term=" + $scope.selectedSolvent.CasNumber);
+                var result;
+                $.ajax({
+                    type: "GET",
+                    url: urlPic,
+                    dataType: "xml",
+                    success: function (xml) {
+                        result = $(xml).find("Id").text();
+                        $scope.cidurl = "http://embed.molview.org/v1/?mode=balls&bg=white&cid=" + result.toString();
+                        $sce.trustAsResourceUrl($scope.cidurl);
+                        $scope.$apply();
+                    },
+                    error: function (xml) {
+                        alert('Er ging iets mis, gelieve de volgende code naar de administrator te sturen: ' + xml.status + ' ' + xml.statusText);
+                    },
+                });
+            }
             //$scope.$digest();
             
 
@@ -2087,27 +2112,27 @@
             if (typeof $scope.selectedCluster !== 'undefined') {
                 $scope.showSolventInfo();
             }
-            if (typeof $scope.selectedSolvent === 'undefined' || $scope.selectedSolvent == 'null') {
+            //if (typeof $scope.selectedSolvent === 'undefined' || $scope.selectedSolvent == 'null') {
                 
                 
-            } else {
-                var urlPic = $scope.trustSrc("http://www.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pccompound&retmax=100&term=" + $scope.selectedSolvent.CasNumber); 
-                var result;
-                    $.ajax({
-                        type: "GET",
-                        url: urlPic,
-                        dataType: "xml",
-                        success: function (xml) {
-                            result = $(xml).find("Id").text();
-                            $scope.cidurl = "http://embed.molview.org/v1/?mode=balls&bg=white&cid=" + result.toString();
-                            $sce.trustAsResourceUrl($scope.cidurl);
-                            $scope.$apply();
-                        },
-                        error: function (xml) {
-                            alert('Er ging iets mis, gelieve de volgende code naar de administrator te sturen: ' + xml.status + ' ' + xml.statusText);
-                        },
-                    });
-            }
+            //} else {
+            //    var urlPic = $scope.trustSrc("http://www.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pccompound&retmax=100&term=" + $scope.selectedSolvent.CasNumber); 
+            //    var result;
+            //        $.ajax({
+            //            type: "GET",
+            //            url: urlPic,
+            //            dataType: "xml",
+            //            success: function (xml) {
+            //                result = $(xml).find("Id").text();
+            //                $scope.cidurl = "http://embed.molview.org/v1/?mode=balls&bg=white&cid=" + result.toString();
+            //                $sce.trustAsResourceUrl($scope.cidurl);
+            //                $scope.$apply();
+            //            },
+            //            error: function (xml) {
+            //                alert('Er ging iets mis, gelieve de volgende code naar de administrator te sturen: ' + xml.status + ' ' + xml.statusText);
+            //            },
+            //        });
+            //}
 
             
         }
