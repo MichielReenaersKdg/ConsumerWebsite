@@ -779,22 +779,31 @@
             document.getElementById("ButChemStruct").setAttribute("style", "display: none;");
             document.getElementById("solventDetailsDiv").setAttribute("style", "display: none;");
             document.getElementById("ehskleur").setAttribute("style", "background-color: #;");
+           
             document.getElementById("rand").setAttribute("style", "border:none;");
-            //2D and 3D
-            document.getElementById("ChemSolPicDiv").setAttribute("style", "display:none;");
-            //document.getElementById("ChemSolPic3D").setAttribute("style", "display:none;");
         }
+
+
+
         function showdetails() {
             document.getElementById("solventDetailsDiv").setAttribute("style", "display: unset;");
             document.getElementById("rand").setAttribute("style", "border:solid; border-color:black");
             document.getElementById("ButSolvDet").setAttribute("style", "display: block; background-color: #b92ed1");
             document.getElementById("ButChemStruct").setAttribute("style", "display: block;");
-            document.getElementById("ChemSolPicDiv").setAttribute("style", "display:block;");
-            //document.getElementById("ChemSolPic3D").setAttribute("style", "display:block;");
             var ButSolv = document.getElementById('ButSolvDet');
             ButSolv.style.backgroundColor = '#b92ed1';
 
         }
+
+        function showclusterdetails() {
+            document.getElementById("solventinfo").setAttribute("style", "display: unset;");
+            document.getElementById("solventDetailsDiv").setAttribute("style", "display: unset;");
+            document.getElementById("rand").setAttribute("style", "border:solid; border-color:black");
+            document.getElementById("solventinfo").setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all");
+
+        }
+
+
         $scope.clusterChange = function (clusternumber) {
             $scope.closeOverlay(selectedAlgorithm);
             drawSolventChart(clusternumber);
@@ -906,7 +915,7 @@
                 y: datapointY,
                 radius: 0
             }, {
-                duration: 0,
+                duration: 1000,
                 easing: "ease-in-expo",
                 callback: function () {
                     currentChart.render();
@@ -1515,9 +1524,10 @@
                         
                     })
                     .on("click", function (d) {
+                        document.getElementById("solventinfo").setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all");
                         if (window.event.ctrlKey) {
                             if (d.casNumber !== "None") {
-                                hidedetails();
+                                
                                 handleCtrlClick(d, clusterTemp);
                               
                             } else {
@@ -1527,7 +1537,8 @@
                         } else {
                             if (d.casNumber === "None") {
                                 hidedetails();
-                                $scope.showSolventInfo();
+                                
+                                showclusterdetails();
                                 $scope.selectedCluster = d.cluster;
                                 if (selectedNode !== undefined) {
                                     d3.select(selectedNode).style("stroke", "white");
@@ -1769,7 +1780,7 @@
                 } else if (distancematrixOverlayOpened) {
                     $scope.distanceMatrixClose();
                 }
-                hidedetails();
+
                 $scope.$apply();
 
             }
@@ -1819,7 +1830,7 @@
         }
 
         function drawDistanceMatrix(matrix, clustertemp) {
-            hidedetails()
+            
             $scope.matrix = matrix;
             if(!$scope.$$phase) {
                 //$digest or $apply
@@ -2009,6 +2020,8 @@
             
         }
 
+        
+
         $scope.showChem2D = function () {
             solvInfo = false;
             var parentDiv = document.getElementById('ChemSolPicDiv');
@@ -2042,31 +2055,7 @@
             } else {
                 $scope.casPath = "Content/Images/Png/" + $scope.selectedSolvent.CasNumber + ".png";
             }
-            //Added for loading 3D [0.7.8.8]
-            if (typeof $scope.selectedCluster !== 'undefined') {
-                $scope.showSolventInfo();
-            }
-            if (typeof $scope.selectedSolvent === 'undefined' || $scope.selectedSolvent == 'null') {
 
-
-            } else {
-                var urlPic = $scope.trustSrc("http://www.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pccompound&retmax=100&term=" + $scope.selectedSolvent.CasNumber);
-                var result;
-                $.ajax({
-                    type: "GET",
-                    url: urlPic,
-                    dataType: "xml",
-                    success: function (xml) {
-                        result = $(xml).find("Id").text();
-                        $scope.cidurl = "http://embed.molview.org/v1/?mode=balls&bg=white&cid=" + result.toString();
-                        $sce.trustAsResourceUrl($scope.cidurl);
-                        $scope.$apply();
-                    },
-                    error: function (xml) {
-                        alert('Er ging iets mis, gelieve de volgende code naar de administrator te sturen: ' + xml.status + ' ' + xml.statusText);
-                    },
-                });
-            }
             //$scope.$digest();
             
 
@@ -2095,30 +2084,30 @@
             but3D.style.backgroundColor = '#b92ed1';
             parentDiv.style.display = 'unset';
             otherDiv.style.display = 'none';
-            //if (typeof $scope.selectedCluster !== 'undefined') {
-            //    $scope.showSolventInfo();
-            //}
-            //if (typeof $scope.selectedSolvent === 'undefined' || $scope.selectedSolvent == 'null') {
+            if (typeof $scope.selectedCluster !== 'undefined') {
+                $scope.showSolventInfo();
+            }
+            if (typeof $scope.selectedSolvent === 'undefined' || $scope.selectedSolvent == 'null') {
                 
                 
-            //} else {
-            //    var urlPic = $scope.trustSrc("http://www.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pccompound&retmax=100&term=" + $scope.selectedSolvent.CasNumber); 
-            //    var result;
-            //        $.ajax({
-            //            type: "GET",
-            //            url: urlPic,
-            //            dataType: "xml",
-            //            success: function (xml) {
-            //                result = $(xml).find("Id").text();
-            //                $scope.cidurl = "http://embed.molview.org/v1/?mode=balls&bg=white&cid=" + result.toString();
-            //                $sce.trustAsResourceUrl($scope.cidurl);
-            //                $scope.$apply();
-            //            },
-            //            error: function (xml) {
-            //                alert('Er ging iets mis, gelieve de volgende code naar de administrator te sturen: ' + xml.status + ' ' + xml.statusText);
-            //            },
-            //        });
-            //}
+            } else {
+                var urlPic = $scope.trustSrc("http://www.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pccompound&retmax=100&term=" + $scope.selectedSolvent.CasNumber); 
+                var result;
+                    $.ajax({
+                        type: "GET",
+                        url: urlPic,
+                        dataType: "xml",
+                        success: function (xml) {
+                            result = $(xml).find("Id").text();
+                            $scope.cidurl = "http://embed.molview.org/v1/?mode=balls&bg=white&cid=" + result.toString();
+                            $sce.trustAsResourceUrl($scope.cidurl);
+                            $scope.$apply();
+                        },
+                        error: function (xml) {
+                            alert('Er ging iets mis, gelieve de volgende code naar de administrator te sturen: ' + xml.status + ' ' + xml.statusText);
+                        },
+                    });
+            }
 
             
         }
