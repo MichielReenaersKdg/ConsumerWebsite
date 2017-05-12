@@ -1765,22 +1765,28 @@
             if (e.keyCode == 27) { // escape key maps to keycode `27`
                 if (solventOverlayOpened) {
                     if (distancematrixOverlayOpened) {
+                        hidedetails();
                         $scope.distanceMatrixClose();
                     } else {
+                        hidedetails();
                         closeSolventOverlay(selectedAlgorithm);
                     }
                 } else if (classifyOverlayOpened) {
+                    hidedetails();
                     classifyOverlayOpened = false;
                     document.getElementById("closecross-newSolvent").click();
                     document.getElementById("closecross-solvents").click();
                 }
                 else if (overlayOpened) {
                     if (distancematrixOverlayOpened) {
+                        hidedetails();
                         $scope.distanceMatrixClose();
                     } else {
+                        hidedetails();
                         $scope.closeOverlay(selectedAlgorithm);
                     }
                 } else if (distancematrixOverlayOpened) {
+                    hidedetails();
                     $scope.distanceMatrixClose();
                 }
 
