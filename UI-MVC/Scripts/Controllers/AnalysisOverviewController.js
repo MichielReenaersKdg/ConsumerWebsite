@@ -47,7 +47,17 @@
         ];
 
         $scope.sharedWith = result.data.SharedWith;
-        $scope.models = result.data.AnalysisModels;
+        var model = result.data.AnalysisModels
+        for (var i = 0; i < model[0].Model.Clusters.length;i++){
+            for (var j = 0; j < model[0].Model.Clusters[i].Solvents.length; j++){
+                model[0].Model.Clusters[i].Solvents[j].Name = model[0].Model.Clusters[i].Solvents[j].Name.replace(/_/g, ' ');
+                for (var k = 0; k < model[0].Model.Clusters[i].Solvents[j].Features.length; k++) {
+                    model[0].Model.Clusters[i].Solvents[j].Features[k].featureName = model[0].Model.Clusters[i].Solvents[j].Features[k].featureName.replace(/_/g, ' ');
+                }
+            }
+        }
+
+        $scope.models = model;
         var data = result.data;
         //0.5.0.5
         //setEnumMinMax();
@@ -1548,6 +1558,7 @@
                                 
                                 showclusterdetails();
                                 $scope.selectedCluster = d.cluster;
+                                
                                 if (selectedNode !== undefined) {
                                     d3.select(selectedNode).style("stroke", "white");
                                     d3.select(selectedNode).style("stroke-width", "1.5");
@@ -1740,7 +1751,6 @@
                         };
                       
                         $scope.selectedNodeObject = selectedNodeObject;
-                        
                         $scope.selectedSolvent = d.solvent;
                         $scope.$apply();
                         
@@ -1765,28 +1775,22 @@
             if (e.keyCode == 27) { // escape key maps to keycode `27`
                 if (solventOverlayOpened) {
                     if (distancematrixOverlayOpened) {
-                        hidedetails();
                         $scope.distanceMatrixClose();
                     } else {
-                        hidedetails();
                         closeSolventOverlay(selectedAlgorithm);
                     }
                 } else if (classifyOverlayOpened) {
-                    hidedetails();
                     classifyOverlayOpened = false;
                     document.getElementById("closecross-newSolvent").click();
                     document.getElementById("closecross-solvents").click();
                 }
                 else if (overlayOpened) {
                     if (distancematrixOverlayOpened) {
-                        hidedetails();
                         $scope.distanceMatrixClose();
                     } else {
-                        hidedetails();
                         $scope.closeOverlay(selectedAlgorithm);
                     }
                 } else if (distancematrixOverlayOpened) {
-                    hidedetails();
                     $scope.distanceMatrixClose();
                 }
 
@@ -1822,7 +1826,6 @@
             }
             distances = getNormalizedValuesWithFixedMin(distances, 0);
             solvents.splice((clickEvent.index - 1), 1);
-            
             createBulletChart(solvents, distances);
             $scope.centeredSolvent = clickEvent.solvent.Name;
             $scope.numberOfOtherSolvents = solvents.length;
