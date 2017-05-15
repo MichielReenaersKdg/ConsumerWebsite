@@ -19,6 +19,7 @@
         //var featureModel = minMax.data;
         var models;
         var selectedModel = null;
+        var selectedNode = null;
         var currentChart = null;
         var standarddeviate = [];
         var showInstance = false;
@@ -788,7 +789,7 @@
             document.getElementById("ButSolvDet").setAttribute("style","display: none;");
             document.getElementById("ButChemStruct").setAttribute("style", "display: none;");
             document.getElementById("solventDetailsDiv").setAttribute("style", "display: none;");
-            document.getElementById("ehskleur").setAttribute("style", "background-color: #;");
+            document.getElementById("ehskleur").setAttribute("style", "display: none");
             //**wijziging!!**
             if (document.getElementById("ChemSolPicDiv") != null) {
                 document.getElementById("ChemSolPicDiv").setAttribute("style", "display: none;");
@@ -807,17 +808,19 @@
             document.getElementById("rand").setAttribute("style", "border:solid; border-color:black");
             document.getElementById("ButSolvDet").setAttribute("style", "display: block; background-color: #b92ed1");
             document.getElementById("ButChemStruct").setAttribute("style", "display: block;");
+            document.getElementById("ehskleur").setAttribute("style", "display: block");
             var ButSolv = document.getElementById('ButSolvDet');
             ButSolv.style.backgroundColor = '#b92ed1';
-            document.getElementById("solventinfo").setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all; overflow: scroll;box-shadow: 8px 8px 15px rgba(0,0,0,0.8);");
+            document.getElementById("solventinfo").setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all; overflow: auto;box-shadow: 8px 8px 15px rgba(0,0,0,0.8);");
 
         }
 
         function showclusterdetails() {
+            document.getElementById("ehskleur").setAttribute("style", "display: none");
             document.getElementById("solventinfo").setAttribute("style", "display: unset;");
             document.getElementById("solventDetailsDiv").setAttribute("style", "display: unset;");
             document.getElementById("rand").setAttribute("style", "border:solid; border-color:black");
-            document.getElementById("solventinfo").setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all; overflow: scroll; box-shadow: 8px 8px 15px rgba(0,0,0,0.8);");
+            document.getElementById("solventinfo").setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all; overflow: auto; box-shadow: 8px 8px 15px rgba(0,0,0,0.8);");
 
         }
 
@@ -1479,12 +1482,13 @@
                 delete $scope.selectedCluster;
                 delete $scope.selectedD3Node;
                 $scope.$apply();
-                var selectedNode = null;
+                
                 var selectedCluster = null;
                 var node = svg.selectAll(".node")
                     .data(jsonGraph.nodes)
                     .enter().append("circle")
                     .attr("class", "node")
+                    .attr("id", function (d) { if (d.casNumber === "None" || d.casNumber === null) { return "NodeCluster"} return d.casNumber })
                     .attr("r", function (d) { return d.value; })
                     .style("stroke", function (d) {
                         if ($scope.selectedSolvent !== undefined && $scope.selectedSolvent.CasNumber === d.casNumber) {
@@ -2144,6 +2148,23 @@
             
         }
 
+        $scope.selectSolventClusterList = function (solvent) {
+            showdetails();
+            $scope.selectedSolvent = solvent;
+            $scope.selectedCluster.Solvents.forEach(function (element) {
+                document.getElementById(element.CasNumber).style.stroke = 'White';
+            })
+            $scope.selectedCluster = undefined;
+            
+            var elementToSelect = document.getElementById(solvent.CasNumber);
+            var elementToDeselect = document.getElementById("NodeCluster");
+            elementToSelect.style.stroke = 'Red';
+            elementToSelect.style.strokeWidth = "3";
+            elementToDeselect.style.stroke = 'White';
+
+            selectedNode = elementToSelect;
+        }
+
         $scope.trustSrc = function (src) {
             return $sce.trustAsResourceUrl(src);
         }
@@ -2174,6 +2195,8 @@ angular.module('sussol.services')
     }
 }])
 
+
+
 .directive('scroller', function () {
     return {
 
@@ -2195,14 +2218,15 @@ angular.module('sussol.services')
                 $('.closecrossdis').css("top", ($(".zui-wrapper").scrollTop()));
                 $('.zui-table thead th:nth-child(1)').css("left", ($(".zui-wrapper").scrollLeft()));
                 $('.zui-table tbody td:nth-child(1)').css("left", ($(".zui-wrapper").scrollLeft())); //fix the first column of tdbody
-                    //apply the changes
-                    
-                
+                //apply the changes
+
+
                 scope.$apply();
-                
+
             });
         }
 
     }
 
 });
+

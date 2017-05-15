@@ -299,7 +299,7 @@
                                 <svg id="clusterChart_{{model.Model.AlgorithmName}}"></svg>
                                 <div class="selected-node" ng-if="overlayvisible" id="selected-node-{{model.Model.AlgorithmName}}">
                            
-                                    <div class="grid grid-graph col-lg-12 text-center" id="chart-container-{{model.Model.AlgorithmName}}">
+                                    <div class="removedbackground grid grid-graph col-lg-12 text-center" id="chart-container-{{model.Model.AlgorithmName}}">
                                         
                                         <div ng-if="selectedCluster === undefined">
                                             <div ng-if="!selectedNodeObject">
@@ -409,8 +409,8 @@
                                     </table>
 
                                     <table ng-if="selectedCluster">
-                                        <tr ng-repeat="solvent in selectedCluster.Solvents | orderBy:'Name'" ng-if="selectedCluster !== undefined">
-                                            <td style="padding-left: 15px">- {{solvent.Name}}</td>
+                                        <tr ng-repeat="solvent in selectedCluster.Solvents | orderBy:'Name'" ng-if="selectedCluster !== undefined" >
+                                            <td class="solventList" style="padding-left: 15px" ng-click="selectSolventClusterList(solvent)">- {{solvent.Name}}</td>
 
                                         </tr>
                                     </table>
