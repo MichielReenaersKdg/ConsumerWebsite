@@ -21,7 +21,7 @@ namespace SS.UI.Web.MVC
       /// </param>
       /// 
       //changes
-      //Version 0.7.0.1
+      //Version 0.8.0.4 #testable
         public void Configuration(IAppBuilder app)
         {
             this.ConfigureAuth(app);
