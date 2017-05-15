@@ -2776,3 +2776,16 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
     width:auto;
     height:auto;
 }
+
+.solventList {
+    font-family: 'Questrial', 'Roboto';
+    cursor: pointer;
+    display: block;
+    color: white;
+    text-decoration: none;
+}
+
+.removedbackground{
+    background-color: transparent;
+    box-shadow: none;
+ }
