@@ -9,8 +9,6 @@ namespace SS.BL.Domain.Analyses
     public enum AlgorithmName
     {
         CANOPY,
-        EM,
-        KMEANS,
         SOM,
         XMEANS
     }

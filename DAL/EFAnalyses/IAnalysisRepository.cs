@@ -53,5 +53,7 @@ namespace SS.DAL.EFAnalyses
       TrainingSet ReadTrainingSetById(int id);
       TrainingSet RemoveTrainingSet(TrainingSet set);
 
+        List<Algorithm> createNewModelsFromTrainingsfile(TrainingSet tr);
+
    }
 }

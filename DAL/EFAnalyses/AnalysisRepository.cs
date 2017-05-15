@@ -7,16 +7,27 @@ using System.Text;
 using System.Threading.Tasks;
 using SS.BL.Domain.Analyses;
 using SS.BL.Domain.Users;
+using Newtonsoft.Json.Linq;
+using SS.DAL.Utilities;
 
 namespace SS.DAL.EFAnalyses
 {
     public class AnalysisRepository : IAnalysisRepository
     {
+        //Declaring DLL
+        static string pathWithEnv = @"%USERPROFILE%\";
+        string filePath = Environment.ExpandEnvironmentVariables(pathWithEnv);
+        com.sussol.domain.utilities.Globals globals;
+
+        private readonly com.sussol.web.controller.ServiceModel sus;
+
         private readonly EFDbContext _context;
 
         public AnalysisRepository(EFDbContext efDbContext)
         {
             this._context = efDbContext;
+            com.sussol.domain.utilities.Globals.STORAGE_PATH = filePath;
+            sus = new com.sussol.web.controller.ServiceModel();
         }
 
         public Algorithm CreateAlgorithm(Algorithm algorithm)
@@ -51,13 +62,13 @@ namespace SS.DAL.EFAnalyses
                 .Include(a => a.AnalysisModels.Select(an => an.Model))
                 .Include(a => a.AnalysisModels.Select(an => an.ClassifiedInstance))
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters))
+                .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.trainingSet))
                 .Include(a => a.AnalysisModels.Select(an => an.ClassifiedInstance).Select(p => p.Features))
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.DistanceToClusters))) 
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents)))
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.VectorData)))
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.VectorData.Select(v => v.feature))))
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.Features))))
-                .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.trainingSet))))
                 //0.5.0 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.Features.Select(b => b.minMaxValue)))))
                 .FirstOrDefault(i => i.Id == id);
         }
@@ -142,7 +153,6 @@ namespace SS.DAL.EFAnalyses
                 .Include(p => p.Clusters.Select(pt => pt.DistanceToClusters))
                 .Include(p => p.Clusters.Select(pt => pt.Solvents))
                 .Include(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.Features)))
-                .Include(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.trainingSet)))
                 .Where(t => t.DataSet.Equals(dataSet))
                 .FirstOrDefault(a => a.AlgorithmName == algorithmName);
         }
@@ -199,12 +209,12 @@ namespace SS.DAL.EFAnalyses
             var model = _context.AnalysisModels
                 .Include(a => a.Model)
                 .Include(a => a.Model.Clusters)
+                .Include(a => a.Model.trainingSet)
                 .Include(a => a.Model.Clusters.Select(an => an.DistanceToClusters))
                 .Include(a => a.Model.Clusters.Select(p => p.VectorData))
                 .Include(a => a.Model.Clusters.Select(p => p.VectorData.Select(v => v.feature)))
                 .Include(a => a.Model.Clusters.Select(p => p.Solvents))
                 .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.Features)))
-                .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.trainingSet)))
                 // 0.5.0 .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.Features.Select(o => o.minMaxValue))))
                 .Single(a => a.Id == modelId);
             classifiedInstance.AnalysisModelId = modelId;
@@ -277,5 +287,57 @@ namespace SS.DAL.EFAnalyses
       {
          return _context.TrainingSet.Find(id);
       }
+
+      public List<Algorithm> createNewModelsFromTrainingsfile(TrainingSet training)
+        {
+            bool New = false;
+            List<Algorithm> algos = new List<Algorithm>();
+            if (_context.Algorithms.Count() > 0)
+            {
+                algos = _context.Algorithms.ToList();
+            }
+            else
+            {
+                New = true;
+                foreach (AlgorithmName name in Enum.GetValues(typeof(AlgorithmName)))
+                {
+                    Algorithm al = new Algorithm();
+                    al.AlgorithmName = name;
+                    algos.Add(al);
+                }
+            }
+            
+            foreach(Algorithm l in algos)
+            {
+                JObject AlgorithmObject = JObject.Parse(sus.createModel((int)l.AlgorithmName, training.dataSet.ToString()));
+                int y = 0;
+                //JToken jModelC = AlgorithmObject["model"];
+                foreach (Model m in JsonHelper.ParseJson(AlgorithmObject.ToString()).Models.ToList())
+                {
+                    m.DataSet = l.AlgorithmName + "_" + y;
+                    m.trainingSet = training;
+                    l.Models.Add(m);
+                    y++;
+                }
+                
+                
+            }
+
+            if (New)
+            {
+                _context.Algorithms.AddRange(algos);
+            }
+            else
+            {
+                _context.Entry(algos).State = EntityState.Modified;
+            }
+            //Add to context
+            
+            _context.SaveChanges();
+
+
+            return algos;
+            
+        }
    }
 }

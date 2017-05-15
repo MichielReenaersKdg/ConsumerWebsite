@@ -23,5 +23,6 @@ namespace SS.BL.Domain.Analyses
         public int NumberOfSolvents { get; set; }
         public int NumberOfFeatures { get; set; }
         public ICollection<Cluster> Clusters { get; set; }
+        public TrainingSet trainingSet { get; set; }
     }
 }
