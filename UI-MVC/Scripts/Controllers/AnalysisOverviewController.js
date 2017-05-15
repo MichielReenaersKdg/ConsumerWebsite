@@ -789,7 +789,7 @@
             document.getElementById("ButSolvDet").setAttribute("style","display: none;");
             document.getElementById("ButChemStruct").setAttribute("style", "display: none;");
             document.getElementById("solventDetailsDiv").setAttribute("style", "display: none;");
-            document.getElementById("ehskleur").setAttribute("style", "display: none");
+            document.getElementById("ehskleur").style.visibility = 'hidden';
             //**wijziging!!**
             if (document.getElementById("ChemSolPicDiv") != null) {
                 document.getElementById("ChemSolPicDiv").setAttribute("style", "display: none;");
@@ -803,20 +803,23 @@
 
 
         function showdetails() {
-
+            document.getElementById("ehskleur").style.visibility = 'visible';
             document.getElementById("solventDetailsDiv").setAttribute("style", "display: unset;");
             document.getElementById("rand").setAttribute("style", "border:solid; border-color:black");
             document.getElementById("ButSolvDet").setAttribute("style", "display: block; background-color: #b92ed1");
             document.getElementById("ButChemStruct").setAttribute("style", "display: block;");
-            document.getElementById("ehskleur").setAttribute("style", "display: block");
             var ButSolv = document.getElementById('ButSolvDet');
             ButSolv.style.backgroundColor = '#b92ed1';
             document.getElementById("solventinfo").setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all; overflow: auto;box-shadow: 8px 8px 15px rgba(0,0,0,0.8);");
+            if (!$scope.$$phase) {
+                //$digest or $apply
+                $scope.$apply();
+            }
 
         }
 
         function showclusterdetails() {
-            document.getElementById("ehskleur").setAttribute("style", "display: none");
+            document.getElementById("ehskleur").style.visibility = 'hidden';
             document.getElementById("solventinfo").setAttribute("style", "display: unset;");
             document.getElementById("solventDetailsDiv").setAttribute("style", "display: unset;");
             document.getElementById("rand").setAttribute("style", "border:solid; border-color:black");
@@ -987,20 +990,7 @@
             return model.Clusters[number].Solvents;
         }
 
-        $scope.selectedSolventFunc = function ($item) {
-            $scope.selectedSolvent = $item.originalObject;
-            delete $scope.selectedCluster;
-            getClusterFromSolvent($scope.selectedSolvent);
-            var element = document.getElementsByClassName('angucomplete-holder');
-            element[0].style.width = '50px';
-            $scope.overlayvisible = true;
-            overlayOpened = true;
 
-            
-                showdetails();
-           
-
-        }
         $scope.selectedSolventCasFunc = function ($item) {
             $scope.selectedSolvent = $item.originalObject;
             delete $scope.selectedCluster;
@@ -1010,7 +1000,7 @@
             $scope.overlayvisible = true;
             overlayOpened = true;
            
-                showdetails();
+            showdetails();
             
 
         }
@@ -1577,13 +1567,9 @@
                                 
 
                             } else {
-                                document.getElementById("ButSolvDet").setAttribute("style", "display: normal;");
-                                document.getElementById("ButChemStruct").setAttribute("style", "display: normal; ");
-                                if (solvInfo) {
-                                    $scope.showSolventInfo();
-                                } else {
-                                    $scope.showSolventInfo();
-                                }
+                                
+                                $scope.showSolventInfo();
+        
                                 delete $scope.selectedCluster;
                                 if (d.solvent !== undefined) {
                                     var selectedNodeObject = {
