@@ -786,17 +786,15 @@
             
         }
         function hidedetails() {
-            document.getElementById("ButSolvDet").setAttribute("style","display: none;");
-            document.getElementById("ButChemStruct").setAttribute("style", "display: none;");
-            document.getElementById("solventDetailsDiv").setAttribute("style", "display: none;");
+            document.getElementById("ButSolvDet").style.display = 'none';
+            document.getElementById("ButChemStruct").style.display = 'none';
+            document.getElementById("solventDetailsDiv").style.visibility = 'hidden';
             document.getElementById("ehskleur").style.visibility = 'hidden';
             //**wijziging!!**
             if (document.getElementById("ChemSolPicDiv") != null) {
-                document.getElementById("ChemSolPicDiv").setAttribute("style", "display: none;");
+                document.getElementById("ChemSolPicDiv").style.visibility = 'hidden';
             }
             
-
-            document.getElementById("rand").setAttribute("style", "border:none;");
             document.getElementById("solventinfo").setAttribute("style", "box-shadow: none; background-color: transparent;");
         }
 
@@ -804,10 +802,10 @@
 
         function showdetails() {
             document.getElementById("ehskleur").style.visibility = 'visible';
-            document.getElementById("solventDetailsDiv").setAttribute("style", "display: unset;");
-            document.getElementById("rand").setAttribute("style", "border:solid; border-color:black");
-            document.getElementById("ButSolvDet").setAttribute("style", "display: block; background-color: #b92ed1");
-            document.getElementById("ButChemStruct").setAttribute("style", "display: block;");
+            document.getElementById("solventDetailsDiv").style.visibility = 'visible';
+            document.getElementById("ButSolvDet").style.display = 'block'; 
+            document.getElementById("ButSolvDet").style.backgroundColor =  '#b92ed1';
+            document.getElementById("ButChemStruct").style.display = 'block';
             var ButSolv = document.getElementById('ButSolvDet');
             ButSolv.style.backgroundColor = '#b92ed1';
             document.getElementById("solventinfo").setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all; overflow: auto;box-shadow: 8px 8px 15px rgba(0,0,0,0.8);");
@@ -820,9 +818,8 @@
 
         function showclusterdetails() {
             document.getElementById("ehskleur").style.visibility = 'hidden';
-            document.getElementById("solventinfo").setAttribute("style", "display: unset;");
-            document.getElementById("solventDetailsDiv").setAttribute("style", "display: unset;");
-            document.getElementById("rand").setAttribute("style", "border:solid; border-color:black");
+            document.getElementById("solventinfo").style.visibility = 'visible';
+            document.getElementById("solventDetailsDiv").style.visibility = 'visible';
             document.getElementById("solventinfo").setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all; overflow: auto; box-shadow: 8px 8px 15px rgba(0,0,0,0.8);");
 
         }
