@@ -16,10 +16,12 @@ namespace SS.DAL
 {
     public class EFDbInitializer : DropCreateDatabaseIfModelChanges<EFDbContext>
     {
+        private AnalysisRepository repo;
         protected override void Seed(EFDbContext context)
         {
-            IAnalysisRepository an = new IAnalysisRepository();
-            an.createNewModelsFromTrainingsfile();
+            repo = new AnalysisRepository(context);
+
+            repo.createNewModelsFromTrainingsfile();
         }
 
     }
