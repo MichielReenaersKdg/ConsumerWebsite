@@ -309,14 +309,18 @@ namespace SS.DAL.EFAnalyses
             foreach(Algorithm l in algos)
             {
 
-            ICollection<Model> models = new List<Model>();
-            l.Models = models;  
+            
                 JObject AlgorithmObject = JObject.Parse(sus.createModel((int)l.AlgorithmName, training.dataSet.ToString(),counter));
                 //JToken jModelC = AlgorithmObject["model"];
+                if (l.Models == null)
+            {
+               l.Models = new List<Model>();
+            }
                 foreach (Model m in JsonHelper.ParseJson(AlgorithmObject.ToString()).Models.ToList())
                 {
                     m.DataSet = l.AlgorithmName + "_" + counter;
                     m.trainingSet = training;
+              
                     l.Models.Add(m);
                 }
             }
