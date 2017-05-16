@@ -533,6 +533,8 @@
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="DefaultTrainingSets\datasetqframe.csv" />
+    <Content Include="DefaultTrainingSets\datasetqframeVersie2.csv" />
     <None Include="Resources\datasetqframe.csv" />
     <None Include="Resources\datasetqframeVersie2.csv" />
     <None Include="Resources\JavaSussolApplicationV12.dll" />

@@ -11,6 +11,8 @@ using SS.DAL.Properties;
 using SS.DAL.Utilities;
 using SS.DAL.EFAnalyses;
 using Newtonsoft.Json.Linq;
+using System.Web.Hosting;
+using System.Diagnostics;
 
 namespace SS.DAL
 {
@@ -20,9 +22,25 @@ namespace SS.DAL
         protected override void Seed(EFDbContext context)
         {
             repo = new AnalysisRepository(context);
-
-            repo.createNewModelsFromTrainingsfile();
-        }
+         string directory = HostingEnvironment.MapPath("~/DefaultTrainingSets/");
+         string[] fileEntries = Directory.GetFiles(directory);
+         foreach (string file in fileEntries)
+         {
+            TrainingSet set = new TrainingSet()
+            {
+               Name = Path.GetFileName(file),
+               dataSet = File.ReadAllText(file)
+            };
+            repo.createNewModelsFromTrainingsfile(set);
+         }
+      }
+      //TrainingSet set = new TrainingSet()
+      //   {
+      //      Name = Path.GetFileName(fileEntries[0]),
+      //      dataSet = File.ReadAllText(fileEntries[0])
+      //   };
+      //   repo.createNewModelsFromTrainingsfile(set);
+      //   }
 
     }
 }

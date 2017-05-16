@@ -12,10 +12,10 @@ namespace SS.BL.Domain.Analyses
     {
         [Key]
         public long Id { get; set; }
-        [Index("IX_SetAlgorithm",1, IsUnique = true)]
-        [MaxLength(200)]
-        public string DataSet { get; set; }
-        public DateTime Date { get; set; }
+         [Index("IX_SetAlgorithm", 1, IsUnique = true)]
+         [MaxLength(200)]
+         public string DataSet { get; set; }
+         public DateTime Date { get; set; }
         [Index("IX_SetAlgorithm",2, IsUnique = true)]
         public AlgorithmName AlgorithmName { get; set; }
         public string ModelPath { get; set; }

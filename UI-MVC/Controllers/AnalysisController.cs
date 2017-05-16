@@ -311,14 +311,8 @@ namespace SS.UI.Web.MVC.Controllers
                     case "CANOPY":
                         algorithmNames.Add(AlgorithmName.CANOPY);
                         break;
-                    case "KMEANS":
-                        algorithmNames.Add(AlgorithmName.KMEANS);
-                        break;
                     case "XMEANS":
                         algorithmNames.Add(AlgorithmName.XMEANS);
-                        break;
-                    case "EM":
-                        algorithmNames.Add(AlgorithmName.EM);
                         break;
                     case "SOM":
                         algorithmNames.Add(AlgorithmName.SOM);

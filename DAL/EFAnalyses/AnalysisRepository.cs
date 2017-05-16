@@ -19,7 +19,12 @@ namespace SS.DAL.EFAnalyses
         string filePath = Environment.ExpandEnvironmentVariables(pathWithEnv);
         com.sussol.domain.utilities.Globals globals;
 
-        private readonly com.sussol.web.controller.ServiceModel sus;
+      internal void createNewModelsFromTrainingsfile()
+      {
+         throw new NotImplementedException();
+      }
+
+      private readonly com.sussol.web.controller.ServiceModel sus;
 
         private readonly EFDbContext _context;
 
@@ -309,18 +314,18 @@ namespace SS.DAL.EFAnalyses
             
             foreach(Algorithm l in algos)
             {
+            ICollection<Model> models = new List<Model>();
+            l.Models = models;  
                 JObject AlgorithmObject = JObject.Parse(sus.createModel((int)l.AlgorithmName, training.dataSet.ToString()));
-                int y = 0;
                 //JToken jModelC = AlgorithmObject["model"];
                 foreach (Model m in JsonHelper.ParseJson(AlgorithmObject.ToString()).Models.ToList())
                 {
-                    m.DataSet = l.AlgorithmName + "_" + y;
+                    m.DataSet = l.AlgorithmName + "_" + training.Name;
                     m.trainingSet = training;
                     l.Models.Add(m);
-                    y++;
                 }
                 
-                
+              
             }
 
             if (New)
@@ -329,7 +334,11 @@ namespace SS.DAL.EFAnalyses
             }
             else
             {
-                _context.Entry(algos).State = EntityState.Modified;
+               foreach (Algorithm alg in algos)
+            {
+               _context.Entry(alg).State = EntityState.Modified;
+            }
+                
             }
             //Add to context
             
