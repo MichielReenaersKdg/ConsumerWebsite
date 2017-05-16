@@ -250,10 +250,6 @@
                     }
                 }
                 for (var j = 0; j < models[i].Model.Clusters.length; j++) {
-                    for (var k = 0; k < models[i].Model.Clusters[j].VectorData.length; k++) {
-                        
-                        models[i].Model.Clusters[j].VectorData[k].feature.featureName = constants.FeatureName[models[i].Model.Clusters[j].VectorData[k].feature.featureName]; //0.4.9
-                    }
                     for (var k = 0; k < models[i].Model.Clusters[j].Solvents.length; k++) {
                         
                         for (var l = 0; l < models[i].Model.Clusters[j].Solvents[k].Features.length; l++) {

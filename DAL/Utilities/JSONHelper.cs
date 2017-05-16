@@ -37,22 +37,22 @@ namespace SS.DAL.Utilities
                     VectorData = new List<VectorData>(),
 
                 };
-                foreach (var vector in cluster.vectorData)
-                {
-                    string naam = vector.name.ToString().Replace("(", "").Replace(")", "").Replace("/", "").Replace("=", "").Replace("ø", "");
-                    VectorData vectorData = new VectorData()
-                    {
-                        Value = vector.value,
-                        //0.4.9 Changed to new Feature
-                        feature = new Feature()
-                        {
-                            featureName = naam
-                        }
+                //foreach (var vector in cluster.vectorData)
+                //{
+                //    string naam = vector.name.ToString().Replace("(", "").Replace(")", "").Replace("/", "").Replace("=", "").Replace("ø", "");
+                //    VectorData vectorData = new VectorData()
+                //    {
+                //        Value = vector.value,
+                //        //0.4.9 Changed to new Feature
+                //        feature = new Feature()
+                //        {
+                //            featureName = naam
+                //        }
 
-                    };
+                //    };
 
-                    clusterTemp.VectorData.Add(vectorData);
-                }
+                //    clusterTemp.VectorData.Add(vectorData);
+                //}
 
                 foreach (var distance in cluster.distanceToCluster)
                 {
@@ -117,8 +117,18 @@ namespace SS.DAL.Utilities
                     }
                     clusterTemp.Solvents.Add(solventTemp);
                     model.NumberOfFeatures = solventTemp.Features.Count;
+
+
                 }
-                model.NumberOfSolvents += clusterTemp.Solvents.Count;
+            foreach (var vector in cluster.vectorData)
+            {
+               VectorData vectordata = new VectorData()
+               {
+                  value = vector.value
+               };
+               clusterTemp.VectorData.Add(vectordata);
+            }
+            model.NumberOfSolvents += clusterTemp.Solvents.Count;
                 model.Clusters.Add(clusterTemp);
             }
             algorithm.Models.Add(model);

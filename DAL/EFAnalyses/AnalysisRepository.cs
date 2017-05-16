@@ -18,11 +18,7 @@ namespace SS.DAL.EFAnalyses
         static string pathWithEnv = @"%USERPROFILE%\";
         string filePath = Environment.ExpandEnvironmentVariables(pathWithEnv);
         com.sussol.domain.utilities.Globals globals;
-
-      internal void createNewModelsFromTrainingsfile()
-      {
-         throw new NotImplementedException();
-      }
+      private int counter;
 
       private readonly com.sussol.web.controller.ServiceModel sus;
 
@@ -72,7 +68,7 @@ namespace SS.DAL.EFAnalyses
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.DistanceToClusters))) 
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents)))
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.VectorData)))
-                .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.VectorData.Select(v => v.feature))))
+
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.Features))))
                 //0.5.0 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.Features.Select(b => b.minMaxValue)))))
                 .FirstOrDefault(i => i.Id == id);
@@ -217,7 +213,6 @@ namespace SS.DAL.EFAnalyses
                 .Include(a => a.Model.trainingSet)
                 .Include(a => a.Model.Clusters.Select(an => an.DistanceToClusters))
                 .Include(a => a.Model.Clusters.Select(p => p.VectorData))
-                .Include(a => a.Model.Clusters.Select(p => p.VectorData.Select(v => v.feature)))
                 .Include(a => a.Model.Clusters.Select(p => p.Solvents))
                 .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.Features)))
                 // 0.5.0 .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.Features.Select(o => o.minMaxValue))))
@@ -311,21 +306,19 @@ namespace SS.DAL.EFAnalyses
                     algos.Add(al);
                 }
             }
-            
             foreach(Algorithm l in algos)
             {
+
             ICollection<Model> models = new List<Model>();
             l.Models = models;  
-                JObject AlgorithmObject = JObject.Parse(sus.createModel((int)l.AlgorithmName, training.dataSet.ToString()));
+                JObject AlgorithmObject = JObject.Parse(sus.createModel((int)l.AlgorithmName, training.dataSet.ToString(),counter));
                 //JToken jModelC = AlgorithmObject["model"];
                 foreach (Model m in JsonHelper.ParseJson(AlgorithmObject.ToString()).Models.ToList())
                 {
-                    m.DataSet = l.AlgorithmName + "_" + training.Name;
+                    m.DataSet = l.AlgorithmName + "_" + counter;
                     m.trainingSet = training;
                     l.Models.Add(m);
                 }
-                
-              
             }
 
             if (New)
@@ -344,7 +337,7 @@ namespace SS.DAL.EFAnalyses
             
             _context.SaveChanges();
 
-
+         counter++;
             return algos;
             
         }

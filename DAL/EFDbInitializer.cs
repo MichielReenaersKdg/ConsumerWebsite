@@ -24,23 +24,23 @@ namespace SS.DAL
             repo = new AnalysisRepository(context);
          string directory = HostingEnvironment.MapPath("~/DefaultTrainingSets/");
          string[] fileEntries = Directory.GetFiles(directory);
-         foreach (string file in fileEntries)
+         //   foreach (string file in fileEntries)
+         //   {
+         //      TrainingSet set = new TrainingSet()
+         //      {
+         //         Name = Path.GetFileName(file),
+         //         dataSet = File.ReadAllText(file)
+         //      };
+         //      repo.createNewModelsFromTrainingsfile(set);
+         //   }
+         //}
+         TrainingSet set = new TrainingSet()
          {
-            TrainingSet set = new TrainingSet()
-            {
-               Name = Path.GetFileName(file),
-               dataSet = File.ReadAllText(file)
-            };
-            repo.createNewModelsFromTrainingsfile(set);
-         }
+            Name = Path.GetFileName(fileEntries[0]),
+            dataSet = File.ReadAllText(fileEntries[0])
+         };
+         repo.createNewModelsFromTrainingsfile(set);
       }
-      //TrainingSet set = new TrainingSet()
-      //   {
-      //      Name = Path.GetFileName(fileEntries[0]),
-      //      dataSet = File.ReadAllText(fileEntries[0])
-      //   };
-      //   repo.createNewModelsFromTrainingsfile(set);
-      //   }
 
-    }
+   }
 }

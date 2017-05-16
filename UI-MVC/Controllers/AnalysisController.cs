@@ -146,92 +146,93 @@ namespace SS.UI.Web.MVC.Controllers
 
 
 
-        [Route("FillAlgorithms")]
-        [HttpGet]
-        //0.4.0 Added method to utilize new dataset in Weka dll instead of API
-        //POST api/Analysis/FillAlgorithm
-        public List<Model> FillAlgorithms(AlgorithmName algorithm)
-        {
-            int x = 0;
-            List<Model> modal = new List<Model>();
-            foreach (var file in _analysisManager.ReadTrainingSets())
-            {
-                var pathWithEnv = @"%USERPROFILE%\";
-                var filePath = Environment.ExpandEnvironmentVariables(pathWithEnv);
-                com.sussol.domain.utilities.Globals.STORAGE_PATH = filePath;
-                com.sussol.web.controller.ServiceModel sus = new com.sussol.web.controller.ServiceModel();
-                JObject jObject = new JObject();
-                //0.5.0.9
-                switch (algorithm)
-                {
-                    case AlgorithmName.CANOPY: jObject = JObject.Parse(sus.canopyModeller(file.dataSet, "", "").ToString()); break;
-                    case AlgorithmName.SOM: jObject = JObject.Parse(sus.somModeller(file.dataSet, "").ToString()); break;
-                    case AlgorithmName.XMEANS: jObject = JObject.Parse(sus.xmeansModeller(file.dataSet, "", "", "").ToString()); break;
-                }
-                //var perso = JsonConvert.DeserializeObject<dynamic>();
+        //[Route("FillAlgorithms")]
+        //[HttpGet]
+        ////0.4.0 Added method to utilize new dataset in Weka dll instead of API
+        ////POST api/Analysis/FillAlgorithm
+        //public List<Model> FillAlgorithms(AlgorithmName algorithm)
+        //{
+        //    int x = 0;
+        //    List<Model> modal = new List<Model>();
+        //    foreach (var file in _analysisManager.ReadTrainingSets())
+        //    {
+        //        var pathWithEnv = @"%USERPROFILE%\";
+        //        var filePath = Environment.ExpandEnvironmentVariables(pathWithEnv);
+        //        com.sussol.domain.utilities.Globals.STORAGE_PATH = filePath;
+        //        com.sussol.web.controller.ServiceModel sus = new com.sussol.web.controller.ServiceModel();
+        //        JObject jObject = new JObject();
+        //        //0.5.0.9
+        //        switch (algorithm)
+        //        {
+        //            case AlgorithmName.CANOPY: jObject = JObject.Parse(sus.canopyModeller(file.dataSet, "", "").ToString()); break;
+        //            case AlgorithmName.SOM: jObject = JObject.Parse(sus.somModeller(file.dataSet, "").ToString()); break;
+        //            case AlgorithmName.XMEANS: jObject = JObject.Parse(sus.xmeansModeller(file.dataSet, "", "", "").ToString()); break;
+        //        }
+        //        //var perso = JsonConvert.DeserializeObject<dynamic>();
 
-                JToken jModel = jObject["model"];
+        //        JToken jModel = jObject["model"];
 
 
-                //0.4.9 _analysisManager.ReadMinMaxValues().ToList()).Models.ToList() -> _analysisManager.ReadFeatures().ToList()).Models.ToList()
-                List<Model> mod = JsonHelper.ParseJson(jObject.ToString()).Models.ToList();
-                int y = 0;
-                foreach (Model m in mod)
-                {
-                    m.DataSet = algorithm + "_" + x + y;
-                    y++;
-                }
+        //        //0.4.9 _analysisManager.ReadMinMaxValues().ToList()).Models.ToList() -> _analysisManager.ReadFeatures().ToList()).Models.ToList()
+        //        List<Model> mod = JsonHelper.ParseJson(jObject.ToString()).Models.ToList();
+        //        int y = 0;
+        //        foreach (Model m in mod)
+        //        {
+        //            m.DataSet = algorithm + "_" + x + y;
+        //            y++;
+        //        }
                 
-                Algorithm algo = new Algorithm()
-                {
-                    AlgorithmName = algorithm,
-                    Models = mod
-                };
-                _analysisManager.CreateAlgorithm(algo);
-                modal.AddRange(mod);
-                x++;
-            }
-            return modal;
+        //        Algorithm algo = new Algorithm()
+        //        {
+        //            AlgorithmName = algorithm,
+        //            Models = mod
+        //        };
+        //        _analysisManager.CreateAlgorithm(algo);
+        //        modal.AddRange(mod);
+        //        x++;
+        //    }
+        //    return modal;
          
 
-        }
+        //}
 
-      [Route("FillAlgorithm")]
-      [HttpGet]
+      //[Route("FillAlgorithm")]
+      //[HttpGet]
       //0.4.0 Added method to utilize new dataset in Weka dll instead of API
       //POST api/Analysis/FillAlgorithm
-      public List<Model> FillAlgorithms(AlgorithmName algorithm, int Id)
-      {
-         TrainingSet traingingset = _analysisManager.ReadTrainingSetById(Id);
+      //public List<Model> FillAlgorithms(AlgorithmName algorithm, int Id)
+      //{
+      //   TrainingSet traingingset = _analysisManager.ReadTrainingSetById(Id);
 
-         var pathWithEnv = @"%USERPROFILE%\";
-         var filePath = Environment.ExpandEnvironmentVariables(pathWithEnv);
-         com.sussol.domain.utilities.Globals.STORAGE_PATH = filePath;
-         com.sussol.web.controller.ServiceModel sus = new com.sussol.web.controller.ServiceModel();
-         JObject jObject = new JObject();
-         //0.5.0.9
-         switch (algorithm)
-         {
-            case AlgorithmName.CANOPY: jObject = JObject.Parse(sus.canopyModeller(traingingset.dataSet, "", "").ToString()); break;
-            case AlgorithmName.SOM: jObject = JObject.Parse(sus.somModeller(traingingset.dataSet, "").ToString()); break;
-            case AlgorithmName.XMEANS: jObject = JObject.Parse(sus.xmeansModeller(traingingset.dataSet, "", "", "").ToString()); break;
-         }
-         //var perso = JsonConvert.DeserializeObject<dynamic>();
+      //   var pathWithEnv = @"%USERPROFILE%\";
+      //   var filePath = Environment.ExpandEnvironmentVariables(pathWithEnv);
+      //   com.sussol.domain.utilities.Globals.STORAGE_PATH = filePath;
+      //   com.sussol.web.controller.ServiceModel sus = new com.sussol.web.controller.ServiceModel();
+      //   JObject jObject = new JObject();
+      //   //0.5.0.9
+      //   switch (algorithm)
+      //   {
+      //      case AlgorithmName.CANOPY: jObject = JObject.Parse(sus.canopyModeller(traingingset.dataSet, "", "").ToString()); break;
+      //      case AlgorithmName.SOM: jObject = JObject.Parse(sus.somModeller(traingingset.dataSet, "").ToString()); break;
+      //      case AlgorithmName.XMEANS: jObject = JObject.Parse(sus.xmeansModeller(traingingset.dataSet, "", "", "").ToString()); break;
+      //   }
+      //   //var perso = JsonConvert.DeserializeObject<dynamic>();
 
-         JToken jModel = jObject["model"];
+      //   JToken jModel = jObject["model"];
 
 
-         //0.4.9 _analysisManager.ReadMinMaxValues().ToList()).Models.ToList() -> _analysisManager.ReadFeatures().ToList()).Models.ToList()
-         List<Model> mod = JsonHelper.ParseJson(jObject.ToString()).Models.ToList();
-         Algorithm algo = new Algorithm()
-         {
-            AlgorithmName = algorithm,
-            Models = mod
-         };
-         _analysisManager.CreateAlgorithm(algo);
-         return mod;
+      //   //0.4.9 _analysisManager.ReadMinMaxValues().ToList()).Models.ToList() -> _analysisManager.ReadFeatures().ToList()).Models.ToList()
+      //   List<Model> mod = JsonHelper.ParseJson(jObject.ToString()).Models.ToList();
+      //   Algorithm algo = new Algorithm()
+      //   {
+      //      AlgorithmName = algorithm,
+      //      Models = mod
+      //   };
+      //   _analysisManager.CreateAlgorithm(algo);
+      //   return mod;
 
-      }
+      //}
+
       [Route("AddTrainingSet")]
       [HttpPost]
       public IHttpActionResult AddTrainingSet([FromBody]TrainingSet trainingSet)
@@ -332,37 +333,33 @@ namespace SS.UI.Web.MVC.Controllers
             foreach (AlgorithmName algorithm in algorithmNames)
             {
                 var modelsTemp = _analysisManager.ReadModelsForAlgorithm(algorithm); ;
-                if (modelsTemp.Count == 0)
-                {
-                    await CreateModels(algorithm);
-                                
-                }
+                
                 models.AddRange(_analysisManager.ReadModelsForAlgorithm(algorithm)); 
             }
             return Ok(models.GroupBy(x => x.DataSet).Select(y => y.First()).ToList());
         }
 
-        //POST api/Analysis/CreateModel
-        [AllowAnonymous]
-        [Route("CreateModel")]
-        [HttpPost]
-        public async Task<IHttpActionResult> CreateModels(AlgorithmName algorithmName)
-        {
-            //0.4.9 var minMaxValues = _analysisManager.ReadMinMaxValues();
-            try
-            {
-                using (var client = new WebClient())
-                {
-                    FillAlgorithms(algorithmName);
-                    client.Dispose();
-                    return Ok();
-                }
-            }
-            catch (Exception e)
-            {
-                return BadRequest("An error occurred while generating the model.");
-            }
-        }
+        ////POST api/Analysis/CreateModel
+        //[AllowAnonymous]
+        //[Route("CreateModel")]
+        //[HttpPost]
+        //public async Task<IHttpActionResult> CreateModels(AlgorithmName algorithmName)
+        //{
+        //    //0.4.9 var minMaxValues = _analysisManager.ReadMinMaxValues();
+        //    try
+        //    {
+        //        using (var client = new WebClient())
+        //        {
+        //            FillAlgorithms(algorithmName);
+        //            client.Dispose();
+        //            return Ok();
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return BadRequest("An error occurred while generating the model.");
+        //    }
+        //}
         
         //POST api/Analysis/ShareWithOrganisation
         [Route("ShareWithOrganisation")]
