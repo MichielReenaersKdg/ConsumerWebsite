@@ -787,7 +787,8 @@
             document.getElementById("ButChemStruct").style.display = 'none';
             document.getElementById("solventDetailsDiv").style.visibility = 'hidden';
             document.getElementById("ehskleur").style.visibility = 'hidden';
-            //**wijziging!!**
+
+            //**wijzigingen!!**
             if (document.getElementById("ChemSolPicDiv") != null) {
                 document.getElementById("ChemSolPicDiv").style.visibility = 'hidden';
             }
