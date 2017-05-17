@@ -85,7 +85,9 @@
             method: 'GET',
             url: 'api/Analysis/GetAnalysesDivision'
         }).success(function (data) {
-            var algorithmNames = ['Canopy', 'EM', 'KMeans', 'SOM', 'XMeans'];
+            var algorithmNames = ['Canopy', 'SOM', 'XMeans'];
+            //var algorithmNames = []
+            
             var algorithmTotals = [];
             var numberAnalyses = 0;
             var canopyCounter = 0;

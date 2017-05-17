@@ -278,7 +278,7 @@ namespace SS.UI.Web.MVC.Controllers
             {
                 return BadRequest("Name already in use!");
             }
-            List<Model> models = GetFullModels(algorithms, trainingsFileID);
+            List<Model> models = GetFullModels(algorithms, Int32.Parse(trainingsFileID));
             Analysis analysis = new Analysis()
             {
                 Name = name,
