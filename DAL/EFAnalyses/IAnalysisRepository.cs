@@ -26,7 +26,7 @@ namespace SS.DAL.EFAnalyses
         Analysis ShareWithOrganisation(long organisationId, long analysisId);
 
         //Model
-        Model ReadModel(string dataSet, AlgorithmName algorithmName);
+        Model ReadModel(string trainingsFileID, AlgorithmName algorithmName);
         List<Model> ReadModelsForAlgorithm(AlgorithmName algorithmName);
 
         //AnalysisModel

@@ -147,14 +147,14 @@ namespace SS.DAL.EFAnalyses
             return analysis;
         }
 
-        public Model ReadModel(string dataSet, AlgorithmName algorithmName)
+        public Model ReadModel(string trainingsFileID, AlgorithmName algorithmName)
         {
              return _context.Models
                 .Include(p => p.Clusters)
                 .Include(p => p.Clusters.Select(pt => pt.DistanceToClusters))
                 .Include(p => p.Clusters.Select(pt => pt.Solvents))
                 .Include(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.Features)))
-                .Where(t => t.DataSet.Equals(dataSet))
+                .Where(t => t.trainingSet.ID.Equals(trainingsFileID))
                 .FirstOrDefault(a => a.AlgorithmName == algorithmName);
         }
 

@@ -28,7 +28,7 @@ namespace SS.BL.Analyses
 
         //Model
         List<Model> ReadModelsForAlgorithm(AlgorithmName algorithmName);
-        Model ReadModel(string dataSet, AlgorithmName algorithmName);
+        Model ReadModel(string trainingsfileID, AlgorithmName algorithmName);
 
         //ClassifiedInstances
         IEnumerable<ClassifiedInstance> ReadAllClassifiedInstances(long userId, string name);

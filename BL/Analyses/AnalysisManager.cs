@@ -100,9 +100,9 @@ namespace SS.BL.Analyses
             return repo.ReadModelsForAlgorithm(algorithmName);
         }
 
-        public Model ReadModel(string dataSet, AlgorithmName algorithmName)
+        public Model ReadModel(string trainingsFileID, AlgorithmName algorithmName)
         {
-            return repo.ReadModel(dataSet, algorithmName);
+            return repo.ReadModel(trainingsFileID, algorithmName);
         }
 
         public IEnumerable<ClassifiedInstance> ReadAllClassifiedInstances(long userId, string name)
