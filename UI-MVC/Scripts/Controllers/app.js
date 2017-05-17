@@ -79,7 +79,9 @@ app.config(function ($routeProvider, $locationProvider) {
             },
             organisation: function(srvLibrary) {
                 return srvLibrary.readOrganisationForUser(window.sessionStorage.userId);
+
             }
+
         }
     });
     $routeProvider.when("/404", {

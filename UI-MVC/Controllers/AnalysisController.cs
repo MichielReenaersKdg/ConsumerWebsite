@@ -116,13 +116,13 @@ namespace SS.UI.Web.MVC.Controllers
         //GET api/Analysis/GetFullModels
         [Route("GetFullModels")]
         [HttpGet]
-        public List<Model> GetFullModels(List<string> algorithms, string dataSet)
+        public List<Model> GetFullModels(List<string> algorithms, string trainingsFileID)
         {
             List<AlgorithmName> algorithmNames = SetStringsToAlgorithmNames(algorithms);
             List<Model> models = new List<Model>();
             foreach (AlgorithmName name in algorithmNames)
             {
-                models.Add(_analysisManager.ReadModel(dataSet, name));
+                models.Add(_analysisManager.ReadModel(trainingsFileID, name));
             }
             return models;
         }
@@ -272,13 +272,13 @@ namespace SS.UI.Web.MVC.Controllers
       //POST api/Analysis/Createanalysis
       [Route("CreateAnalysis")]
         [HttpPost]
-        public IHttpActionResult CreateAnalysis([FromUri] List<string> algorithms, [FromUri] string dataSet, [FromUri] string name)
+        public IHttpActionResult CreateAnalysis([FromUri] List<string> algorithms, [FromUri] string trainingsFileID, [FromUri] string name)
         {
             if (_analysisManager.ReadAnalysis(name) != null)
             {
                 return BadRequest("Name already in use!");
             }
-            List<Model> models = GetFullModels(algorithms, dataSet);
+            List<Model> models = GetFullModels(algorithms, trainingsFileID);
             Analysis analysis = new Analysis()
             {
                 Name = name,
