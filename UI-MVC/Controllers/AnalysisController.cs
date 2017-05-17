@@ -332,7 +332,7 @@ namespace SS.UI.Web.MVC.Controllers
             List<Model> models = new List<Model>();
             foreach (AlgorithmName algorithm in algorithmNames)
             {
-                var modelsTemp = _analysisManager.ReadModelsForAlgorithm(algorithm); ;
+                //var modelsTemp = _analysisManager.ReadModelsForAlgorithm(algorithm); ;
                 
                 models.AddRange(_analysisManager.ReadModelsForAlgorithm(algorithm)); 
             }

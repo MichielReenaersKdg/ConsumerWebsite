@@ -77,14 +77,26 @@
                 process = process + 25;
                 angular.element(document.querySelector('#progressBar .progress-bar')).css("width", process + "%").attr("aria-valuenow", process);
                 models = data;
-                $scope.algorithms = data;
+                //$scope.algorithms = data;
+                getTrainingsets(data);
                 $scope.btnclass = "button-right disabled";
                 $rootScope.loadingView = false;
             });
         }
         var selectedModel;
         var analyseName;
-
+        function getTrainingsets(data) {
+            var test = [];
+        let trainingfiles = [...new Set(data.map(t => t.trainingSet.ID))];
+        for (var i = 0; i < trainingfiles.length; i++) {
+            var result = data.filter(function (obj) {
+                return obj.trainingSet.ID == trainingfiles[i];
+            });
+            test.push(result[0]);
+            }
+        $scope.algorithms = test;
+        }
+        
         $scope.selectModel = function selectModel($event) {
             if (selectedModel !== undefined) {
                 selectedModel.style.borderColor = "lightgray";

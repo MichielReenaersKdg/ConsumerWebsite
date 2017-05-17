@@ -59,7 +59,7 @@
             </div>
             <div>
                 <div id="mainbox">
-                    <div class="card" ng-repeat="model in algorithms" id="{{model.DataSet}}" name="{{model.Id}}" ng-click="selectModel($event)">
+                    <div class="card" ng-repeat="model in algorithms" id="{{model.trainingSet.ID}}" name="{{model.Id}}" ng-click="selectModel($event)">
                         <p class="card-title">Training set:<br/>
                         </p>
                         <p>{{model.NumberOfFeatures}} Features</p>

@@ -170,7 +170,9 @@ namespace SS.DAL.EFAnalyses
 
         public List<Model> ReadModelsForAlgorithm(AlgorithmName algorithmName)
         {
-            return _context.Models.Where(m => m.AlgorithmName == algorithmName).ToList();
+            return _context.Models.Where(m => m.AlgorithmName == algorithmName)
+                  .Include(m => m.trainingSet)
+                  .ToList();
         }
 
         public IEnumerable<ClassifiedInstance> ReadAllClassifiedInstances(long userId, string name)
