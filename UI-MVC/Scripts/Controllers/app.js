@@ -80,12 +80,6 @@ app.config(function ($routeProvider, $locationProvider) {
             organisation: function(srvLibrary) {
                 return srvLibrary.readOrganisationForUser(window.sessionStorage.userId);
             },
-            features: function(srvLibrary) {
-                return srvLibrary.getFeaturesList();
-            },
-            solvents: function (srvLibrary) {
-                return srvLibrary.getSolvents();
-            }
 
         }
     });
