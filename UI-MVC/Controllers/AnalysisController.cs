@@ -116,7 +116,7 @@ namespace SS.UI.Web.MVC.Controllers
         //GET api/Analysis/GetFullModels
         [Route("GetFullModels")]
         [HttpGet]
-        public List<Model> GetFullModels(List<string> algorithms, string trainingsFileID)
+        public List<Model> GetFullModels(List<string> algorithms, int trainingsFileID)
         {
             List<AlgorithmName> algorithmNames = SetStringsToAlgorithmNames(algorithms);
             List<Model> models = new List<Model>();

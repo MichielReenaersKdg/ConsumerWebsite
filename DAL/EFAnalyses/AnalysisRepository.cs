@@ -147,7 +147,7 @@ namespace SS.DAL.EFAnalyses
             return analysis;
         }
 
-        public Model ReadModel(string trainingsFileID, AlgorithmName algorithmName)
+        public Model ReadModel(int trainingsFileID, AlgorithmName algorithmName)
         {
              return _context.Models
                 .Include(p => p.Clusters)
