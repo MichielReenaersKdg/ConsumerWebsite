@@ -90,7 +90,7 @@
         let trainingfiles = [...new Set(data.map(t => t.trainingSet.ID))];
         for (var i = 0; i < trainingfiles.length; i++) {
             var result = data.filter(function (obj) {
-                return obj.trainingSet.ID === trainingfiles[i];
+                return obj.trainingSet.ID == trainingfiles[i];
             });
             test.push(result[0]);
             }
