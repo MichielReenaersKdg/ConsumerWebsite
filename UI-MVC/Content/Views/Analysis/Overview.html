@@ -10,6 +10,9 @@
                 </div>
                 <div class="analysis-settings" ng-if="canEdit">
                     <ul style="list-style: none;">
+                        <li>
+                            <a href="#" ng-click="downloadPdf()" class="xs-button">To PDF</a>
+                        </li>
                         <li ng-if="isOwner" style="margin-top: 5px;">
                             <a href="#" class="xs-button" data-toggle="modal" data-target="#changeName-model">Settings</a>
                         </li>
