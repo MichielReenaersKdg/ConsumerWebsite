@@ -2127,6 +2127,15 @@
             
         }
 
+
+        function getAlgorithmNames() {
+                $https({
+                    method: 'GET',
+                    url: 'api/Analysis/GetAlgorithmNames',
+                    params: {}
+                })
+            }
+
         $scope.selectSolventClusterList = function (solvent) {
             showdetails();
             $scope.selectedSolvent = solvent;

@@ -299,6 +299,15 @@ namespace SS.UI.Web.MVC.Controllers
             return Ok(analysis);
         }
 
+        //GET api/Analysis/GetAlgorithmNames
+        [Route("GetAlgorithmNames")]
+        [HttpGet]
+        public List<AlgorithmName> getAlgorithmNames()
+        {
+            AlgorithmName[] alnames =  (AlgorithmName[])Enum.GetValues(typeof(AlgorithmName));
+            return alnames.ToList();
+        }
+
         //GET api/Analysis/SetStringsToAlgorithmNames
         [Route("SetStringsToAlgorithmNames")]
         [HttpGet]
