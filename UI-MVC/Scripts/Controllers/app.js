@@ -79,12 +79,9 @@ app.config(function ($routeProvider, $locationProvider) {
             },
             organisation: function(srvLibrary) {
                 return srvLibrary.readOrganisationForUser(window.sessionStorage.userId);
-<<<<<<< HEAD
-            },
 
-=======
             }
->>>>>>> origin/MichielDriesChristophe
+
         }
     });
     $routeProvider.when("/404", {
