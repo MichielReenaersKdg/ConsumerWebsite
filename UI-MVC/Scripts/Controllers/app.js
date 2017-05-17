@@ -79,8 +79,12 @@ app.config(function ($routeProvider, $locationProvider) {
             },
             organisation: function(srvLibrary) {
                 return srvLibrary.readOrganisationForUser(window.sessionStorage.userId);
+<<<<<<< HEAD
             },
 
+=======
+            }
+>>>>>>> origin/MichielDriesChristophe
         }
     });
     $routeProvider.when("/404", {
@@ -98,29 +102,7 @@ app.config(['$compileProvider',
 angular.module('sussol.services')
     .factory('srvLibrary', ['$http', '$location', function($http, $location) {
         var services = {
-            getSolvents: function(){
-                var promise = $http({
-                    method: 'GET',
-                    url: 'api/Analysis/GetSolvents',
-
-                });
-                promise.success(function (data, status, headers, conf) {
-                    return data;
-                });
-                return promise;
-            },
-            getFeaturesList: function() {
-                var promise = $http({
-                    method: 'GET',
-                    url: 'api/Analysis/GetFeatures',
-                    
-                });
-                promise.success(function (data, status, headers, conf) {
-                    return data;
-                });
-                return promise;
-            },
-                getSolventClusterResult: function(id) {
+            getSolventClusterResult: function(id) {
                     var promise = $http({
                         method: 'GET',
                         url: 'api/Analysis/GetAnalysis',
