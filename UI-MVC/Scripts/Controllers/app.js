@@ -80,8 +80,10 @@ app.config(function ($routeProvider, $locationProvider) {
             organisation: function(srvLibrary) {
                 return srvLibrary.readOrganisationForUser(window.sessionStorage.userId);
 
+            },
+            algorithmNames: function (srvLibrary) {
+                return srvLibrary.readAlgorithmNames();
             }
-
         }
     });
     $routeProvider.when("/404", {
@@ -199,8 +201,17 @@ angular.module('sussol.services')
                         return data;
                     });
                     return promise;
+                },
+                readAlgorithmNames: function () {
+                    var promise = $http({
+                        method: 'GET',
+                        url: 'api/Analysis/GetAlgorithmNames'
+                    });
+                    promise.success(function (data, status, headers, conf) {
+                        return data;
+                    });
+                    return promise;
                 }
-
 
             }
             return services;

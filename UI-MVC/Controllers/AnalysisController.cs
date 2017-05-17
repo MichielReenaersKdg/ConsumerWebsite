@@ -302,10 +302,15 @@ namespace SS.UI.Web.MVC.Controllers
         //GET api/Analysis/GetAlgorithmNames
         [Route("GetAlgorithmNames")]
         [HttpGet]
-        public List<AlgorithmName> getAlgorithmNames()
+        public List<string> getAlgorithmNames()
         {
-            AlgorithmName[] alnames =  (AlgorithmName[])Enum.GetValues(typeof(AlgorithmName));
-            return alnames.ToList();
+         AlgorithmName[] alnames = (AlgorithmName[])Enum.GetValues(typeof(AlgorithmName));
+         List<string> result = new List<string>();
+         foreach(AlgorithmName name in alnames)
+         {
+            result.Add(name.ToString());
+         }
+         return result;
         }
 
         //GET api/Analysis/SetStringsToAlgorithmNames

@@ -87,7 +87,6 @@
         }).success(function (data) {
             var algorithmNames = ['Canopy', 'SOM', 'XMeans'];
             //var algorithmNames = []
-            
             var algorithmTotals = [];
             var numberAnalyses = 0;
             var canopyCounter = 0;
