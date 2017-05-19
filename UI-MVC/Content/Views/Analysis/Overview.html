@@ -401,7 +401,7 @@
                                         </tr>
                                         <tr ng-repeat="feature in selectedSolvent.Features" ng-if="selectedCluster === undefined">
                                             <td style="padding-left: 15px">{{feature.featureName}}</td>
-                                            <td style="padding-left: 15px">{{feature.value}}</td>
+                                            <td style="padding-left: 15px">{{round(feature.value,3)}}</td>
                                         </tr>
                                     </table>
 

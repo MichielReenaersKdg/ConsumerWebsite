@@ -1563,26 +1563,32 @@
                     })
                     .style("fill", function (d) {
                         if (findAnalysisModelOnName(selectedAlgorithm).ClassifiedInstance !== null && findAnalysisModelOnName(selectedAlgorithm).ClassifiedInstance !== undefined) {
+                            var colorcode;
                             switch (d.casNumber) {
                                 case
                                     findAnalysisModelOnName(selectedAlgorithm).ClassifiedInstance.CasNumber:
-                                    return "#F4FE00";
+                                    colorcode = "#F4FE00";
+                                    break;
+                                   case "None":
+                                    colorcode = "#1f77b4";
                                     break;
 
                                 default:
                                     //Hier kunnen wij de kleuren aan toevoegen
-                                    return d.solvent.EHS_Color_Code;
+                                    colorcode = "#" + d.solvent.EHS_Color_Code;
                             }
+                            return colorcode;
 
                         } else {
+                            var colorcode;
                             switch (d.casNumber) {
-                                case
-                                    "None":
-                                    return "#1f77b4";
+                                case "None":
+                                    colorcode = "#1f77b4";
                                     break;
                                 default:
-                                    return "#" + d.solvent.EHS_Color_Code;
+                                    colorcode = "#" + d.solvent.EHS_Color_Code;
                             }
+                            return colorcode;
                         }
 
                     })
@@ -1666,7 +1672,12 @@
                 });
             });
         };
-
+        $scope.round = function (number, precision) {
+            var factor = Math.pow(10, precision);
+            var tempNumber = number * factor;
+            var roundedTempNumber = Math.round(tempNumber);
+            return roundedTempNumber / factor;
+        };
         function createBulletChart(otherSolvents, normalizedDistances) {
             var width = 730, height = otherSolvents.length > 10 ? 40 * otherSolvents.length : 400;
             if (height > $("#scrollable-div").height() || otherSolvents.length >= 10) {
@@ -1681,7 +1692,7 @@
             for (var i = 0; i < otherSolvents.length; i++) {
                 var dataPart = {
                     label: otherSolvents[i].Name + " ",
-                    value: normalizedDistances[i],
+                    value: normalizedDistances[i].toFixed(3),
                     solvent: otherSolvents[i]
                 }
                 data.push(dataPart);
