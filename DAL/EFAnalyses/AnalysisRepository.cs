@@ -322,7 +322,7 @@ namespace SS.DAL.EFAnalyses
             {
 
             
-                JObject AlgorithmObject = JObject.Parse(sus.createModel((int)l.AlgorithmName, training.dataSet.ToString(),counter));
+                JObject AlgorithmObject = JObject.Parse(sus.createModel((int)l.AlgorithmName, training.dataSet.ToString(),training.Name));
                 //JToken jModelC = AlgorithmObject["model"];
                 if (l.Models == null)
             {

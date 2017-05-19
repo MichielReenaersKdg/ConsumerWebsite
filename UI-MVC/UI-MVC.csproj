@@ -384,6 +384,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\cards.css" />
+    <Content Include="Content\DLL\JavaSussolApplicationV20.dll" />
     <Content Include="Content\goalbanner.css" />
     <Content Include="Content\Images\bg.jpg" />
     <Content Include="Content\Images\cd-arrow.svg" />
@@ -625,7 +626,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\DLL\" />
     <Folder Include="Content\Images\Organisations\" />
     <Folder Include="Content\Images\Users\" />
     <Folder Include="Views\Organisation\" />
