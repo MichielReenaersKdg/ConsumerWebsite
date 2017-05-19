@@ -34,13 +34,5 @@ namespace SS.DAL
             repo.createNewModelsFromTrainingsfile(set);
          }
       }
-      //   TrainingSet set = new TrainingSet()
-      //   {
-      //      Name = Path.GetFileName(fileEntries[0]),
-      //      dataSet = File.ReadAllText(fileEntries[0])
-      //   };
-      //   repo.createNewModelsFromTrainingsfile(set);
-      //}
-
    }
 }

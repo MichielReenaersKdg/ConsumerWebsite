@@ -15,7 +15,7 @@
         var classifyOverlayOpened = false;
         var historyOverlayOpened = false;
         var solvInfo = true;
-        
+        var percentages = [];
         //0.5.0.5 mogelijke errors door verwijdering minmax
         //var featureModel = minMax.data;
         var models;
@@ -381,28 +381,20 @@
         //returns a json which you use in createChart() (mode 1)
         function createJsonModel(model) {
             var json = [];
-            var percentages = [];
             var totalSolvents = model.Model.NumberOfSolvents;
-            // returns a distance-matrix
+            // returns the distance-matrix for clusters
             var distancematrix = buildMatrix2(model.Model.Clusters);
             //use distance-matrix to calculate PcoA
             var graphdata = calculatePcoA(distancematrix);
 
             for (var i = 0; i < model.Model.Clusters.length; i++) {
-                var valuesSolvents = [];
-                for (var j = 0; j < model.Model.Clusters[i].Solvents.length; j++) {
-
-                    valuesSolvents.push(model.Model.Clusters[i].Solvents[j].DistanceToClusterCenter);
-                }
-
-
-
-                var percentage = ((valuesSolvents.length) / totalSolvents) * 100;
-                var data = graphdata[i]
+                var percentage = (((model.Model.Clusters[i].Solvents.length) / totalSolvents) * 100).toFixed(2);
+                var data = graphdata[i];
+                var percentages =  [];
                 percentages.push(percentage);
                 //x = object[0], y = object[1] from the object returned from calculatePcoA, z changes the size of the bubbles.
                 json[i] = ({
-                    'x': data[0], 'y': data[1], 'z': standarddeviate[i], 'name': model.Model.Clusters[i].Number, 'cursor': 'pointer', 'solvents': model.Model.Clusters[i].Solvents.length, 'color': colors[i], 'markerBorderColor': "#F4FE00", //change color here
+                    'x': data[0], 'y': data[1], 'z': standarddeviate[i], 'distances': standarddeviate[i].toFixed(3), 'percentages': percentages, 'name': model.Model.Clusters[i].Number, 'cursor': 'pointer', 'solvents': model.Model.Clusters[i].Solvents.length, 'color': colors[i], 'markerBorderColor': "#F4FE00", //change color here
                     'markerBorderThickness': 0
                 });
 
@@ -761,7 +753,7 @@
                         {
 
                             type: "bubble",
-                            toolTipContent: "<span style='\"'color: {color};'\"'><strong>Cluster {name}</strong></span><br/><strong>#solvents</strong> {solvents} <br/> <strong>Percentage</strong> {y}%<br/> <strong>Max distance</strong> {z}",
+                            toolTipContent: "<span style='\"'color: {color};'\"'><strong>Cluster {name}</strong></span><br/><strong>#solvents</strong> {solvents} <br/> <strong>Percentage</strong> {percentages}%<br/> <strong>Max distance</strong> {distances}",
                             dataPoints: jsonModel,
                             click: function (e) {
                                 drawSolventChart(e.dataPoint.name);

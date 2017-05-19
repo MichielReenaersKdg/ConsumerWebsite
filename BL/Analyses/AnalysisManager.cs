@@ -162,5 +162,10 @@ namespace SS.BL.Analyses
       {
          return repo.ReadTrainingSetById(id);
       }
+
+      public void createNewModelsFromTrainingsfile(TrainingSet training)
+      {
+         repo.createNewModelsFromTrainingsfile(training);
+      }
    }
 }

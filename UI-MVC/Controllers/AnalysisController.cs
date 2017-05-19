@@ -237,8 +237,8 @@ namespace SS.UI.Web.MVC.Controllers
       [HttpPost]
       public IHttpActionResult AddTrainingSet([FromBody]TrainingSet trainingSet)
       {
-         TrainingSet set = _analysisManager.CreateTrainingSet(trainingSet);
-         return Ok(set);
+         _analysisManager.createNewModelsFromTrainingsfile(trainingSet);
+         return Ok();
       }
 
       [Route("GetTrainingSets")]

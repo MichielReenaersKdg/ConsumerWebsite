@@ -48,9 +48,10 @@ namespace SS.DAL.EFAnalyses
 
       public TrainingSet RemoveTrainingSet(TrainingSet trainingset)
       {
-         TrainingSet set = _context.TrainingSet.Remove(trainingset);
-         _context.SaveChanges();
-         return set;
+         _context.TrainingSet.Remove(trainingset);
+         
+         _context.SaveChanges(); 
+         return null;
       }
 
       public Analysis ReadAnalysis(long id)
@@ -157,8 +158,17 @@ namespace SS.DAL.EFAnalyses
                 .Where(t => t.trainingSet.ID.Equals(trainingsFileID))
                 .FirstOrDefault(a => a.AlgorithmName == algorithmName);
         }
-
-        public IEnumerable<Analysis> ReadAnalyses()
+      public Model ReadFullModel(long id)
+      {
+         return _context.Models
+            .Include(p => p.Clusters)
+            .Include(p => p.Clusters.Select(pt => pt.DistanceToClusters))
+            .Include(p => p.Clusters.Select(pt => pt.Solvents))
+            .Include(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.Features)))
+            .Include(p => p.trainingSet)
+            .FirstOrDefault(a => a.Id == id);
+      }
+      public IEnumerable<Analysis> ReadAnalyses()
         {
             return _context.Analyses.Include(a => a.CreatedBy).ToList();
         }
@@ -174,8 +184,8 @@ namespace SS.DAL.EFAnalyses
                   .Include(m => m.trainingSet)
                   .ToList();
         }
-
-        public IEnumerable<ClassifiedInstance> ReadAllClassifiedInstances(long userId, string name)
+     
+      public IEnumerable<ClassifiedInstance> ReadAllClassifiedInstances(long userId, string name)
         {
             var instances = _context.Users
                 .Include(a => a.ClassifiedInstances)
@@ -320,7 +330,7 @@ namespace SS.DAL.EFAnalyses
             }
                 foreach (Model m in JsonHelper.ParseJson(AlgorithmObject.ToString()).Models.ToList())
                 {
-                    m.DataSet = l.AlgorithmName + "_" + counter;
+                    m.DataSet = l.AlgorithmName + "_" + training.Name;
                     m.trainingSet = training;
               
                     l.Models.Add(m);

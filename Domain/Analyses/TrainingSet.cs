@@ -14,5 +14,6 @@ namespace SS.BL.Domain.Analyses
         public int ID { get; set; }
         public string Name { get; set; }
         public string dataSet { get; set; }
+        
     }
 }
