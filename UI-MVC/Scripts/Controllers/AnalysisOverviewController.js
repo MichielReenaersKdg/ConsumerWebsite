@@ -787,10 +787,12 @@
             }
             var ele = document.getElementsByClassName('ButChemStruct');
             for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "None";
                 ele[i].style.visibility = "hidden";
             }
             var ele = document.getElementsByClassName('ButSolvDet');
             for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "None";
                 ele[i].style.visibility = "hidden";
             }
             var ele = document.getElementsByClassName('ehskleur');
@@ -838,10 +840,12 @@
             }
             var ele = document.getElementsByClassName('ButChemStruct');
             for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "block";
                 ele[i].style.visibility = "visible";
             }
             var ele = document.getElementsByClassName('ButSolvDet');
             for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "block";
                 ele[i].style.visibility = "visible";
                 ele[i].style.backgroundColor = "#b92ed1"
             }
@@ -867,6 +871,7 @@
         }
 
         function showclusterdetails() {
+            $scope.selectedSolvent = null;
             var ele = document.getElementsByClassName('SolventDetails');
             for (var i = 0; i < ele.length; i++) {
                 ele[i].style.visibility = "visible";
@@ -1563,28 +1568,20 @@
                                     findAnalysisModelOnName(selectedAlgorithm).ClassifiedInstance.CasNumber:
                                     return "#F4FE00";
                                     break;
-                                case maxSolvent.CasNumber:
-                                    return "#E68364";
-                                    break;
-                                case minSolvent.CasNumber:
-                                    return "#26A65B";
-                                    break;
 
                                 default:
                                     //Hier kunnen wij de kleuren aan toevoegen
-                                    return color(d.group);
+                                    return d.solvent.EHS_Color_Code;
                             }
 
                         } else {
                             switch (d.casNumber) {
-                                case maxSolvent.CasNumber:
-                                    return "#E68364";
-                                    break;
-                                case minSolvent.CasNumber:
-                                    return "#26A65B";
+                                case
+                                    "None":
+                                    return "#1f77b4";
                                     break;
                                 default:
-                                    return color(d.group);
+                                    return "#" + d.solvent.EHS_Color_Code;
                             }
                         }
 
@@ -2060,11 +2057,13 @@
 
             var ele = document.getElementsByClassName('ButChemStruct');
             for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "block";
                 ele[i].style.visibility = "visible";
                 ele[i].style.backgroundColor = 'transparent';
             }
             var ele = document.getElementsByClassName('ButSolvDet');
             for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "block";
                 ele[i].style.visibility = "visible";
                 ele[i].style.backgroundColor = "#b92ed1"
             }
@@ -2104,11 +2103,13 @@
             }
             var ele = document.getElementsByClassName('ButChemStruct');
             for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "block";
                 ele[i].style.visibility = 'visible';
                 ele[i].style.backgroundColor = '#b92ed1';
             }
             var ele = document.getElementsByClassName('ButSolvDet');
             for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "block";
                 ele[i].style.visibility = 'visible';
                 ele[i].style.backgroundColor = 'transparent';
             }
@@ -2181,11 +2182,13 @@
             }
             var ele = document.getElementsByClassName('ButChemStruct');
             for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "block";
                 ele[i].style.visibility = "visible";
                 ele[i].style.backgroundColor = "#b92ed1";
             }
             var ele = document.getElementsByClassName('ButSolvDet');
             for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "block";
                 ele[i].style.visibility = "visible";
                 ele[i].style.backgroundColor = 'transparent';
             }
