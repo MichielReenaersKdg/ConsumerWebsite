@@ -50,21 +50,7 @@
             return false;
         }
 
-        //function fillarray() {
-        //    $https({
-        //        method: 'GET',
-        //        url: 'api/Analysis/FillAlgorithms',
-        //        params: {algorithms: algorithms}
-        //    })
-        //}
-
-        //$scope.fillAlgorithm = function fillAlgorithm() {
-        //    $http({
-        //        method: 'GET',
-        //        url: 'api/Analysis/FillAlgorithmTwo',
-        //        params: { algorithms: algorithms, Id: selectedModel.Id}
-        //    })
-        //}
+       
         
         $scope.startAnalysis = function startAnalysis() {
             $rootScope.loadingView = true;
