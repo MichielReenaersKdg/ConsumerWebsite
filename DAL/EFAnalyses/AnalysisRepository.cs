@@ -18,7 +18,7 @@ namespace SS.DAL.EFAnalyses
         static string pathWithEnv = @"%USERPROFILE%\";
         string filePath = Environment.ExpandEnvironmentVariables(pathWithEnv);
         com.sussol.domain.utilities.Globals globals;
-      private int counter;
+        private int counter;
 
       private readonly com.sussol.web.controller.ServiceModel sus;
 

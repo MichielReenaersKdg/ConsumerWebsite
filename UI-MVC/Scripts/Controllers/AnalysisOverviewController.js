@@ -416,6 +416,7 @@
             $("#" + e.currentTarget.id + "_CONTENT").addClass("active");
             $scope.closeOverlay(selectedAlgorithm);
 
+            
             resetProgress();
             selectedAlgorithm = e.currentTarget.id;
             createProgress(findAnalysisModelOnName(selectedAlgorithm));
@@ -428,6 +429,8 @@
                 setBorderDatapoint(datapoint);
                 currentChart.render();
             }
+
+            hidedetails();
         });
 
         function changeInstance(instance) {
@@ -775,30 +778,82 @@
 
         }
         function hidedetails() {
-            document.getElementById("ButSolvDet").style.display = 'none';
-            document.getElementById("ButChemStruct").style.display = 'none';
-            document.getElementById("solventDetailsDiv").style.visibility = 'hidden';
-            document.getElementById("ehskleur").style.visibility = 'hidden';
+            var ele = document.getElementsByClassName('SolventDetails');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.visibility = "hidden";
+                ele[i].style.filter = 'None';
 
-            //**wijzigingen!!**
-            if (document.getElementById("ChemSolPicDiv") != null) {
-                document.getElementById("ChemSolPicDiv").style.visibility = 'hidden';
+            }
+            var ele = document.getElementsByClassName('ButChemStruct');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "none";
+            }
+            var ele = document.getElementsByClassName('ButSolvDet');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "none";
+            }
+            var ele = document.getElementsByClassName('ehskleur');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.visibility = "hidden";
+            }
+            var ele = document.getElementsByClassName('ChemSolPic');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.visibility = "hidden";
+            }
+            var ele = document.getElementsByClassName('SolventInfo');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].setAttribute("style", "box-shadow: none; background-color: transparent;");
             }
 
-            document.getElementById("solventinfo").setAttribute("style", "box-shadow: none; background-color: transparent;");
+
+
+            var ele = document.getElementsByClassName('ChemSolPic2D');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = 'none';
+            }
+            var ele = document.getElementsByClassName('ChemSolPic3D');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = 'none';
+            }
+            var ele = document.getElementsByClassName('But2D');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "none";
+            }
+            var ele = document.getElementsByClassName('But3D');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "none";
+            }
         }
 
 
 
         function showdetails() {
-            document.getElementById("ehskleur").style.visibility = 'visible';
-            document.getElementById("solventDetailsDiv").style.visibility = 'visible';
-            document.getElementById("ButSolvDet").style.display = 'block';
-            document.getElementById("ButSolvDet").style.backgroundColor = '#b92ed1';
-            document.getElementById("ButChemStruct").style.display = 'block';
-            var ButSolv = document.getElementById('ButSolvDet');
-            ButSolv.style.backgroundColor = '#b92ed1';
-            document.getElementById("solventinfo").setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all; overflow: auto;box-shadow: 8px 8px 15px rgba(0,0,0,0.8);");
+            var ele = document.getElementsByClassName('SolventDetails');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.visibility = "visible";
+            }
+            var ele = document.getElementsByClassName('ButChemStruct');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "block";
+            }
+            var ele = document.getElementsByClassName('ButSolvDet');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "block";
+                ele[i].style.backgroundColor = "#b92ed1"
+            }
+            var ele = document.getElementsByClassName('ehskleur');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.visibility = "visible";
+            }
+            var ele = document.getElementsByClassName('ChemSolPic');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.visibility = "visible";
+            }
+            var ele = document.getElementsByClassName('SolventInfo');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all; overflow: auto;box-shadow: 8px 8px 15px rgba(0,0,0,0.8);");
+            }
+
             if (!$scope.$$phase) {
                 //$digest or $apply
                 $scope.$apply();
@@ -807,10 +862,18 @@
         }
 
         function showclusterdetails() {
-            document.getElementById("ehskleur").style.visibility = 'hidden';
-            document.getElementById("solventinfo").style.visibility = 'visible';
-            document.getElementById("solventDetailsDiv").style.visibility = 'visible';
-            document.getElementById("solventinfo").setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all; overflow: auto; box-shadow: 8px 8px 15px rgba(0,0,0,0.8);");
+            var ele = document.getElementsByClassName('SolventDetails');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.visibility = "visible";
+            }
+            var ele = document.getElementsByClassName('ehskleur');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.visibility = "hidden";
+            }
+            var ele = document.getElementsByClassName('SolventInfo');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all; overflow: auto;");
+            }
 
         }
 
@@ -1061,9 +1124,7 @@
             $('#overlay_' + name).removeClass("div-overlay");
             d3.selectAll("svg > *").remove();
             overlayOpened = false;
-            $scope.showSolventInfo();
-
-            hidedetails();
+            //$scope.showSolventInfo();
 
 
 
@@ -1989,21 +2050,29 @@
 
         $scope.showSolventInfo = function () {
             solvInfo = true;
-            var parentDiv = document.getElementById('solventDetailsDiv');
-            var otherDiv = document.getElementById('ChemSolPicDiv');
-            var ButChem = document.getElementById('ButChemStruct');
-            var ButSolv = document.getElementById('ButSolvDet');
-            ButChem.style.backgroundColor = 'transparent';
-            ButSolv.style.backgroundColor = '#b92ed1';
-            parentDiv.style.display = 'block';
-            otherDiv.style.display = 'none';
-            //var solventinfo = document.getElementById('solventinfo');
-            if ($('#solventinfo').length)         //check if exists
-            {
+            hidedetails();
 
-                //document.getElementById("solventinfo").setAttribute("class", "unblurred");
-
+            var ele = document.getElementsByClassName('ButChemStruct');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "block";
+                ele[i].style.backgroundColor = 'transparent';
             }
+            var ele = document.getElementsByClassName('ButSolvDet');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "block";
+                ele[i].style.backgroundColor = "#b92ed1"
+            }
+            var ele = document.getElementsByClassName('ChemSolPic');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.visibility = "hidden";
+            }
+            var ele = document.getElementsByClassName('SolventInfo');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all; overflow: auto;box-shadow: 8px 8px 15px rgba(0,0,0,0.8);");
+            }
+
+
+
             showdetails();
 
         }
@@ -2012,31 +2081,44 @@
 
         $scope.showChem2D = function () {
             solvInfo = false;
-            var parentDiv = document.getElementById('ChemSolPicDiv');
-            var otherDiv = document.getElementById('solventDetailsDiv');
-            var ButChem = document.getElementById('ButChemStruct');
-            var ButSolv = document.getElementById('ButSolvDet');
-            ButChem.style.backgroundColor = '#b92ed1';
 
+            var ele = document.getElementsByClassName('ChemSolPic');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "block";
+                ele[i].style.backgroundColor = 'transparent';
+            }
+            var ele = document.getElementsByClassName('SolventDetails');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "none";
+            }
+            var ele = document.getElementsByClassName('ButChemStruct');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.visibility = "visible";
+                ele[i].style.backgroundColor = "#b92ed1";
+            }
+            var ele = document.getElementsByClassName('ButSolvDet');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.backgroundColor = 'transparent';
+            }
 
-
-            ButSolv.style.backgroundColor = 'transparent';
-
-            parentDiv.style.display = 'unset';
-            otherDiv.style.display = 'none';
-
-            var chemSolPic2D = document.getElementById('ChemSolPic2D');
-            var chemSolPic3D = document.getElementById('ChemSolPic3D');
-
-            var but2D = document.getElementById('But2D');
-            var but3D = document.getElementById('But3D');
-            but2D.style.backgroundColor = '#b92ed1';
-            but3D.style.backgroundColor = 'transparent';
-
-            chemSolPic2D.style.display = 'unset';
-            chemSolPic3D.style.display = 'none';
-
-            ButSolv.style.backgroundColor = 'transparent';
+            var ele = document.getElementsByClassName('ChemSolPic2D');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.backgroundColor = '#b92ed1';
+            }
+            var ele = document.getElementsByClassName('ChemSolPic3D');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = 'none';
+            }
+            var ele = document.getElementsByClassName('But2D');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "block";
+                ele[i].style.backgroundColor = '#b92ed1';
+            }
+            var ele = document.getElementsByClassName('But3D');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "block";
+                ele[i].style.backgroundColor = 'transparent';
+            }
 
             if (typeof $scope.selectedCluster !== 'undefined') {
                 $scope.showSolventInfo();
@@ -2092,30 +2174,49 @@
             but3D.style.backgroundColor = '#b92ed1';
             parentDiv.style.display = 'unset';
             otherDiv.style.display = 'none';
+
+            var ele = document.getElementsByClassName('ChemSolPic');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "block";
+            }
+            var ele = document.getElementsByClassName('SolventDetails');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "none";
+            }
+            var ele = document.getElementsByClassName('ButChemStruct');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.visibility = "visible";
+                ele[i].style.backgroundColor = "#b92ed1";
+            }
+            var ele = document.getElementsByClassName('ButSolvDet');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.visibility = "visible";
+                ele[i].style.backgroundColor = 'transparent';
+            }
+
+            var ele = document.getElementsByClassName('ChemSolPic2D');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = 'none';
+            }
+            var ele = document.getElementsByClassName('ChemSolPic3D');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = 'Block';
+            }
+            var ele = document.getElementsByClassName('But2D');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "block";
+                ele[i].style.backgroundColor = "transparent";
+            }
+            var ele = document.getElementsByClassName('But3D');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "block";
+                ele[i].style.backgroundColor = "#b92ed1";
+            }
+
             if (typeof $scope.selectedCluster !== 'undefined') {
                 $scope.showSolventInfo();
             }
-            //if (typeof $scope.selectedSolvent === 'undefined' || $scope.selectedSolvent == 'null') {
-
-
-            //} else {
-            //    var urlPic = $scope.trustSrc("http://www.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pccompound&retmax=100&term=" + $scope.selectedSolvent.CasNumber); 
-            //    var result;
-            //        $.ajax({
-            //            type: "GET",
-            //            url: urlPic,
-            //            dataType: "xml",
-            //            success: function (xml) {
-            //                result = $(xml).find("Id").text();
-            //                $scope.cidurl = "http://embed.molview.org/v1/?mode=balls&bg=white&cid=" + result.toString();
-            //                $sce.trustAsResourceUrl($scope.cidurl);
-            //                $scope.$apply();
-            //            },
-            //            error: function (xml) {
-            //                alert('Er ging iets mis, gelieve de volgende code naar de administrator te sturen: ' + xml.status + ' ' + xml.statusText);
-            //            },
-            //        });
-            //}
+            
 
 
         }
