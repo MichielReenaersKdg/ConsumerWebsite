@@ -781,16 +781,17 @@
             var ele = document.getElementsByClassName('SolventDetails');
             for (var i = 0; i < ele.length; i++) {
                 ele[i].style.visibility = "hidden";
+                ele[i].style.display = "none";
                 ele[i].style.filter = 'None';
 
             }
             var ele = document.getElementsByClassName('ButChemStruct');
             for (var i = 0; i < ele.length; i++) {
-                ele[i].style.display = "none";
+                ele[i].style.visibility = "hidden";
             }
             var ele = document.getElementsByClassName('ButSolvDet');
             for (var i = 0; i < ele.length; i++) {
-                ele[i].style.display = "none";
+                ele[i].style.visibility = "hidden";
             }
             var ele = document.getElementsByClassName('ehskleur');
             for (var i = 0; i < ele.length; i++) {
@@ -809,19 +810,21 @@
 
             var ele = document.getElementsByClassName('ChemSolPic2D');
             for (var i = 0; i < ele.length; i++) {
-                ele[i].style.display = 'none';
+                ele[i].style.display = "none";
+                ele[i].style.visibility = 'hidden';
             }
             var ele = document.getElementsByClassName('ChemSolPic3D');
             for (var i = 0; i < ele.length; i++) {
-                ele[i].style.display = 'none';
+                ele[i].style.display = "none";
+                ele[i].style.visibility = 'hidden';
             }
             var ele = document.getElementsByClassName('But2D');
             for (var i = 0; i < ele.length; i++) {
-                ele[i].style.display = "none";
+                ele[i].style.visibility = "hidden";
             }
             var ele = document.getElementsByClassName('But3D');
             for (var i = 0; i < ele.length; i++) {
-                ele[i].style.display = "none";
+                ele[i].style.visibility = "hidden";
             }
         }
 
@@ -830,15 +833,16 @@
         function showdetails() {
             var ele = document.getElementsByClassName('SolventDetails');
             for (var i = 0; i < ele.length; i++) {
+                ele[i].style.display = "block";
                 ele[i].style.visibility = "visible";
             }
             var ele = document.getElementsByClassName('ButChemStruct');
             for (var i = 0; i < ele.length; i++) {
-                ele[i].style.display = "block";
+                ele[i].style.visibility = "visible";
             }
             var ele = document.getElementsByClassName('ButSolvDet');
             for (var i = 0; i < ele.length; i++) {
-                ele[i].style.display = "block";
+                ele[i].style.visibility = "visible";
                 ele[i].style.backgroundColor = "#b92ed1"
             }
             var ele = document.getElementsByClassName('ehskleur');
@@ -847,7 +851,8 @@
             }
             var ele = document.getElementsByClassName('ChemSolPic');
             for (var i = 0; i < ele.length; i++) {
-                ele[i].style.visibility = "visible";
+                ele[i].style.display = "none";
+                ele[i].style.visibility = "hidden";
             }
             var ele = document.getElementsByClassName('SolventInfo');
             for (var i = 0; i < ele.length; i++) {
@@ -865,6 +870,7 @@
             var ele = document.getElementsByClassName('SolventDetails');
             for (var i = 0; i < ele.length; i++) {
                 ele[i].style.visibility = "visible";
+                ele[i].style.display = "block";
             }
             var ele = document.getElementsByClassName('ehskleur');
             for (var i = 0; i < ele.length; i++) {
@@ -2054,24 +2060,27 @@
 
             var ele = document.getElementsByClassName('ButChemStruct');
             for (var i = 0; i < ele.length; i++) {
-                ele[i].style.display = "block";
+                ele[i].style.visibility = "visible";
                 ele[i].style.backgroundColor = 'transparent';
             }
             var ele = document.getElementsByClassName('ButSolvDet');
             for (var i = 0; i < ele.length; i++) {
-                ele[i].style.display = "block";
+                ele[i].style.visibility = "visible";
                 ele[i].style.backgroundColor = "#b92ed1"
             }
             var ele = document.getElementsByClassName('ChemSolPic');
             for (var i = 0; i < ele.length; i++) {
                 ele[i].style.visibility = "hidden";
+                ele[i].style.display = "none";
+            }
+            var ele = document.getElementsByClassName('SolventDetails');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.visibility = "visible";
             }
             var ele = document.getElementsByClassName('SolventInfo');
             for (var i = 0; i < ele.length; i++) {
                 ele[i].setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all; overflow: auto;box-shadow: 8px 8px 15px rgba(0,0,0,0.8);");
             }
-
-
 
             showdetails();
 
@@ -2084,40 +2093,47 @@
 
             var ele = document.getElementsByClassName('ChemSolPic');
             for (var i = 0; i < ele.length; i++) {
+                ele[i].style.visibility = 'visible';
                 ele[i].style.display = "block";
                 ele[i].style.backgroundColor = 'transparent';
             }
             var ele = document.getElementsByClassName('SolventDetails');
             for (var i = 0; i < ele.length; i++) {
+                ele[i].style.visibility = 'collapse';
                 ele[i].style.display = "none";
             }
             var ele = document.getElementsByClassName('ButChemStruct');
             for (var i = 0; i < ele.length; i++) {
-                ele[i].style.visibility = "visible";
-                ele[i].style.backgroundColor = "#b92ed1";
+                ele[i].style.visibility = 'visible';
+                ele[i].style.backgroundColor = '#b92ed1';
             }
             var ele = document.getElementsByClassName('ButSolvDet');
             for (var i = 0; i < ele.length; i++) {
+                ele[i].style.visibility = 'visible';
                 ele[i].style.backgroundColor = 'transparent';
             }
 
             var ele = document.getElementsByClassName('ChemSolPic2D');
             for (var i = 0; i < ele.length; i++) {
-                ele[i].style.backgroundColor = '#b92ed1';
+                ele[i].style.visibility = 'visible';
+                ele[i].style.display = "block";
             }
             var ele = document.getElementsByClassName('ChemSolPic3D');
             for (var i = 0; i < ele.length; i++) {
-                ele[i].style.display = 'none';
+                ele[i].style.visibility = 'visible';
+                ele[i].style.display = "none";
             }
-            var ele = document.getElementsByClassName('But2D');
-            for (var i = 0; i < ele.length; i++) {
-                ele[i].style.display = "block";
-                ele[i].style.backgroundColor = '#b92ed1';
-            }
+
             var ele = document.getElementsByClassName('But3D');
             for (var i = 0; i < ele.length; i++) {
-                ele[i].style.display = "block";
+                ele[i].style.visibility = "visible";
                 ele[i].style.backgroundColor = 'transparent';
+            }
+
+            var ele = document.getElementsByClassName('But2D');
+            for (var i = 0; i < ele.length; i++) {
+                ele[i].style.backgroundColor = '#b92ed1';
+                ele[i].style.visibility = "visible";
             }
 
             if (typeof $scope.selectedCluster !== 'undefined') {
@@ -2146,41 +2162,21 @@
                     },
                 });
             }
-            //$scope.$digest();
 
 
         }
 
         $scope.showChemPic = function () {
             solvInfo = false;
-            var parentDiv = document.getElementById('ChemSolPicDiv');
-            var otherDiv = document.getElementById('solventDetailsDiv');
-
-            var ButChem = document.getElementById('ButChemStruct');
-            var ButSolv = document.getElementById('ButSolvDet');
-
-            var chemSolPic2D = document.getElementById('ChemSolPic2D');
-            var chemSolPic3D = document.getElementById('ChemSolPic3D');
-
-            var but2D = document.getElementById('But2D');
-            var but3D = document.getElementById('But3D');
-
-            chemSolPic2D.style.display = 'none';
-            chemSolPic3D.style.display = 'unset';
-            but2D.style.backgroundColor = 'transparent';
-            ButChem.style.backgroundColor = '#b92ed1';
-
-            ButSolv.style.backgroundColor = 'transparent';
-            but3D.style.backgroundColor = '#b92ed1';
-            parentDiv.style.display = 'unset';
-            otherDiv.style.display = 'none';
 
             var ele = document.getElementsByClassName('ChemSolPic');
             for (var i = 0; i < ele.length; i++) {
+                ele[i].style.visibility = "visible";
                 ele[i].style.display = "block";
             }
             var ele = document.getElementsByClassName('SolventDetails');
             for (var i = 0; i < ele.length; i++) {
+                ele[i].style.visibility = "hidden";
                 ele[i].style.display = "none";
             }
             var ele = document.getElementsByClassName('ButChemStruct');
@@ -2196,20 +2192,22 @@
 
             var ele = document.getElementsByClassName('ChemSolPic2D');
             for (var i = 0; i < ele.length; i++) {
-                ele[i].style.display = 'none';
+                ele[i].style.visibility = 'collapse';
+                ele[i].style.display = "none";
             }
             var ele = document.getElementsByClassName('ChemSolPic3D');
             for (var i = 0; i < ele.length; i++) {
-                ele[i].style.display = 'Block';
+                ele[i].style.visibility = 'visible';
+                ele[i].style.display = "block";
             }
             var ele = document.getElementsByClassName('But2D');
             for (var i = 0; i < ele.length; i++) {
-                ele[i].style.display = "block";
+                ele[i].style.visibility = "visible";
                 ele[i].style.backgroundColor = "transparent";
             }
             var ele = document.getElementsByClassName('But3D');
             for (var i = 0; i < ele.length; i++) {
-                ele[i].style.display = "block";
+                ele[i].style.visibility = "visible";
                 ele[i].style.backgroundColor = "#b92ed1";
             }
 
