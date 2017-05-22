@@ -222,7 +222,7 @@
                     <div class="col-lg-8 col-md-8 padding-less" style="width:100%; padding-top:1%;">
 
                         <div class="grid grid-graph col-lg-12 text-center"  id="chart-container-{{model.Model.AlgorithmName}}" style="width:62%; margin-right:2%; height:480px;">    
-                                <div angucomplete-alt
+                                <!--<div angucomplete-alt
                                      id="ex1"
                                      placeholder="Search solvent"
                                      maxlength="50"
@@ -238,8 +238,24 @@
                                      style="margin-top: 12px; display: block;"
                                      match-class="highlight"
                                      clear-selected="true">
-                                </div>
-                                
+                                </div>-->
+                            <div angucomplete-alt
+                                 id="ex0"
+                                 placeholder="Search CAS no."
+                                 maxlength="50"
+                                 pause="100"
+                                 selected-object="selectedSolventCasFunc"
+                                 local-data="solvents"
+                                 search-fields="CasNumber"
+                                 title-field="CasNumber"
+                                 focus-in="focusSearch(0)"
+                                 focus-out="focusOutSearch(0)"
+                                 minlength="1"
+                                 input-class="form-control form-control-small"
+                                 style="margin-top: 12px; display: block;"
+                                 match-class="highlight"
+                                 clear-selected="true">
+                            </div>
                             
                             <h3 class="text-primary">Cluster analysis graph</h3>
                             <div class="chart-legend">Size of bubble: max. solvent distance</div>

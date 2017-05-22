@@ -1057,7 +1057,9 @@
             delete $scope.selectedCluster;
             getClusterFromSolvent($scope.selectedSolvent);
             var element = document.getElementsByClassName('angucomplete-holder');
-            element[0].style.width = '50px';
+            for (var i = 0; i < element.length; i++) {
+                element[i].style.width = '50px';
+            }
             $scope.overlayvisible = true;
             overlayOpened = true;
 
@@ -1068,11 +1070,20 @@
         $scope.focusSearch = function (index) {
 
             var element = document.getElementsByClassName('angucomplete-holder');
-            element[index].style.width = '250px';
+            for (var i = 0; i < element.length; i++) {
+                if (element[i].childNodes[1].id == "ex"+index+ "_value") {
+                    element[i].style.width = '250px';
+                }
+            }
+ 
         }
         $scope.focusOutSearch = function (index) {
             var element = document.getElementsByClassName('angucomplete-holder');
-            element[index].style.width = '50px';
+            for (var i = 0; i < element.length; i++) {
+                if (element[i].childNodes[1].id == "ex" + index + "_value") {
+                    element[i].style.width = '50px';
+                }
+            }
         }
         $scope.selectClassifiedSolvent = function (item, index) {
             var btns = document.getElementsByClassName('classifiedBtn');
@@ -1205,7 +1216,8 @@
                     cluster.Solvents[i].DistanceToClusterPercentage = (cluster.Solvents[i].DistanceToClusterCenter / max) * 95;
 
                 }
-
+                $(".cluster-div").removeClass("selected");
+                $("#cluster-div-" + cluster.Number).addClass("selected");
                 createClusterChart(model.Clusters[cluster.Number]);
                 $scope.solventsInCluster = cluster.Solvents;
                 $scope.cluster = cluster.Number;
@@ -1502,7 +1514,6 @@
                 jsonLinks.push(link);
 
             }
-
             $scope.maxDistance = maxSolvent.DistanceToClusterCenter.toFixed(2);
             $scope.minDistance = minSolvent.DistanceToClusterCenter.toFixed(2);
             $scope.maxSolvent = maxSolvent;
