@@ -2263,6 +2263,7 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
     border-radius: 25px;
     background: red;
     position: absolute;
+    opacity: 0.4;
 }
 
 .circle-container {

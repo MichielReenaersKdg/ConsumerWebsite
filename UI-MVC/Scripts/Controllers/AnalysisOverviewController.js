@@ -429,7 +429,8 @@
                 setBorderDatapoint(datapoint);
                 currentChart.render();
             }
-
+            $('.distanceMatrix').removeClass("div-overlay-matrix");
+            $('.distanceMatrix').addClass("not-visible-matrix");
             hidedetails();
         });
 
@@ -1126,6 +1127,7 @@
         $scope.closeOverlay = function closeOverlay(name) {
 
             $(".cluster-div").removeClass("selected");
+            $("#distanceMatrixDiv").removeAttr("id");
             closeSolventOverlay(name);
             $scope.overlayvisible = false;
             delete $scope.selectedNodeObject;
@@ -1888,8 +1890,8 @@
             var matrix = buildMatrix(copiedCluster);
 
             drawDistanceMatrix(matrix, clusterTemp);
-            $('#distanceMatrixDiv').removeClass("not-visible-matrix");
-            $('#distanceMatrixDiv').addClass("div-overlay-matrix");
+            $('.distanceMatrix').removeClass("not-visible-matrix");
+            $('.distanceMatrix').addClass("div-overlay-matrix");
 
         }
 
@@ -1930,66 +1932,75 @@
             }
 
             //making our div visible
-            $('#distanceMatrixDiv').removeClass("not-visible-matrix");
-            $('#distanceMatrixDiv').addClass("div-overlay-matrix");
+            //var ele = document.getElementsByClassName('distanceMatrix');
+            $('.distanceMatrix').removeClass("not-visible-matrix");
+            $('.distanceMatrix').addClass("div-overlay-matrix");
 
             //in which div to put the contents
             //var parentDiv = document.getElementById('distanceMatrixDiv');
 
 
-            //getting the header and body
-            var thead = document.getElementById('zui-table-header');
-            var tbdy = document.getElementById('zui-table-body');
-            //clearing table body nd head to make sure data doesn't append
-            thead.innerHTML = '';
-            tbdy.innerHTML = '';
+            //getting the header and body by doing it by class we can make sure that when you select a different algorithm. That the distance matrix is still produced.
+            var headerz = document.getElementsByClassName('zui-table-header');
+            var bodyz = document.getElementsByClassName('zui-table-body');
+            for (var x = 0; x < headerz.length; x++) {
+                //clearing table body nd head to make sure data doesn't append
+                headerz[x].innerHTML = '';
+                bodyz[x].innerHTML = '';
+
+                //normalization
+                var maxRow = normalizeddistancevalues.map(function (row) { return Math.max.apply(Math, row); });
+                var max = Math.max.apply(null, maxRow);
 
 
-            var maxRow = normalizeddistancevalues.map(function (row) { return Math.max.apply(Math, row); });
-            var max = Math.max.apply(null, maxRow);
-
-            //creating a row for the header
-            var tr = document.createElement('tr');
-
-            //creating the first element for the header - we do this because the first column is not data that needs to be fetched drom the table
-            var th = document.createElement('th');
-            th.textContent = ' ';
-            th.height = '100%';
-            th.width = '100%';
-            //we append it to the row
-            tr.appendChild(th);
-
-            //we dynamicly fill the table with data following the same steps as above - we add span to make sure words that are too big are broken (see css)
-            for (var i = 0; i < clustertemp.Solvents.length; i++) {
-
-                var tdh = document.createElement('th');
-
-                tdh.appendChild(document.createTextNode(clustertemp.Solvents[i].Name));
-                tr.appendChild(tdh);
-
-            }
-            //apend the data to the thead
-            thead.appendChild(tr);
-
-            //dynamicly add data and rows for the tbody
-            for (var i = 0; i < matrix.length; i++) {
+                //creating a row for the header
                 var tr = document.createElement('tr');
-                var tdhs = document.createElement('td');
-                //the first element in the row is the name of the solvent - look up distance matrixes for more info
-                tdhs.appendChild(document.createTextNode(clustertemp.Solvents[i].Name));
-                tr.appendChild(tdhs);
 
-                //dynamic content for the remaining row
-                for (var j = 0; j < matrix.length; j++) {
-                    var td = document.createElement('td');
-                    td.style.backgroundColor = getColorForPercentage(parseFloat(normalizeddistancevalues[i][j]).toFixed(2) / max);
-                    td.appendChild(document.createTextNode(parseFloat(normalizeddistancevalues[i][j]).toFixed(2)));
-                    tr.appendChild(td)
+                //creating the first element for the header - we do this because the first column is not data that needs to be fetched drom the table
+                var th = document.createElement('th');
+                th.textContent = ' ';
+                th.height = '100%';
+                th.width = '100%';
+                //we append it to the row
+                tr.appendChild(th);
+
+                //we dynamicly fill the table with data following the same steps as above - we add span to make sure words that are too big are broken (see css)
+                for (var i = 0; i < clustertemp.Solvents.length; i++) {
+
+                    var tdh = document.createElement('th');
+
+                    tdh.appendChild(document.createTextNode(clustertemp.Solvents[i].Name));
+                    tr.appendChild(tdh);
 
                 }
-                tbdy.appendChild(tr);
+
+                //apend the data to the thead
+                headerz[x].appendChild(tr);
+
+                //dynamicly add data and rows for the tbody
+                for (var i = 0; i < matrix.length; i++) {
+                    var tr = document.createElement('tr');
+                    var tdhs = document.createElement('td');
+                    //the first element in the row is the name of the solvent - look up distance matrixes for more info
+                    tdhs.appendChild(document.createTextNode(clustertemp.Solvents[i].Name));
+                    tr.appendChild(tdhs);
+
+                    //dynamic content for the remaining row
+                    for (var j = 0; j < matrix.length; j++) {
+                        var td = document.createElement('td');
+                        td.style.backgroundColor = getColorForPercentage(parseFloat(normalizeddistancevalues[i][j]).toFixed(2) / max);
+                        td.appendChild(document.createTextNode(parseFloat(normalizeddistancevalues[i][j]).toFixed(2)));
+                        tr.appendChild(td)
+
+                    }
+                    bodyz[x].appendChild(tr);
+                }
             }
 
+            
+            //var thead = document.getElementById('zui-table-header');
+            //var tbdy = document.getElementById('zui-table-body');
+        
             $scope.$apply();
 
         }
@@ -2051,8 +2062,8 @@
         }
         $scope.distanceMatrixClose = function () {
 
-            $('#distanceMatrixDiv').removeClass("div-overlay-matrix");
-            $('#distanceMatrixDiv').addClass("not-visible-matrix");
+            $('.distanceMatrix').removeClass("div-overlay-matrix");
+            $('.distanceMatrix').addClass("not-visible-matrix");
 
             //$scope.apply();
 
@@ -2290,22 +2301,47 @@ angular.module('sussol.services')
 
         restrict: 'A',
         link: function (scope, elem, attrs) {
+            //$(".distanceMatrix").each(function () {
+            //    var element = $(this);
+            //    element.on('scroll', function (evt) {
+            //        //voorkom meerdere triggers
+            //        evt.preventDefault();
+            //        evt.stopPropagation();
+            //        /*
+            //        Setting the thead left value to the negative valule of tbody.scrollLeft will make it track the movement
+            //        of the tbody element. Setting an elements left value to that of the tbody.scrollLeft left makes it maintain 			it's relative position at the left of the table.    
+            //        */
+
+            //        $('.zui-table-header').css("top", ($(".zui-wrapper").scrollTop())); //fix the thead relative to the body scrolling
+            //        $('.closecrossdis').css("right", -($(".zui-wrapper").scrollLeft()));
+            //        $('.closecrossdis').css("top", ($(".zui-wrapper").scrollTop()));
+            //        $('.zui-table-header th:nth-child(1)').css("left", ($(".zui-wrapper").scrollLeft()));
+            //        $('.zui-table-body td:nth-child(1)').css("left", ($(".zui-wrapper").scrollLeft())); //fix the first column of tdbody
+            //        //apply the changes
+
+
+                    
+
+            //    });
+
+                
+            //});
+           // scope.$apply();
+
             $(elem).on('scroll', function (evt) {
                 //voorkom meerdere triggers
-                evt.preventDefault();
-                evt.stopPropagation();
-                var myElement = angular.element(document.querySelector('#closecrossdis'));
-                //alert('left: ' + myElement[0].offsetLeft);
+                //evt.preventDefault();
+                //evt.stopPropagation();
                 /*
                 Setting the thead left value to the negative valule of tbody.scrollLeft will make it track the movement
                 of the tbody element. Setting an elements left value to that of the tbody.scrollLeft left makes it maintain 			it's relative position at the left of the table.    
                 */
 
-                $('.zui-table thead').css("top", ($(".zui-wrapper").scrollTop())); //fix the thead relative to the body scrolling
+                $('.zui-table-header').css("top", ($(".zui-wrapper").scrollTop())); //fix the thead relative to the body scrolling
                 $('.closecrossdis').css("right", -($(".zui-wrapper").scrollLeft()));
                 $('.closecrossdis').css("top", ($(".zui-wrapper").scrollTop()));
-                $('.zui-table thead th:nth-child(1)').css("left", ($(".zui-wrapper").scrollLeft()));
-                $('.zui-table tbody td:nth-child(1)').css("left", ($(".zui-wrapper").scrollLeft())); //fix the first column of tdbody
+                $('.zui-table-header th:nth-child(1)').css("left", ($(".zui-wrapper").scrollLeft()));
+                $('.zui-table-body td:nth-child(1)').css("left", ($(".zui-wrapper").scrollLeft())); //fix the first column of tdbody
                 //apply the changes
 
 

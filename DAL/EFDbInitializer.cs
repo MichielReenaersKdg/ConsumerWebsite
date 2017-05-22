@@ -31,8 +31,9 @@ namespace SS.DAL
                Name = Path.GetFileName(file),
                dataSet = File.ReadAllText(file)
             };
-            repo.createNewModelsFromTrainingsfile(set);
-         }
+                repo.createNewModelsFromTrainingsfile(set);
+
+            }
       }
    }
 }
