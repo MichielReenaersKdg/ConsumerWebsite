@@ -11,9 +11,8 @@
                 "#0093D1"
 
         ];
-        $scope.errorMessage = "Training set already exists";
+        $scope.errorMessage;
         $scope.validate = false;
-
         var data = result.data;
         for (var i = 0; i < data.BlockedUsers.length; i++) {
             if (data.BlockedUsers[i].AvatarUrl !== "" && data.BlockedUsers[i].AvatarUrl !== null) {
@@ -198,15 +197,13 @@
                 var trainingSet = { Name: reader.fileName, dataSet: result }
                 for (var i = 0; i < $scope.trainingsets.length; i++) {
                     if (trainingSet.Name === $scope.trainingsets[i].Name) {
+                        $scope.errorMessage = "Trainingset already exists";
                         $scope.validate = true;
                         $scope.$apply();
                         return false;
                     }
                 }
                 addNewTrainingSet(trainingSet);
-                $scope.fillAlgorithm("Canopy");
-                $scope.trainingsets.push(trainingSet);
-                notie.alert(1, "Training Set has been added", 2);
                 $scope.$apply();
                 return true;
             }
@@ -224,12 +221,20 @@
         }
 
         function addNewTrainingSet(trainingSet) {
+            $rootScope.loadingView = true;
             $http({
                 method: 'POST',
                 url: 'api/Analysis/AddTrainingSet',
                 data: trainingSet
             }).success(function (data) {
-                $scope.trainingSetId = data.ID;
+                $rootScope.loadingView = false;
+                if (data != null) {
+                    $scope.trainingsets.push(data);
+                    notie.alert(1, "Training Set has been added", 2);
+                } else {
+                    $scope.validate = true;
+                    $scope.errorMessage = "An error occured, the dataset has not been added";
+                }
             });
         }
         loadAllTrainingsSets();
@@ -243,10 +248,15 @@
             });
         }
         $scope.deleteTrainingSet = function (set) {
+            $rootScope.loadingView = true;
             $('#delete-trainingset').modal('hide');
             $http({
-                method: 'POST',
-                url: 'api/Analysis/DeleteTrainingSet/ ' + set.ID
+                method: 'DELETE',
+                url: 'api/Analysis/DeleteTrainingSet',
+                data: set,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             }).success(function succesCallback() {
                 notie.alert(1, "The Training Set has been removed", 2);
                 $('body').removeClass('modal-open');
@@ -254,6 +264,7 @@
                 if (index > -1) {
                     $scope.trainingsets.splice(index, 1);
                 }
+                $rootScope.loadingView = false;
             });
 
         }

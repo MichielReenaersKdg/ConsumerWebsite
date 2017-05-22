@@ -45,10 +45,10 @@ namespace SS.BL.Analyses
         IEnumerable<Solvent> ReadSolvents();
 
       //trainingSet
-      void createNewModelsFromTrainingsfile(TrainingSet training);
+      TrainingSet createNewModelsFromTrainingsfile(TrainingSet training);
+
       IEnumerable<TrainingSet> ReadTrainingSets();
       TrainingSet ReadTrainingSetById(int id);
-      TrainingSet RemoveTrainingSet(TrainingSet set);
-
+      void RemoveTrainingSet(TrainingSet set);
    }
 }

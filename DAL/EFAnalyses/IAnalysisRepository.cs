@@ -52,8 +52,8 @@ namespace SS.DAL.EFAnalyses
       //trainingset
       TrainingSet ReadTrainingSetById(int id);
       TrainingSet RemoveTrainingSet(TrainingSet set);
-
-        List<Algorithm> createNewModelsFromTrainingsfile(TrainingSet tr);
-
+      TrainingSet createNewModelsFromTrainingsfile(TrainingSet tr);
+      IEnumerable<Model> readModelsForTrainingSet(int id);
+      void removeTrainingSet(List<Model> models,List<Analysis> analyseslist, TrainingSet trainingset);
    }
 }

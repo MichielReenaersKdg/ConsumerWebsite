@@ -147,8 +147,8 @@ namespace SS.UI.Web.MVC.Controllers
       [HttpPost]
       public IHttpActionResult AddTrainingSet([FromBody]TrainingSet trainingSet)
       {
-         _analysisManager.createNewModelsFromTrainingsfile(trainingSet);
-         return Ok();
+         TrainingSet set = _analysisManager.createNewModelsFromTrainingsfile(trainingSet);
+         return Ok(set);
       }
 
       [Route("GetTrainingSets")]
@@ -159,22 +159,11 @@ namespace SS.UI.Web.MVC.Controllers
          return sets;
       }
       //DELETE api/Analysis/DeleteTrainingSet
-      [Route("DeleteTrainingSet/{id:int}")]
-      [HttpPost]
-      public IHttpActionResult DeleteTrainingSet(int id)
+      [Route("DeleteTrainingSet")]
+      [HttpDelete]
+      public IHttpActionResult DeleteTrainingSet([FromBody] TrainingSet trainingSet)
       {
-         TrainingSet trainingSet = _analysisManager.ReadTrainingSetById(id);
-         if (trainingSet == null)
-         {
-            return BadRequest("TrainingSet not found");
-         }
-
-         TrainingSet set = _analysisManager.RemoveTrainingSet(trainingSet);
-         if (set == null)
-         {
-            return BadRequest("TrainingSet not deleted");
-         }
-
+        _analysisManager.RemoveTrainingSet(trainingSet);
          return Ok("TrainingSet deleted");
       }
 

@@ -174,8 +174,14 @@ namespace SS.DAL.EFAnalyses
 
         public IEnumerable<Analysis> ReadFullAnalyses()
         {
-            return _context.Analyses.Include(p => p.AnalysisModels).Include(p => p.AnalysisModels.Select(a => a.Model));
-        }
+         return _context.Analyses.Include(a => a.CreatedBy)
+             .Include(a => a.SharedWith)
+             .Include(a => a.AnalysisModels)
+             .Include(a => a.AnalysisModels.Select(an => an.ClassifiedInstance))
+             .Include(a => a.AnalysisModels.Select(an => an.Model))
+             .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.trainingSet))
+             .ToList();
+      }
 
         public List<Model> ReadModelsForAlgorithm(AlgorithmName algorithmName)
         {
@@ -299,62 +305,136 @@ namespace SS.DAL.EFAnalyses
          return _context.TrainingSet.Find(id);
       }
 
-      public List<Algorithm> createNewModelsFromTrainingsfile(TrainingSet training)
+      public TrainingSet createNewModelsFromTrainingsfile(TrainingSet training)
         {
+         try
+         {
             bool New = false;
             List<Algorithm> algos = new List<Algorithm>();
             if (_context.Algorithms.Count() > 0)
             {
-                algos = _context.Algorithms.ToList();
+               algos = _context.Algorithms.ToList();
             }
             else
             {
-                New = true;
-                foreach (AlgorithmName name in Enum.GetValues(typeof(AlgorithmName)))
-                {
-                    Algorithm al = new Algorithm();
-                    al.AlgorithmName = name;
-                    algos.Add(al);
-                }
+               New = true;
+               foreach (AlgorithmName name in Enum.GetValues(typeof(AlgorithmName)))
+               {
+                  Algorithm al = new Algorithm();
+                  al.AlgorithmName = name;
+                  algos.Add(al);
+               }
             }
-            foreach(Algorithm l in algos)
+            foreach (Algorithm l in algos)
             {
 
-            
-                JObject AlgorithmObject = JObject.Parse(sus.createModel((int)l.AlgorithmName, training.dataSet.ToString(),training.Name));
-                //JToken jModelC = AlgorithmObject["model"];
-                if (l.Models == null)
-            {
-               l.Models = new List<Model>();
-            }
-                foreach (Model m in JsonHelper.ParseJson(AlgorithmObject.ToString()).Models.ToList())
-                {
-                    m.DataSet = l.AlgorithmName + "_" + training.Name;
-                    m.trainingSet = training;
-              
-                    l.Models.Add(m);
-                }
+               JObject AlgorithmObject = JObject.Parse(sus.createModel((int)l.AlgorithmName, training.dataSet.ToString(), training.Name));
+               //JToken jModelC = AlgorithmObject["model"];
+               if (l.Models == null)
+               {
+                  l.Models = new List<Model>();
+               }
+               foreach (Model m in JsonHelper.ParseJson(AlgorithmObject.ToString()).Models.ToList())
+               {
+                  m.DataSet = l.AlgorithmName + "_" + training.Name;
+                  m.trainingSet = training;
+
+                  l.Models.Add(m);
+               }
             }
 
             if (New)
             {
-                _context.Algorithms.AddRange(algos);
+               _context.Algorithms.AddRange(algos);
             }
             else
             {
                foreach (Algorithm alg in algos)
-            {
-               _context.Entry(alg).State = EntityState.Modified;
-            }
-                
+               {
+                  _context.Entry(alg).State = EntityState.Modified;
+               }
+
             }
             //Add to context
-            
+
             _context.SaveChanges();
 
-         counter++;
-            return algos;
-            
+            counter++;
+            return training;
+         }catch(Exception e)
+         {
+            return null;
+         }
         }
+
+      public IEnumerable<Model> readModelsForTrainingSet(int id)
+      {
+         return _context.Models
+             .Include(m => m.Clusters)
+             .Include(m => m.Clusters.Select(c => c.Solvents))
+             .Include(m => m.Clusters.Select(c => c.Solvents.Select(s => s.Features)))
+             .Include(m => m.Clusters.Select(c => c.DistanceToClusters))
+             .Include(m => m.Clusters.Select(c => c.VectorData))
+             .Where(t => t.trainingSet.ID == id)
+             .ToList();
+      }
+
+      public void removeTrainingSet(List<Model> models, List<Analysis> analyseslist, TrainingSet trainingset)
+      {
+         List<Analysis> analysisToDelete = new List<Analysis>();
+         List<AnalysisModel> anmodsToDelete = new List<AnalysisModel>();
+         foreach (Analysis analysis in analyseslist)
+         {
+            foreach (AnalysisModel anMod in analysis.AnalysisModels)
+            {
+               if (anMod.Model.trainingSet.ID == trainingset.ID)
+               {
+               anmodsToDelete.Add(anMod);
+               analysisToDelete.Add(analysis);
+               }
+            }
+         }
+         foreach (AnalysisModel anMod in anmodsToDelete)
+         {
+            _context.AnalysisModels.Attach(anMod);
+            _context.AnalysisModels.Remove(anMod);
+         }
+         foreach (Analysis analysis in analysisToDelete)
+         {
+            _context.Analyses.Attach(analysis);
+            _context.Analyses.Remove(analysis);
+         }
+         foreach (Model model in models)
+         {
+            foreach(Cluster cluster in model.Clusters)
+            {
+               foreach(Solvent solvent in cluster.Solvents)
+               {
+                  foreach(Feature feature in solvent.Features)
+                  {
+                     _context.Features.Attach(feature);
+                  }
+                  _context.Features.RemoveRange(solvent.Features);
+                  _context.Solvents.Attach(solvent);
+               }
+               _context.Solvents.RemoveRange(cluster.Solvents);
+               foreach (ClusterDistanceCenter distance in cluster.DistanceToClusters)
+               {
+                  _context.ClusterDistanceCenters.Attach(distance);
+               }
+               _context.ClusterDistanceCenters.RemoveRange(cluster.DistanceToClusters);
+               _context.Clusters.Attach(cluster);
+            }
+            _context.Clusters.RemoveRange(model.Clusters);
+            _context.Models.Attach(model);
+           
+            
+         }
+         _context.Models.RemoveRange(models);
+         _context.TrainingSet.Remove(_context.TrainingSet.Find(trainingset.ID));
+         _context.SaveChanges();
+
+
+      }
    }
 }

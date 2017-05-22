@@ -25,11 +25,6 @@ namespace SS.BL.Analyses
             return repo.CreateAlgorithm(algorithm);
         }
 
-      public TrainingSet RemoveTrainingSet(TrainingSet set)
-      {
-         return repo.RemoveTrainingSet(set);
-      }
-
       public Analysis CreateAnalysis(string name, DateTime dateCreated, User createdBy)
         {
             Analysis analysis = new Analysis()
@@ -163,9 +158,18 @@ namespace SS.BL.Analyses
          return repo.ReadTrainingSetById(id);
       }
 
-      public void createNewModelsFromTrainingsfile(TrainingSet training)
+      public TrainingSet createNewModelsFromTrainingsfile(TrainingSet training)
       {
-         repo.createNewModelsFromTrainingsfile(training);
+         return repo.createNewModelsFromTrainingsfile(training);
       }
+
+      public void RemoveTrainingSet(TrainingSet trainingset)
+      {
+         IEnumerable<Model> models = repo.readModelsForTrainingSet(trainingset.ID);
+         IEnumerable<Analysis> analysis = repo.ReadFullAnalyses();
+         repo.removeTrainingSet(models.ToList(), analysis.ToList(), trainingset);
+      }
+
+      
    }
 }
