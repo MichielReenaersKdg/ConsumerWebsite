@@ -1127,7 +1127,6 @@
         $scope.closeOverlay = function closeOverlay(name) {
 
             $(".cluster-div").removeClass("selected");
-            $("#distanceMatrixDiv").removeAttr("id");
             closeSolventOverlay(name);
             $scope.overlayvisible = false;
             delete $scope.selectedNodeObject;
@@ -1890,8 +1889,8 @@
             var matrix = buildMatrix(copiedCluster);
 
             drawDistanceMatrix(matrix, clusterTemp);
-            $('.distanceMatrix').removeClass("not-visible-matrix");
-            $('.distanceMatrix').addClass("div-overlay-matrix");
+            //$('.distanceMatrix').removeClass("not-visible-matrix");
+            //$('.distanceMatrix').addClass("div-overlay-matrix");
 
         }
 
@@ -1936,73 +1935,92 @@
             $('.distanceMatrix').removeClass("not-visible-matrix");
             $('.distanceMatrix').addClass("div-overlay-matrix");
 
+
             //in which div to put the contents
             //var parentDiv = document.getElementById('distanceMatrixDiv');
-
 
             //getting the header and body by doing it by class we can make sure that when you select a different algorithm. That the distance matrix is still produced.
             var headerz = document.getElementsByClassName('zui-table-header');
             var bodyz = document.getElementsByClassName('zui-table-body');
+            var distance = document.getElementsByClassName('distanceMatrix');
             for (var x = 0; x < headerz.length; x++) {
-                //clearing table body nd head to make sure data doesn't append
-                headerz[x].innerHTML = '';
-                bodyz[x].innerHTML = '';
+                $(distance[x]).bind('scroll', function (evt) {
+                    /*
+                    Setting the thead left value to the negative valule of tbody.scrollLeft will make it track the movement
+                    of the tbody element. Setting an elements left value to that of the tbody.scrollLeft left makes it maintain 			it's relative position at the left of the table.    
+                    */
 
-                //normalization
-                var maxRow = normalizeddistancevalues.map(function (row) { return Math.max.apply(Math, row); });
-                var max = Math.max.apply(null, maxRow);
+                    $('.zui-table-header').css("top", ($(evt.target).scrollTop())); //fix the thead relative to the body scrolling
+                    $('.closecrossdis').css("right", -($(evt.target).scrollLeft()));
+                    $('.closecrossdis').css("top", ($(evt.target).scrollTop()));
+                    $('.zui-table-header th:nth-child(1)').css("left", ($(evt.target).scrollLeft()));
+                    $('.zui-table-body td:nth-child(1)').css("left", ($(evt.target).scrollLeft())); //fix the first column of tdbody
+                    //apply the changes
 
 
-                //creating a row for the header
-                var tr = document.createElement('tr');
+                    $scope.$apply();
+                });
+                    //clearing table body nd head to make sure data doesn't append
+                    headerz[x].innerHTML = '';
+                    bodyz[x].innerHTML = '';
 
-                //creating the first element for the header - we do this because the first column is not data that needs to be fetched drom the table
-                var th = document.createElement('th');
-                th.textContent = ' ';
-                th.height = '100%';
-                th.width = '100%';
-                //we append it to the row
-                tr.appendChild(th);
+                    //normalization
+                    var maxRow = normalizeddistancevalues.map(function (row) { return Math.max.apply(Math, row); });
+                    var max = Math.max.apply(null, maxRow);
 
-                //we dynamicly fill the table with data following the same steps as above - we add span to make sure words that are too big are broken (see css)
-                for (var i = 0; i < clustertemp.Solvents.length; i++) {
 
-                    var tdh = document.createElement('th');
-
-                    tdh.appendChild(document.createTextNode(clustertemp.Solvents[i].Name));
-                    tr.appendChild(tdh);
-
-                }
-
-                //apend the data to the thead
-                headerz[x].appendChild(tr);
-
-                //dynamicly add data and rows for the tbody
-                for (var i = 0; i < matrix.length; i++) {
+                    //creating a row for the header
                     var tr = document.createElement('tr');
-                    var tdhs = document.createElement('td');
-                    //the first element in the row is the name of the solvent - look up distance matrixes for more info
-                    tdhs.appendChild(document.createTextNode(clustertemp.Solvents[i].Name));
-                    tr.appendChild(tdhs);
 
-                    //dynamic content for the remaining row
-                    for (var j = 0; j < matrix.length; j++) {
-                        var td = document.createElement('td');
-                        td.style.backgroundColor = getColorForPercentage(parseFloat(normalizeddistancevalues[i][j]).toFixed(2) / max);
-                        td.appendChild(document.createTextNode(parseFloat(normalizeddistancevalues[i][j]).toFixed(2)));
-                        tr.appendChild(td)
+                    //creating the first element for the header - we do this because the first column is not data that needs to be fetched drom the table
+                    var th = document.createElement('th');
+                    th.textContent = ' ';
+                    th.height = '100%';
+                    th.width = '100%';
+                    //we append it to the row
+                    tr.appendChild(th);
+
+                    //we dynamicly fill the table with data following the same steps as above - we add span to make sure words that are too big are broken (see css)
+                    for (var i = 0; i < clustertemp.Solvents.length; i++) {
+
+                        var tdh = document.createElement('th');
+
+                        tdh.appendChild(document.createTextNode(clustertemp.Solvents[i].Name));
+                        tr.appendChild(tdh);
 
                     }
-                    bodyz[x].appendChild(tr);
-                }
+
+                    //apend the data to the thead
+                    headerz[x].appendChild(tr);
+
+                    //dynamicly add data and rows for the tbody
+                    for (var i = 0; i < matrix.length; i++) {
+                        var tr = document.createElement('tr');
+                        var tdhs = document.createElement('td');
+                        //the first element in the row is the name of the solvent - look up distance matrixes for more info
+                        tdhs.appendChild(document.createTextNode(clustertemp.Solvents[i].Name));
+                        tr.appendChild(tdhs);
+
+                        //dynamic content for the remaining row
+                        for (var j = 0; j < matrix.length; j++) {
+                            var td = document.createElement('td');
+                            td.style.backgroundColor = getColorForPercentage(parseFloat(normalizeddistancevalues[i][j]).toFixed(2) / max);
+                            td.appendChild(document.createTextNode(parseFloat(normalizeddistancevalues[i][j]).toFixed(2)));
+                            tr.appendChild(td)
+
+                        }
+                        bodyz[x].appendChild(tr);
+                    }
+
+
+
+                    //var thead = document.getElementById('zui-table-header');
+                    //var tbdy = document.getElementById('zui-table-body');
+
+                    $scope.$apply();
+
+                
             }
-
-            
-            //var thead = document.getElementById('zui-table-header');
-            //var tbdy = document.getElementById('zui-table-body');
-        
-            $scope.$apply();
-
         }
 
         function getNormalizedValues(lengths) {
@@ -2277,80 +2295,52 @@
 
 
 
-angular.module('sussol.services')
-.directive('fileChange', ['$parse', function ($parse) {
-    return {
-        require: 'ngModel',
-        restrict: 'A',
-        link: function ($scope, element, attrs, ngModel) {
-            var attrHandler = $parse(attrs['fileChange']);
-            var handler = function (e) {
-                $scope.$apply(function () {
-                    attrHandler($scope, { $event: e, files: e.target.files });
-                });
-            };
-            element[0].addEventListener('change', handler, false);
+    angular.module('sussol.services')
+    .directive('fileChange', ['$parse', function ($parse) {
+        return {
+            require: 'ngModel',
+            restrict: 'A',
+            link: function ($scope, element, attrs, ngModel) {
+                var attrHandler = $parse(attrs['fileChange']);
+                var handler = function (e) {
+                    $scope.$apply(function () {
+                        attrHandler($scope, { $event: e, files: e.target.files });
+                    });
+                };
+                element[0].addEventListener('change', handler, false);
+            }
         }
-    }
-}])
+    }]);
 
 
 
-.directive('scroller', function () {
-    return {
+//.directive('scroller', function () {
+//    return {
 
-        restrict: 'A',
-        link: function (scope, elem, attrs) {
-            //$(".distanceMatrix").each(function () {
-            //    var element = $(this);
-            //    element.on('scroll', function (evt) {
-            //        //voorkom meerdere triggers
-            //        evt.preventDefault();
-            //        evt.stopPropagation();
-            //        /*
-            //        Setting the thead left value to the negative valule of tbody.scrollLeft will make it track the movement
-            //        of the tbody element. Setting an elements left value to that of the tbody.scrollLeft left makes it maintain 			it's relative position at the left of the table.    
-            //        */
+//        restrict: 'A',
+//        link: function (scope, elem, attrs) {
+            
 
-            //        $('.zui-table-header').css("top", ($(".zui-wrapper").scrollTop())); //fix the thead relative to the body scrolling
-            //        $('.closecrossdis').css("right", -($(".zui-wrapper").scrollLeft()));
-            //        $('.closecrossdis').css("top", ($(".zui-wrapper").scrollTop()));
-            //        $('.zui-table-header th:nth-child(1)').css("left", ($(".zui-wrapper").scrollLeft()));
-            //        $('.zui-table-body td:nth-child(1)').css("left", ($(".zui-wrapper").scrollLeft())); //fix the first column of tdbody
-            //        //apply the changes
+//            $(elem).on('scroll', function (evt) {
+//                /*
+//                Setting the thead left value to the negative valule of tbody.scrollLeft will make it track the movement
+//                of the tbody element. Setting an elements left value to that of the tbody.scrollLeft left makes it maintain 			it's relative position at the left of the table.    
+//                */
+
+//                $('.zui-table-header').css("top", ($(".zui-wrapper").scrollTop())); //fix the thead relative to the body scrolling
+//                $('.closecrossdis').css("right", -($(".zui-wrapper").scrollLeft()));
+//                $('.closecrossdis').css("top", ($(".zui-wrapper").scrollTop()));
+//                $('.zui-table-header th:nth-child(1)').css("left", ($(".zui-wrapper").scrollLeft()));
+//                $('.zui-table-body td:nth-child(1)').css("left", ($(".zui-wrapper").scrollLeft())); //fix the first column of tdbody
+//                //apply the changes
 
 
-                    
+//                scope.$apply();
 
-            //    });
+//            });
+//        }
 
-                
-            //});
-           // scope.$apply();
+//    }
 
-            $(elem).on('scroll', function (evt) {
-                //voorkom meerdere triggers
-                //evt.preventDefault();
-                //evt.stopPropagation();
-                /*
-                Setting the thead left value to the negative valule of tbody.scrollLeft will make it track the movement
-                of the tbody element. Setting an elements left value to that of the tbody.scrollLeft left makes it maintain 			it's relative position at the left of the table.    
-                */
-
-                $('.zui-table-header').css("top", ($(".zui-wrapper").scrollTop())); //fix the thead relative to the body scrolling
-                $('.closecrossdis').css("right", -($(".zui-wrapper").scrollLeft()));
-                $('.closecrossdis').css("top", ($(".zui-wrapper").scrollTop()));
-                $('.zui-table-header th:nth-child(1)').css("left", ($(".zui-wrapper").scrollLeft()));
-                $('.zui-table-body td:nth-child(1)').css("left", ($(".zui-wrapper").scrollLeft())); //fix the first column of tdbody
-                //apply the changes
-
-
-                scope.$apply();
-
-            });
-        }
-
-    }
-
-});
+//});
 
