@@ -1215,7 +1215,6 @@
                 var max = Math.max.apply(Math, distances);
                 for (var i = 0; i < cluster.Solvents.length; i++) {
                     cluster.Solvents[i].DistanceToClusterPercentage = (cluster.Solvents[i].DistanceToClusterCenter / max) * 95;
-
                 }
                 $(".cluster-div").removeClass("selected");
                 $("#cluster-div-" + cluster.Number).addClass("selected");
