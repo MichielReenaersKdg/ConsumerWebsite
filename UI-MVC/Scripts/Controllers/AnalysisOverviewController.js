@@ -383,7 +383,7 @@
             var json = [];
             var totalSolvents = model.Model.NumberOfSolvents;
             // returns the distance-matrix for clusters
-            var distancematrix = buildMatrix2(model.Model.Clusters);
+            var distancematrix = buildDistanceMatrixClusters(model.Model.Clusters);
             //use distance-matrix to calculate PcoA
             var graphdata = calculatePcoA(distancematrix);
 
@@ -1439,7 +1439,7 @@
         }
         //[0.5.0.6] Gets all the clusters from a model given by a algorithm (Canopy, SOM, Xmeans) and returns the distance matrix
         //It uses the DistanceToCluster values from each cluster
-        function buildMatrix2(clusters) {
+        function buildDistanceMatrixClusters(clusters) {
             var distancematrix = [];
             for (var i = 0; i < clusters.length; i++) {
                 var lines = [];
@@ -2291,6 +2291,12 @@
             elementToDeselect.style.stroke = 'White';
 
             selectedNode = elementToSelect;
+            var selectedNodeObject = {
+                Name: solvent.Name,
+                CasNumber: solvent.CasNumber,
+                DistanceToClusterCenter: solvent.DistanceToClusterCenter.toFixed(3)
+            };
+            $scope.selectedNodeObject = selectedNodeObject;
         }
 
         $scope.trustSrc = function (src) {
