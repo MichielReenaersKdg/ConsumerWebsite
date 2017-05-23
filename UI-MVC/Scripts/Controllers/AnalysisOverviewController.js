@@ -1603,6 +1603,17 @@
                         }
 
                     })
+                    .style("fill-opacity", function (d) {
+                        var opacity;
+                        switch (d.casNumber) {
+                            case "None":
+                                opacity = "1";
+                                break;
+                            default:
+                                opacity = "0.4";
+                        }
+                        return opacity;
+                    })
                     .on("click", function (d) {
                         document.getElementById("solventinfo").setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all");
                         if (window.event.ctrlKey) {
@@ -1700,14 +1711,25 @@
             });
             normalizedDistances.sort();
             var data = [];
-            for (var i = 0; i < otherSolvents.length; i++) {
+            if (normalizedDistances.length = 1) {
+                var distance = 1;
+                var dataPart = { 
+                    label: otherSolvents[0].Name + " ",
+                    value: distance.toFixed(3),
+                    solvent: otherSolvents[0]
+                }
+                data.push(dataPart);
+            } else {
+                for (var i = 0; i < otherSolvents.length; i++) {
                 var dataPart = {
                     label: otherSolvents[i].Name + " ",
                     value: normalizedDistances[i].toFixed(3),
                     solvent: otherSolvents[i]
                 }
                 data.push(dataPart);
+                }
             }
+            
 
             var div = d3.select("body").append("div").attr("class", "toolTip");
 
