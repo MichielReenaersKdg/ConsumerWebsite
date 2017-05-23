@@ -2007,6 +2007,31 @@
 
                     //creating the first element for the header - we do this because the first column is not data that needs to be fetched drom the table
                     var th = document.createElement('th');
+                    $('th').on('click', function (evt) {
+                        $('.zui-table thead th').css('backgroundColor', '#b73426');
+                        $(evt.target).css('backgroundColor', '#a12f23');
+                        var cellIn = evt.target.cellIndex;
+                        var selectedSolventIndex = cellIn - 1;
+                        var selectedColumn = cellIn + 1;
+                        $scope.selectedSolvent = $scope.solventsInCluster[(selectedSolventIndex)];
+                        
+                        $('.zui-table tbody td:nth-child(1)').css('backgroundColor', '#b73426');
+                        $('.zui-table tbody tr:nth-child(' + (cellIn) + ') td:nth-child(1)').css('backgroundColor', '#a12f23');
+                        $('.zui-table tbody td').css('border-right', 'none');
+                        $('.zui-table tbody td').css('border-left', 'none');
+                        $('.zui-table tbody td:nth-child(' + (selectedColumn) + ')').css('border-right', '1px solid #a12f23');
+                        $('.zui-table tbody td:nth-child(' + (selectedColumn) + ')').css('border-left', '1px solid #a12f23');
+
+                        //$('.zui-table-header th').css('backgroundColor', '#b73426');
+                        //$('.zui-table-header th:nth-child(' + (cellIn) + ')').css('backgroundColor', '#a12f23');
+                        $('.zui-table tbody tr').css('border', 'none');
+                        $('.zui-table tbody tr:nth-child(' + (cellIn) + ')').css('border', '1px solid #a12f23');
+
+                        delete $scope.selectedCluster;
+                        //$scope.selectedSolvent = solvents[(evt.target.cellIndex - 1)];
+                        $scope.showSolventInfo();
+                                               
+                    });
                     th.textContent = ' ';
                     th.height = '100%';
                     th.width = '100%';
@@ -2032,6 +2057,24 @@
                         var tdhs = document.createElement('td');
                         //the first element in the row is the name of the solvent - look up distance matrixes for more info
                         tdhs.appendChild(document.createTextNode(clustertemp.Solvents[i].Name));
+                        $(tdhs).on('click', function (evt) {
+                            $('.zui-table tbody tr td:nth-child(1)').css('backgroundColor', '#b73426');
+                            $(evt.target).css('backgroundColor', '#a12f23');
+                            $scope.selectedSolvent = $scope.solventsInCluster[(evt.target.parentNode.rowIndex - 1)];
+                            $('.zui-table-header th').css('backgroundColor', '#b73426');
+                            $('.zui-table-header th:nth-child(' + (evt.target.parentNode.rowIndex + 1) + ')').css('backgroundColor', '#a12f23');
+                            $('.zui-table tbody tr').css('border', 'none');
+                            $('.zui-table tbody tr:nth-child(' + (evt.target.parentNode.rowIndex) + ')').css('border', '1px solid #a12f23');
+
+                            $('.zui-table tbody td').css('border-right', 'none');
+                            $('.zui-table tbody td').css('border-left', 'none');
+                            $('.zui-table tbody td:nth-child(' + (evt.target.parentNode.rowIndex + 1) + ')').css('border-right', '1px solid #a12f23');
+                            $('.zui-table tbody td:nth-child(' + (evt.target.parentNode.rowIndex + 1) + ')').css('border-left', '1px solid #a12f23');
+                            delete $scope.selectedCluster;
+                            //$scope.selectedSolvent = solvents[(evt.target.cellIndex - 1)];
+                            $scope.showSolventInfo();
+
+                        });
                         tr.appendChild(tdhs);
 
                         //dynamic content for the remaining row
@@ -2054,7 +2097,7 @@
 
                 
             }
-            $scope.$apply();
+            //$scope.$apply();
         }
 
         function getNormalizedValues(lengths) {
