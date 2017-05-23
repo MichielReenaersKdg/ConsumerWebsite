@@ -881,7 +881,7 @@
         }
 
 
-        $scope.clusterChange = function (clusternumber) {
+        $scope.clusterChange = function (clusternumber,model) {
             $scope.closeOverlay(selectedAlgorithm);
             drawSolventChart(clusternumber);
 
@@ -892,13 +892,11 @@
 
 
             } else {
-                var clusterTemp = $scope.models[0].Model.Clusters[clusternumber];
+                var clusterTemp = model.Model.Clusters[clusternumber];
                 var copiedCluster = jQuery.extend(true, {}, clusterTemp);
                 var matrix = buildMatrix(copiedCluster);
 
                 drawDistanceMatrix(matrix, clusterTemp);
-
-
             }
 
 
@@ -1611,7 +1609,7 @@
                                 opacity = "1";
                                 break;
                             default:
-                                opacity = "0.4";
+                                opacity = "0.7";
                         }
                         return opacity;
                     })
@@ -1930,10 +1928,6 @@
         function drawDistanceMatrix(matrix, clustertemp) {
 
             $scope.matrix = matrix;
-            if (!$scope.$$phase) {
-                //$digest or $apply
-                $scope.$apply();
-            }
 
             var normalizeddistancevalues = [];
             distancematrixOverlayOpened = true;
