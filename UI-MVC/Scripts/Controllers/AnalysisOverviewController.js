@@ -48,17 +48,8 @@
 
         ];
         $scope.sharedWith = result.data.SharedWith;
-        var model = result.data.AnalysisModels
-        for (var i = 0; i < model[0].Model.Clusters.length; i++) {
-            for (var j = 0; j < model[0].Model.Clusters[i].Solvents.length; j++) {
-                model[0].Model.Clusters[i].Solvents[j].Name = model[0].Model.Clusters[i].Solvents[j].Name.replace(/_/g, ' ');
-                for (var k = 0; k < model[0].Model.Clusters[i].Solvents[j].Features.length; k++) {
-                    model[0].Model.Clusters[i].Solvents[j].Features[k].featureName = model[0].Model.Clusters[i].Solvents[j].Features[k].featureName.replace(/_/g, ' ');
-                }
-            }
-        }
 
-        $scope.models = model;
+        $scope.models = result.data.AnalysisModels;
         var data = result.data;
         //0.5.0.5
         //setEnumMinMax();
@@ -914,7 +905,16 @@
 
 
         }
-
+        function setSpaces(solventen){
+            for (var i = 0; i < solventen.length; i++) {
+                solventen[i].Name = solventen[i].Name.replace(/_/g, ' ');
+                for (var j = 0; j < solventen[i].Features.length; j++) {
+                    solventen[i].Features[j].featureName = solventen[i].Features[j].featureName.replace(/_/g, ' ');
+                    solventen[i].Features[j].featureName = solventen[i].Features[j].featureName.replace(/\?/g, '°');
+                }
+            }
+            return solventen;
+        }
         function drawSolventChart(clusternumber) {
 
             var model = findModelOnName(selectedAlgorithm);
@@ -925,6 +925,7 @@
             overlayOpened = true;
 
             var distances = [];
+            solventen = setSpaces(solventen);
             for (var i = 0; i < solventen.length; i++) {
                 distances.push(solventen[i].DistanceToClusterCenter);
             }
