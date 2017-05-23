@@ -1958,7 +1958,7 @@
                     //apply the changes
 
 
-                    $scope.$apply();
+                   // $scope.$apply();
                 });
                     //clearing table body nd head to make sure data doesn't append
                     headerz[x].innerHTML = '';
@@ -2017,10 +2017,11 @@
                     //var thead = document.getElementById('zui-table-header');
                     //var tbdy = document.getElementById('zui-table-body');
 
-                    $scope.$apply();
+                    
 
                 
             }
+            $scope.$apply();
         }
 
         function getNormalizedValues(lengths) {
@@ -2048,9 +2049,9 @@
             return normalizedValues;
         }
         var percentColors = [
-            { pct: 0.0, color: { r: 178, g: 178, b: 242 } },
-            { pct: 0.5, color: { r: 127, g: 127, b: 234 } }, //	127	127	234
-            { pct: 1.0, color: { r: 76, g: 76, b: 226 } }]; //76 76	226
+            { pct: 0.0, color: { r: 135, g: 199, b: 232 } },
+            { pct: 0.5, color: { r: 82, g: 173, b: 221 } }, //	127	127	234
+            { pct: 1.0, color: { r: 28, g: 146, b: 210 } }]; //76 76	226
 
         var getColorForPercentage = function (pct) {
             for (var i = 1; i < percentColors.length - 1; i++) {
@@ -2314,33 +2315,5 @@
 
 
 
-//.directive('scroller', function () {
-//    return {
 
-//        restrict: 'A',
-//        link: function (scope, elem, attrs) {
-            
-
-//            $(elem).on('scroll', function (evt) {
-//                /*
-//                Setting the thead left value to the negative valule of tbody.scrollLeft will make it track the movement
-//                of the tbody element. Setting an elements left value to that of the tbody.scrollLeft left makes it maintain 			it's relative position at the left of the table.    
-//                */
-
-//                $('.zui-table-header').css("top", ($(".zui-wrapper").scrollTop())); //fix the thead relative to the body scrolling
-//                $('.closecrossdis').css("right", -($(".zui-wrapper").scrollLeft()));
-//                $('.closecrossdis').css("top", ($(".zui-wrapper").scrollTop()));
-//                $('.zui-table-header th:nth-child(1)').css("left", ($(".zui-wrapper").scrollLeft()));
-//                $('.zui-table-body td:nth-child(1)').css("left", ($(".zui-wrapper").scrollLeft())); //fix the first column of tdbody
-//                //apply the changes
-
-
-//                scope.$apply();
-
-//            });
-//        }
-
-//    }
-
-//});
 
