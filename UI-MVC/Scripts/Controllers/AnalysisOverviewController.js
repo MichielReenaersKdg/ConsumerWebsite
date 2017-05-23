@@ -948,7 +948,7 @@
             $scope.cluster = clusternumber;
 
             $(".cluster-div").removeClass("selected");
-            $("#cluster-div-" + clusternumber).addClass("selected");
+            $("#cluster-div-"+ selectedAlgorithm +"-"+ clusternumber).addClass("selected");
         }
 
         var canvaz;

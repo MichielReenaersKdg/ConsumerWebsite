@@ -207,7 +207,7 @@
                 <div class="row padding-less">
                     <div class="col-lg-12 col-md-12 grid grid-top text-nowrap" id="progress_{{model.Model.AlgorithmName}}">
                         <div class="progress-box" ng-if="cluster.Solvents.length > 0"  ng-style="getWidth(model.Model.Clusters)" ng-repeat="cluster in model.Model.Clusters">
-                            <div id="cluster-div-{{$index}}" class="cluster-div" ng-click="clusterChange($index)">
+                            <div id="cluster-div-{{model.Model.AlgorithmName}}-{{$index}}" class="cluster-div" ng-click="clusterChange($index)">
                                 <div class="circle-container"  id="circle-{{model.Model.AlgorithmName}}-{{$index}}">
 
                                 </div>
