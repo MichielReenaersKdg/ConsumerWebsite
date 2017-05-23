@@ -1712,7 +1712,7 @@
             });
             normalizedDistances.sort();
             var data = [];
-            if (normalizedDistances.length = 1) {
+            if (normalizedDistances.length == 1) {
                 var distance = 1;
                 var dataPart = { 
                     label: otherSolvents[0].Name + " ",
