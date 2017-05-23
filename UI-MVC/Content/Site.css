@@ -2263,6 +2263,7 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
     border-radius: 25px;
     background: red;
     position: absolute;
+    opacity: 0.4;
 }
 
 .circle-container {
@@ -2706,7 +2707,7 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
     position: relative;
     /*Necessary*/
     border-collapse: collapse;
-    color: Maroon;
+    
 }
 
     .zui-table thead {
@@ -2715,20 +2716,30 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
         overflow: visible;
         z-index: 5000;
         left: 0;
+                    background-color: #b73426;
+
+    -moz-box-shadow: 0 2px 5px 0 rgba(0,0,0,.2);
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,.2);
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.2);
+	border:1px solid #a12f23;
+	border-bottom:10px solid #a12f23;
     }
 
         .zui-table thead th {
             text-align: left;
+            color: white;
+
             /*text-shadow: 1px 1px 1px #fff;*/
-            background-color: black;
+            background-color: #b73426;
             height: 48px;
             /*Necessary*/
             column-width: 120px;
             width: 120px;
             min-width: 120px;
-            color: Mediumseagreen;
             text-align: center;
             vertical-align: middle;
+            /*colors*/
+
         }
 
             /*belangrijk*/
@@ -2736,23 +2747,34 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
                 position: relative;
                 text-align: left;
                 display: block; /*seperates the first cell in the header from the header*/
-                background-color: black;
+                background-color: #b73426;
                 left: 0;
                 padding: 10px;
                 height: 48px;
-                width: 120px;
+                width: 140px;
                 z-index: 5000;
+                border-right:10px solid #a12f23;
+                
             }
 
     .zui-table tbody tr td:nth-child(1) { /*the first cell in each tr*/
         position: relative;
         display: block; /*seperates the first column from the tbody*/
         height: 40px;
-        background-color: black;
         left: 0;
-        width: 120px;
+        width: 140px;
         z-index: 5000;
-        color: Mediumseagreen;
+        color: white;
+	    text-decoration: none;
+         
+        background-color: #b73426;
+
+    -moz-box-shadow: 0 2px 5px 0 rgba(0,0,0,.2);
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,.2);
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.2);
+	border:1px solid #a12f23;
+	border-right:10px solid #a12f23;
+
     }
     /*belangrijk*/
 
@@ -2768,6 +2790,9 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
         width: 100%;
         height: 100%;
         left: 0;
+        font-family: 'Lato', Arial, sans-serif;
+	    color: white;
+	    background: #f8f8f8;
     }
 
 #ChemSolPic2DImg {
