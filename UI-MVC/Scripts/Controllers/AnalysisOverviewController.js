@@ -72,9 +72,8 @@
 
         function showClusterAnalysis(modelsTemp) {
             getClassifiedInstances();
-
+            deviatePerCluster = []
             models = modelsTemp;
-
             setEnumNames();
 
 
@@ -84,16 +83,16 @@
 
 
                     for (var j = 0; j < models[teller].Model.Clusters[i].Solvents.length; j++) {
-
                         solventenincluster.push(models[teller].Model.Clusters[i].Solvents[j].DistanceToClusterCenter);
-
-
                     }
-
-                    standarddeviate.push(getStandardDev(solventenincluster));
-
+                    var deviateForCNS = {};
+                    deviatePerCluster.push(getStandardDev(solventenincluster));
+                    deviateForCNS.model = models[teller].Id;
+                    deviateForCNS.cluster = i;
+                    deviateForCNS.standarddeviate = getStandardDev(solventenincluster);
+                    standarddeviate.push(deviateForCNS);
                 }
-
+                
             }
 
 
@@ -130,7 +129,6 @@
         }
 
         function getStandardDev(solventen) {
-
             var gemiddelde = 0;
             var gemiddeldeDev = 0;
             var deviatie = [];
@@ -323,19 +321,16 @@
             }).success(function succesCallback(data) {
                 $('#addSolvent-modal').modal('hide');
                 showInstance = true;
-                showClusterAnalysis(data);
                 $scope.errorMessage = undefined;
                 $scope.classify = false;
                 document.getElementById("csvFileUpload").value = "";
                 $('#load').button('reset');
                 delete $scope.headerz;
-
                 document.getElementById('closecross').disabled = false;
                 for (var i = 0; i < document.getElementsByClassName("feature-input").length; i++) {
                     document.getElementsByClassName("feature-input")[i].style.borderColor = "black";
                 }
-                //document.getElementById("newSolventCasNr").style.borderColor = "black";
-                //document.getElementById("newSolventName").style.borderColor = "black";
+                showClusterAnalysis(data);
             }).error(function errorCallback(data) {
                 $scope.errorMessage = data.Message;
                 $('#load').button('reset');
@@ -346,8 +341,7 @@
                 //document.getElementById("newSolventCasNr").style.borderColor = "black";
                 //document.getElementById("newSolventName").style.borderColor = "black";
 
-            });
-
+                });
         }
 
         function getClusterPosition(cluster) {
@@ -384,6 +378,7 @@
             var distancematrix = buildDistanceMatrixClusters(model.Model.Clusters);
             //use distance-matrix to calculate PcoA
             var graphdata = calculatePcoA(distancematrix);
+            
 
             for (var i = 0; i < model.Model.Clusters.length; i++) {
                 var percentage = (((model.Model.Clusters[i].Solvents.length) / totalSolvents) * 100).toFixed(2);
@@ -391,8 +386,14 @@
                 var percentages =  [];
                 percentages.push(percentage);
                 //x = object[0], y = object[1] from the object returned from calculatePcoA, z changes the size of the bubbles.
+                var selecteddev;
+                for (var j = 0; j < standarddeviate.length; j++) {
+                    if (standarddeviate[j].model === model.Id && standarddeviate[j].cluster == i) {
+                        selecteddev = standarddeviate[j].standarddeviate;
+                    }
+                }
                 json[i] = ({
-                    'x': data[0], 'y': data[1], 'z': standarddeviate[i], 'distances': standarddeviate[i].toFixed(3), 'percentages': percentages, 'name': model.Model.Clusters[i].Number, 'cursor': 'pointer', 'solvents': model.Model.Clusters[i].Solvents.length, 'color': colors[i], 'markerBorderColor': "#F4FE00", //change color here
+                    'x': data[0], 'y': data[1], 'z': selecteddev, 'distances': selecteddev.toFixed(3), 'percentages': percentages, 'name': model.Model.Clusters[i].Number, 'cursor': 'pointer', 'solvents': model.Model.Clusters[i].Solvents.length, 'color': colors[i], 'markerBorderColor': "#F4FE00", //change color here
                     'markerBorderThickness': 0
                 });
 
@@ -2061,25 +2062,15 @@
                         var tdhs = document.createElement('td');
                         //the first element in the row is the name of the solvent - look up distance matrixes for more info
                         tdhs.appendChild(document.createTextNode(clustertemp.Solvents[i].Name));
-                        //onclick of first element in every body tr - see css
                         $(tdhs).on('click', function (evt) {
-                            //Set color of first child of every row to default red color (in case one was already selected)
                             $('.zui-table tbody tr td:nth-child(1)').css('backgroundColor', '#b73426');
-                            //Set Color selected child to specified color
                             $(evt.target).css('backgroundColor', '#a12f23');
-                            //set selected solvent by getting the solvent using rowIndex as index. We do -1 as every row is +1
                             $scope.selectedSolvent = $scope.solventsInCluster[(evt.target.parentNode.rowIndex - 1)];
-                            //We selected the left bars column, now we have to select the matching colum in the header
-                            //We do the same thing by setting every other column to default (in case one was already selected)
                             $('.zui-table-header th').css('backgroundColor', '#b73426');
-                            //We set the color of selected column in the header using rowIndex as Index
                             $('.zui-table-header th:nth-child(' + (evt.target.parentNode.rowIndex + 1) + ')').css('backgroundColor', '#a12f23');
                             $('.zui-table tbody tr').css('border', 'none');
-                            //We set the border of the selected row Using the rowIndex
                             $('.zui-table tbody tr:nth-child(' + (evt.target.parentNode.rowIndex) + ')').css('border', '1px solid #a12f23');
 
-                            //Now we set the Right and left border of the vertical row. 
-                            //This gives the impression the row is selected, but in fact we set every column [x] of every row to achieve this goal
                             $('.zui-table tbody td').css('border-right', 'none');
                             $('.zui-table tbody td').css('border-left', 'none');
                             $('.zui-table tbody td:nth-child(' + (evt.target.parentNode.rowIndex + 1) + ')').css('border-right', '1px solid #a12f23');
