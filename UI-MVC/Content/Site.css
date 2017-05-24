@@ -2239,7 +2239,7 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
     position: absolute;
     display: inline;
     z-index: 150;
-    bottom: 5px;
+    top: 50px;
     left: 20px;
     color: gray;
     font-size: 12px;

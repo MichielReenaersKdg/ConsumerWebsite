@@ -47,6 +47,12 @@
             "#0093D1"
 
         ];
+        var analysismodels = result.data.AnalysisModels;
+        for (var i = 0; i < analysismodels.length; i++) {
+            for (var j = 0; j < analysismodels[i].Model.Clusters.length; j++) {
+                analysismodels[i].Model.Clusters[j].Solvents = setSpaces(analysismodels[i].Model.Clusters[j].Solvents);
+            }
+        }
         $scope.sharedWith = result.data.SharedWith;
 
         $scope.models = result.data.AnalysisModels;
@@ -259,6 +265,7 @@
                     solvents.push(models[0].Model.Clusters[i].Solvents[j]);
                 }
             }
+            //solvents = setSpaces(solvents);
             $scope.solvents = solvents;
 
         }
@@ -884,7 +891,7 @@
         $scope.clusterChange = function (clusternumber,model) {
             $scope.closeOverlay(selectedAlgorithm);
             drawSolventChart(clusternumber);
-
+            hidedetails();
             if (document.getElementsByClassName('div-overlay-matrix') === undefined || document.getElementsByClassName('div-overlay-matrix') === null || document.getElementsByClassName('div-overlay-matrix').length === 0) {
 
 
@@ -923,7 +930,7 @@
             overlayOpened = true;
 
             var distances = [];
-            solventen = setSpaces(solventen);
+            //solventen = setSpaces(solventen);
             for (var i = 0; i < solventen.length; i++) {
                 distances.push(solventen[i].DistanceToClusterCenter);
             }
@@ -1216,7 +1223,7 @@
                     cluster.Solvents[i].DistanceToClusterPercentage = (cluster.Solvents[i].DistanceToClusterCenter / max) * 95;
                 }
                 $(".cluster-div").removeClass("selected");
-                $("#cluster-div-" + cluster.Number).addClass("selected");
+                $("#cluster-div-"+selectedAlgorithm+"-"+cluster.Number).addClass("selected");
                 createClusterChart(model.Clusters[cluster.Number]);
                 $scope.solventsInCluster = cluster.Solvents;
                 $scope.cluster = cluster.Number;
@@ -1294,6 +1301,7 @@
             $("#csvFileUpload").click();
         };
         $scope.csvFile = [];
+
         $scope.getFile = function (e, files) {
             var reader = new FileReader();
             reader.onload = function (e) {
@@ -1859,25 +1867,27 @@
             if (e.keyCode == 27) { // escape key maps to keycode `27`
                 if (solventOverlayOpened) {
                     if (distancematrixOverlayOpened) {
-                        $scope.distanceMatrixClose();
+                        hidedetails();
                     } else {
+                        hidedetails();
                         closeSolventOverlay(selectedAlgorithm);
                     }
                 } else if (classifyOverlayOpened) {
-                    classifyOverlayOpened = false;
-                    document.getElementById("closecross-newSolvent").click();
-                    document.getElementById("closecross-solvents").click();
+                    hidedetails();
                 }
                 else if (overlayOpened) {
                     if (distancematrixOverlayOpened) {
+                        hidedetails();
                         $scope.distanceMatrixClose();
                     } else {
+                        hidedetails();
                         $scope.closeOverlay(selectedAlgorithm);
                     }
                 } else if (distancematrixOverlayOpened) {
+                    hidedetails();
                     $scope.distanceMatrixClose();
                 }
-
+                
                 $scope.$apply();
 
             }

@@ -82,32 +82,21 @@
                     <!--<p style="color: darkorange;">{{errorMessage}}</p>-->
                     <div>
                         <!--<span style="color: darkorange;" ng-show="form.features.regex.$error.pattern">Not a valid CAS number!</span>-->
+                        <button ng-if="classify" type="submit" from="features" name="submit" id="load" class="small-button" ng-class="{disabledForm: !valid}" tabindex="-1" data-loading-text="<i class='fa fa-spinner fa-spin fa-fw'></i>Classifying...">Classify solvent</button>
 
                         <table id="table" class="classify-solvent-table col-lg-12" ng-if="headerz && headerz.length>0">
                             <tr style="padding-bottom: 10px;">
                                 <th class="col-lg-7">Feature name</th>
                                 <th class="col-lg-3" style="padding-left: 20%; padding-bottom: 12px">Value</th>
                             </tr>
-                            <!--<tr ng-repeat="metadata in headerz[0]">
-                                <td class="col-lg-7">{{metadata.MetaDataName}}</td>
-                                <td class="classify-solvent-row col-lg-4">
-                                    <input class="feature-input" type="text" ng-change="SetStyle($index); validateMetaData(metadata)" id="metadata_{{$index}}" title="{{$index}}" name="metadata_{{$index}}" ng-model="metadata.value" required />
-                                </td>
-                                <td><p ng-if="validation[$index]" style="color: darkorange;">{{errorMessageMeta}}</p>
-                            </tr>-->
+                            
                             <tr ng-repeat="metadata in headerz[0]">
                                 <td class="col-lg-7">{{metadata.MetaDataName}}</td>
                                 <td class="classify-solvent-row col-lg-4">
                                     <input class="feature-input" type="text" ng-change="SetStyle($index);" id="metadata_{{$index}}" title="{{$index}}" name="metadata_{{$index}}" ng-model="metadata.value"/>
                                 </td>
                             </tr>
-                            <!--<tr ng-repeat="feature in headerz[1]">
-                                <td class="col-lg-7">{{feature.FeatureName}}</td>
-                                <td class="classify-solvent-row col-lg-4">
-                                    <input class="feature-input" type="text" ng-change="SetStyle($index); validateFeatureData(feature, $index)" id="feature_{{$index}}" title="{{$index}}" name="feature_{{$index}}" ng-model="feature.value" required />
-                                </td>
-                                <td><p ng-if="validation[$index+9]" style="color: darkorange;">{{errorMessageFeature}}</p></td>
-                            </tr>-->
+                            
                             <tr ng-repeat="feature in headerz[1]">
                                 <td class="col-lg-7">{{feature.FeatureName}}</td>
                                 <td class="classify-solvent-row col-lg-4">
@@ -118,7 +107,6 @@
                         <!--<div ng-if="headerz && headerz.length>0">
                             {{validateAll(headerz)}}
                         </div>-->
-                        <button ng-if="classify" type="submit" from="features" name="submit" id="load" class="small-button" ng-class="{disabledForm: !valid}" tabindex="-1" data-loading-text="<i class='fa fa-spinner fa-spin fa-fw'></i>Classifying...">Classify solvent</button>
 
                     </div>
 
@@ -222,23 +210,7 @@
                     <div class="col-lg-8 col-md-8 padding-less" style="width:100%; padding-top:1%;">
 
                         <div class="grid grid-graph col-lg-12 text-center"  id="chart-container-{{model.Model.AlgorithmName}}" style="width:62%; margin-right:2%; height:480px;">    
-                                <!--<div angucomplete-alt
-                                     id="ex1"
-                                     placeholder="Search solvent"
-                                     maxlength="50"
-                                     pause="100"
-                                     selected-object="selectedSolventFunc"
-                                     local-data="solvents"
-                                     search-fields="Name"
-                                     title-field="Name"
-                                     focus-in="focusSearch()"
-                                     focus-out="focusOutSearch()"
-                                     minlength="1"
-                                     input-class="form-control form-control-small"
-                                     style="margin-top: 12px; display: block;"
-                                     match-class="highlight"
-                                     clear-selected="true">
-                                </div>-->
+                                
                             <div angucomplete-alt
                                  id="ex0"
                                  placeholder="Search CAS no."
