@@ -79,7 +79,7 @@
 
             <form role="form" name="form.features" id="newSolvent" ng-submit="newSolvent()" novalidate>
                 <div>
-                    <!--<p style="color: darkorange;">{{errorMessage}}</p>-->
+                    <p style="color: darkorange;">{{errorMessage}}</p>
                     <div>
                         <!--<span style="color: darkorange;" ng-show="form.features.regex.$error.pattern">Not a valid CAS number!</span>-->
                         <button ng-if="classify" type="submit" from="features" name="submit" id="load" class="small-button" ng-class="{disabledForm: !valid}" tabindex="-1" data-loading-text="<i class='fa fa-spinner fa-spin fa-fw'></i>Classifying...">Classify solvent</button>

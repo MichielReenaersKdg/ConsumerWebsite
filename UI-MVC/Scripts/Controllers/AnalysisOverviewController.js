@@ -288,6 +288,7 @@
         function addSolvent(solvent, values, $http) {
             $('#load').button('loading');
             $scope.classify = false;
+            classifyOverlayOpened = false;
             var metadata = values[0];
             var features = values[1]
             document.getElementById('closecross').disabled = true;
