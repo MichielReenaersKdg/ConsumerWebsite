@@ -2707,6 +2707,7 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
     position: relative;
     /*Necessary*/
     border-collapse: collapse;
+
     
 }
 
@@ -2785,6 +2786,11 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
         border-right: 10px solid #a12f23 !important;
         -webkit-transition: background-color 0.3s; /* For Safari 3.1 to 6.0 */
         transition: background-color 0.3s;
+
+        font-size:13px;
+        font-family: 'Lato', Arial, sans-serif;
+        font-weight: bold;
+        color: white;
     }
     /*belangrijk*/
 
@@ -2802,6 +2808,10 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
         padding: 10px;
         /*text-shadow: 1px 1px 1px #fff;*/
         width: 120px;
+        font-size:15px;
+        font-family: Verdana, sans-serif;
+        font-weight: bold;
+        color: #FAF0E6;
     }
 
     .zui-table tbody {
