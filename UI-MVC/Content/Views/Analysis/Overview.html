@@ -75,7 +75,7 @@
                     <a href="#" id="uploadButton" class="small-button" ng-click="triggerUpload()">Upload csv</a>
                 </div>
            
-            <input ng-if="upload" type="file" id="csvFileUpload" accept=".csv" name="csvFileUpload" ng-model="csvFile" style="display: none" file-change="getFile($event,files)" />
+            <input ng-if="upload" file-change="getFile($event,files)" ng-model="csvFile" type="file" id="csvFileUpload" accept=".csv" name="csvFileUpload" style="display: none" />
 
             <form role="form" name="form.features" id="newSolvent" ng-submit="newSolvent()" novalidate>
                 <div>

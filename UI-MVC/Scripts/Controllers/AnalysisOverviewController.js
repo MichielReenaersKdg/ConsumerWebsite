@@ -394,7 +394,7 @@
                     }
                 }
                 json[i] = ({
-                    'x': data[0], 'y': data[1], 'z': selecteddev, 'distances': selecteddev.toFixed(3), 'percentages': percentages, 'name': model.Model.Clusters[i].Number, 'cursor': 'pointer', 'solvents': model.Model.Clusters[i].Solvents.length, 'color': colors[i], 'markerBorderColor': "#F4FE00", //change color here
+                    'x': data[0], 'y': data[1], 'z': selecteddev, 'distances': selecteddev.toFixed(3), 'percentages': percentages, 'name': model.Model.Clusters[i].Number, 'cursor': 'pointer', 'solvents': model.Model.Clusters[i].Solvents.length, 'color': colors[i], 'markerBorderColor': "#b342f4", //change color here
                     'markerBorderThickness': 0
                 });
 
@@ -983,7 +983,7 @@
                 y: yAxisLength / 2,
                 radius: 24,
                 sides: 6,
-                fill: "#F4FE00"
+                fill: "#b342f4"
             });
             canvaz.addChild(arc);
 
@@ -1010,7 +1010,7 @@
                 y: datapointY,
                 radius: 0
             }, {
-                    duration: 2000,
+                    duration: 3000,
                     easing: "ease-in-expo",
                     callback: function () {
                         currentChart.render();
@@ -1588,7 +1588,7 @@
                             switch (d.casNumber) {
                                 case
                                     findAnalysisModelOnName(selectedAlgorithm).ClassifiedInstance.CasNumber:
-                                    colorcode = "#F4FE00";
+                                    colorcode = "#b342f4";
                                     break;
                                    case "None":
                                     colorcode = "#1f77b4";
