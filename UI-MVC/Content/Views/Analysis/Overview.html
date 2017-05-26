@@ -11,7 +11,7 @@
                 <div class="analysis-settings" ng-if="canEdit">
                     <ul style="list-style: none;">
                         <li>
-                            <a href="#" ng-click="downloadPdf()" class="xs-button">To PDF</a>
+                            <a href="#" ng-click="downloadPdf()" class="xs-button disableLink">To PDF</a>
                         </li>
                         <li ng-if="isOwner" style="margin-top: 5px;">
                             <a href="#" class="xs-button" data-toggle="modal" data-target="#changeName-model">Settings</a>
@@ -71,9 +71,9 @@
                 <hr class="primary">
             </div>
             <div id="classifyButtons">
-                <a href="{{ url }}" id="downloadButton" ng-if="download" download="template.csv" class="small-button" ng-click="triggerDownload()">Download template</a>
-                <a href="#" id="uploadButton" class="small-button" ng-click="triggerUpload()">Upload csv</a>
-            </div>
+                    <a href="{{ url }}" id="downloadButton" ng-if="download" download="template.csv" class="small-button" ng-click="triggerDownload()">Download template</a>
+                    <a href="#" id="uploadButton" class="small-button" ng-click="triggerUpload()">Upload csv</a>
+                </div>
            
             <input ng-if="upload" type="file" id="csvFileUpload" accept=".csv" name="csvFileUpload" ng-model="csvFile" style="display: none" file-change="getFile($event,files)" />
 
@@ -81,7 +81,6 @@
                 <div>
                     <p style="color: darkorange;">{{errorMessage}}</p>
                     <div>
-                        <!--<span style="color: darkorange;" ng-show="form.features.regex.$error.pattern">Not a valid CAS number!</span>-->
                         <button ng-if="classify" type="submit" from="features" name="submit" id="load" class="small-button" ng-class="{disabledForm: !valid}" tabindex="-1" data-loading-text="<i class='fa fa-spinner fa-spin fa-fw'></i>Classifying...">Classify solvent</button>
 
                         <table id="table" class="classify-solvent-table col-lg-12" ng-if="headerz && headerz.length>0">
@@ -95,19 +94,20 @@
                                 <td class="classify-solvent-row col-lg-4">
                                     <input class="feature-input" type="text" ng-change="SetStyle($index);" id="metadata_{{$index}}" title="{{$index}}" name="metadata_{{$index}}" ng-model="metadata.value"/>
                                 </td>
+                                <td ng-if="validation[$index]"><p style="color: darkorange;">{{errorMessageMeta}}</p></td>
                             </tr>
                             
                             <tr ng-repeat="feature in headerz[1]">
                                 <td class="col-lg-7">{{feature.FeatureName}}</td>
                                 <td class="classify-solvent-row col-lg-4">
-                                    <input class="feature-input" type="text" ng-change="SetStyle($index);" id="feature_{{$index}}" title="{{$index}}" name="feature_{{$index}}" ng-model="feature.value" required />
+                                    <input class="feature-input" type="text" ng-change="SetStyle($index); validateFeature(feature, $index);" id="feature_{{$index}}" title="{{$index}}" name="feature_{{$index}}" ng-model="feature.value" required />
                                 </td>
+                                <td ng-if="validation[$index+9]"><p style="color: darkorange;">{{errorMessageFeature}}</p></td>
                             </tr>
                         </table>
-                        <!--<div ng-if="headerz && headerz.length>0">
+                        <div ng-if="headerz && headerz.length>0">
                             {{validateAll(headerz)}}
-                        </div>-->
-
+                        </div>
                     </div>
 
                 </div>

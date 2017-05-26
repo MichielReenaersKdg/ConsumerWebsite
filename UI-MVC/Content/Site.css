@@ -15,7 +15,7 @@ body {
     justify-content: center;
 }
 
-#uploadButton, #downloadButton {
+#uploadButton, #downloadButton, #load {
     width: 100%
 }
 
@@ -279,7 +279,12 @@ footer {
     -ms-filter: blur(2px);
     filter: blur(2px);
 }
-
+.disableLink {
+    cursor: not-allowed;
+    pointer-events: none;
+    color: grey !important;
+    border-color: grey !important;
+}
 .box-icon:hover {
     background-color: #9c27c1;
     color: #fff;
