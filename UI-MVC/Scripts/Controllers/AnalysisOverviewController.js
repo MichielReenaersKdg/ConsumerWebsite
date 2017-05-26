@@ -779,6 +779,7 @@
 
         }
         function hidedetails() {
+            document.getElementById("ButChemStruct").style.backgroundColor = "transparant";
             var ele = document.getElementsByClassName('SolventDetails');
             for (var i = 0; i < ele.length; i++) {
                 ele[i].style.visibility = "hidden";
