@@ -1628,9 +1628,33 @@
                         if (window.event.ctrlKey) {
                             if (d.casNumber !== "None") {
                                 hidedetails();
+                                $scope.selectedNodeObject = selectedNodeObject;
+                                if (selectedNode !== undefined) {
+                                    d3.select(selectedNode).style("stroke", "white");
+                                    d3.select(selectedNode).style("stroke-width", "1.5");
+                                }
+                                if (selectedCluster !== null) {
+                                    d3.select(selectedCluster).style("stroke", "white");
+
+                                }
+                                selectedCluster = null;
+                                d3.select(this).style("stroke", "red");
+                                d3.select(this).style("stroke-width", "3");
+                                selectedNode = this;
+                                $scope.selectedSolvent = d.solvent;
+
                                 handleCtrlClick(d, clusterTemp);
 
                             } else {
+                                $scope.selectedNodeObject = selectedNodeObject;
+                                if (selectedNode !== undefined) {
+                                    d3.select(selectedNode).style("stroke", "white");
+                                    d3.select(selectedNode).style("stroke-width", "1.5");
+                                }
+                                if (selectedCluster !== null) {
+                                    d3.select(selectedCluster).style("stroke", "white");
+
+                                }
                                 handleCtrlClickCenter(d, clusterTemp);
                                 hidedetails();
                             }
