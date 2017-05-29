@@ -1145,6 +1145,7 @@
         }
 
         $scope.closeOverlay = function closeOverlay(name) {
+            hidedetails();
 
             $(".cluster-div").removeClass("selected");
             closeSolventOverlay(name);
@@ -1163,6 +1164,7 @@
         }
 
         function closeSolventOverlay(name) {
+            hidedetails();
             delete $scope.centeredSolvent;
             delete $scope.numberOfOtherSolvents;
             delete $scope.selectedNodeObject;
@@ -1177,6 +1179,7 @@
         };
 
         $scope.closeSolventOverlayScope = function (name) {
+            hidedetails();
             closeSolventOverlay(name);
         }
 
