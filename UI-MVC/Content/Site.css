@@ -2290,6 +2290,12 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
 .progress-box {
     float: left;
     text-align: center;
+    min-width: 150px;
+}
+
+.progress-wrapper{
+    overflow-x: auto;
+
 }
 
 .selected-node {
@@ -2853,3 +2859,4 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
 #ehskleur {
      position: absolute; top: 0; left: 0; height: 100%; width: 100%; opacity:0.4;
 }
+

@@ -1895,6 +1895,13 @@
 
         $(document).keyup(function (e) {
             if (e.keyCode == 27) { // escape key maps to keycode `27`
+                if (document.getElementById("addSolvent-modal").style.display === "block") {
+                    $('#addSolvent-modal').modal('hide');
+                    showInstance = true;
+                    $scope.errorMessage = undefined;
+                    $scope.classify = false;
+                    document.getElementById("csvFileUpload").value = "";
+                }
                 if (solventOverlayOpened) {
                     if (distancematrixOverlayOpened) {
                         hidedetails();
