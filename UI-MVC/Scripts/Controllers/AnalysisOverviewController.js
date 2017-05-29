@@ -28,8 +28,8 @@
         $scope.classify = true;
         $scope.upload = true;
         $scope.download = true;
-        $scope.errorMessageMeta = "wrong value";
-        $scope.errorMessageFeature = "is not a number";
+        //$scope.errorMessageMeta = "wrong value";
+        //$scope.errorMessageFeature = "is not a number";
         $scope.validation = [];
         var algorithms = [];
         var totalSolvents = 0;
@@ -1242,47 +1242,47 @@
             $scope.classify = false;
             delete $scope.errorMessage;
         }
-        $scope.validateMetaData = function (metadata) {
+        //$scope.validateMetaData = function (metadata) {
 
-            if (metadata.MetaDataName == "ID CAS Nr") {
-                if (!casnrRegex.test(metadata.value)) {
-                    $scope.validation[2] = true;
-                } else {
-                    $scope.validation[2] = false;
-                }
-            } else if (metadata.MetaDataName == "ID EG Nr") {
-                if (!egRegex.test(metadata.value)) {
-                    $scope.validation[3] = true;
-                } else {
-                    $scope.validation[3] = false;
-                }
-            }
-            var classify = true;
-            for (var i = 0; i < $scope.validation.length; i++) {
-                if ($scope.validation[i] == true) {
-                    classify = false;
-                }
-            }
-            $scope.classify = classify;
-        }
+        //    if (metadata.MetaDataName == "ID CAS Nr") {
+        //        if (!casnrRegex.test(metadata.value)) {
+        //            $scope.validation[2] = true;
+        //        } else {
+        //            $scope.validation[2] = false;
+        //        }
+        //    } else if (metadata.MetaDataName == "ID EG Nr") {
+        //        if (!egRegex.test(metadata.value)) {
+        //            $scope.validation[3] = true;
+        //        } else {
+        //            $scope.validation[3] = false;
+        //        }
+        //    }
+        //    var classify = true;
+        //    for (var i = 0; i < $scope.validation.length; i++) {
+        //        if ($scope.validation[i] == true) {
+        //            classify = false;
+        //        }
+        //    }
+        //    $scope.classify = classify;
+        //}
 
-        $scope.validateFeatureData = function (featuredata, index) {
+        //$scope.validateFeatureData = function (featuredata, index) {
 
-            if (isNaN(featuredata.value)) {
-                $scope.validation[index + 9] = true;
-            } else {
-                $scope.validation[index + 9] = false;
+        //    if (isNaN(featuredata.value)) {
+        //        $scope.validation[index + 9] = true;
+        //    } else {
+        //        $scope.validation[index + 9] = false;
 
-            }
-            var classify = true;
-            for (var i = 0; i < $scope.validation.length; i++) {
-                if ($scope.validation[i] == true) {
-                    classify = false;
-                }
-            }
-            $scope.classify = classify;
-            $scope.errorMessageFeature = "Is not a number";
-        }
+        //    }
+        //    var classify = true;
+        //    for (var i = 0; i < $scope.validation.length; i++) {
+        //        if ($scope.validation[i] == true) {
+        //            classify = false;
+        //        }
+        //    }
+        //    $scope.classify = classify;
+        //    $scope.errorMessageFeature = "Is not a number";
+        //}
         $scope.triggerDownload = function () {
             //var url = "http://localhost:14719/Resources/template.csv";
             //window.open(url, "template");
@@ -1372,17 +1372,17 @@
             }
             reader.readAsText(files[0]);
         };
-        $scope.validateAll = function (values) {
-            var meta = values[0];
-            var features = values[1];
+        //$scope.validateAll = function (values) {
+        //    var meta = values[0];
+        //    var features = values[1];
 
-            for (var i = 0; i < meta.length; i++) {
-                $scope.validateMetaData(meta[i]);
-            }
-            for (var i = 0; i < features.length; i++) {
-                $scope.validateFeatureData(features[i], i);
-            }
-        }
+        //    for (var i = 0; i < meta.length; i++) {
+        //        $scope.validateMetaData(meta[i]);
+        //    }
+        //    for (var i = 0; i < features.length; i++) {
+        //        $scope.validateFeatureData(features[i], i);
+        //    }
+        //}
         function checkValues(arrValues, arrHeaders) {
 
             $scope.headerz[0][1].value = arrValues[1];
