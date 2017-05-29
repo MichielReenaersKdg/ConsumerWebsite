@@ -2815,8 +2815,8 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
         width: 120px;
         font-size:15px;
         font-family: Verdana, sans-serif;
-        font-weight: bold;
-        color: #FAF0E6;
+        
+        color: #F5FFFA;
     }
 
     .zui-table tbody {
