@@ -16,7 +16,10 @@ body {
 }
 
 #uploadButton, #downloadButton, #load {
-    width: 100%
+    width: 100%;
+    margin: 0px !important;
+    margin-bottom: 10px !important;
+    font:inherit;
 }
 
 ::-webkit-scrollbar {
@@ -2294,8 +2297,7 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
 }
 
 .progress-wrapper{
-    overflow-x: auto;
-
+    overflow: auto;
 }
 
 .selected-node {

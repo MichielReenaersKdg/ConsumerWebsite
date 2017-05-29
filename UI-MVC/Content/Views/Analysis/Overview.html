@@ -10,9 +10,9 @@
                 </div>
                 <div class="analysis-settings" ng-if="canEdit">
                     <ul style="list-style: none;">
-                        <li>
+                        <!--<li>
                             <a href="#" ng-click="downloadPdf()" class="xs-button disableLink">To PDF</a>
-                        </li>
+                        </li>-->
                         <li ng-if="isOwner" style="margin-top: 5px;">
                             <a href="#" class="xs-button" data-toggle="modal" data-target="#changeName-model">Settings</a>
                         </li>
@@ -39,7 +39,7 @@
         <div class="col-lg-5 overview-top-right">
             <div class="col-lg-12 main-cluster-info">
                 <p class="admin-card-title">Classified solvent</p>
-                <div class="analysis-settings">
+                <div class="analysis-settings" style="margin-top: 5px">
                     <ul style="list-style: none;">
                         <li>
                             <a href="#"  class="xs-button" title="Classify solvent" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#prevClassified-modal">History</a>
@@ -70,16 +70,16 @@
                 <h2 class="margin-top-0 wow fadeInDown">Classify new solvent</h2>
                 <hr class="primary">
             </div>
-            <div id="classifyButtons">
-                    <a href="{{ url }}" id="downloadButton" ng-if="download" download="template.csv" class="small-button" ng-click="triggerDownload()">Download template</a>
-                    <a href="#" id="uploadButton" class="small-button" ng-click="triggerUpload()">Upload csv</a>
-                </div>
+            <form id="classifyButtons">
+                    <a href="{{url}}" id="downloadButton" ng-if="download" download="template.csv" class="small-button" ng-click="triggerDownload()">Download template</a>
+                    <button type="button" id="uploadButton" class="small-button" ng-click="location.href = triggerUpload()">Upload csv</button>
+                </form>
            
             <input ng-if="upload" file-change="getFile($event,files)" ng-model="csvFile" type="file" id="csvFileUpload" accept=".csv" name="csvFileUpload" style="display: none" />
 
             <form role="form" name="form.features" id="newSolvent" ng-submit="newSolvent()" novalidate>
                 <div>
-                    <p style="color: darkorange;">{{errorMessage}}</p>
+                    <p style="color: darkorange; text-align:center !important">{{errorMessage}}</p>
                     <div>
                         <button ng-if="classify" type="submit" from="features" name="submit" id="load" class="small-button" ng-class="{disabledForm: !valid}" tabindex="-1" data-loading-text="<i class='fa fa-spinner fa-spin fa-fw'></i>Classifying...">Classify solvent</button>
 
