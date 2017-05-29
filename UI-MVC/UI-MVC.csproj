@@ -478,7 +478,6 @@
     <Content Include="Content\Images\Png\96-47-9.png" />
     <Content Include="Content\Images\Png\99-87-6.png" />
     <Content Include="Content\Images\Png\994-05-8.png" />
-    <Content Include="Content\Images\Png\Hexane.png" />
     <Content Include="Content\Images\presentation.svg" />
     <Content Include="Content\Images\random1.jpg" />
     <Content Include="Content\Images\random2.jpg" />
@@ -523,6 +522,7 @@
     <Content Include="Global.asax" />
     <Content Include="DefaultTrainingSets\datasetqframe.csv" />
     <Content Include="DefaultTrainingSets\datasetqframeVersie2.csv" />
+    <None Include="Properties\PublishProfiles\Michiel.Reenaers.pubxml" />
     <None Include="Resources\datasetqframe.csv" />
     <None Include="Resources\datasetqframeVersie2.csv" />
     <None Include="Resources\JavaSussolApplicationV12.dll" />
@@ -562,12 +562,7 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
-    <Content Include="Content\Csv\Solvent matrix_80 solvents 6 features.csv" />
-    <Content Include="Content\Csv\Solvent matrix 12 solvents 6 features.csv" />
     <Content Include="Content\Csv\Solvent matrix 15a solvents 12 features.csv" />
-    <Content Include="Content\Csv\Solvent matrix 15a solvents 6 features.csv" />
-    <Content Include="Content\Csv\Solvent matrix 27 solvents 12 features.csv" />
-    <Content Include="Content\Csv\Solvent matrix 9 solvents 6 features.csv" />
     <Content Include="Content\Images\animation.webm" />
     <None Include="Resources\template.csv" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
