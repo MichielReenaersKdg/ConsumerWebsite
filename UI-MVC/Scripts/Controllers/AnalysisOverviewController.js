@@ -331,6 +331,16 @@
                 for (var i = 0; i < document.getElementsByClassName("feature-input").length; i++) {
                     document.getElementsByClassName("feature-input")[i].style.borderColor = "black";
                 }
+                for (var i = 0; i < data.length; i++) {
+                    clusters = data[i].Model.Clusters;
+                    for (var j = 0; j < clusters.length; j++) {
+                        solventen = clusters[j].Solvents
+                        clusters[j].Solvents = setSpaces(solventen);
+                    }
+                    for (var j = 0; j < data[i].ClassifiedInstance.Features.length; j++) {
+                        data[i].ClassifiedInstance.Features[j].featureName = data[i].ClassifiedInstance.Features[j].featureName.replace(/DegreesC/g, "°C");
+                    }
+                }
                 showClusterAnalysis(data);
             }).error(function errorCallback(data) {
                 $scope.errorMessage = data.Message;
@@ -1346,7 +1356,7 @@
                 }
                 for (var i = 0; i < tempFeaters.length; i++) {
                     tempFeaters[i].value = values[i];
-                    FeatureObjects.push({ FeatureName: tempFeaters[i], value: "" });
+                    FeatureObjects.push({ FeatureName:  tempFeaters[i].replace(/�/g, '°'), value: "" });
                     error.push(false);
                 }
 
