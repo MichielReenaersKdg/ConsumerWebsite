@@ -13,6 +13,7 @@ using SS.DAL.EFAnalyses;
 using Newtonsoft.Json.Linq;
 using System.Web.Hosting;
 using System.Diagnostics;
+using System.Configuration;
 
 namespace SS.DAL
 {
@@ -22,8 +23,16 @@ namespace SS.DAL
         protected override void Seed(EFDbContext context)
         {
             repo = new AnalysisRepository(context);
-         string directory = HostingEnvironment.MapPath("~/DefaultTrainingSets/");
-         string[] fileEntries = Directory.GetFiles(directory);
+         //string directory = HostingEnvironment.MapPath("~/DefaultTrainingSets/");
+         string path = ConfigurationManager.AppSettings["defaultCsvPath"];
+         string[] fileEntries = null;
+         if (path.StartsWith("C:"))
+         {
+            fileEntries = Directory.GetFiles(path);
+         }else
+         {
+            fileEntries = Directory.GetFiles(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path));
+         }
          foreach (string file in fileEntries)
          {
             TrainingSet set = new TrainingSet()

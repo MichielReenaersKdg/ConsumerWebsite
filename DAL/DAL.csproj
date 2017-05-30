@@ -170,6 +170,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -196,8 +197,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="DefaultTrainingSets\datasetqframe.csv" />
-    <None Include="DefaultTrainingSets\datasetqframeVersie2.csv" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
