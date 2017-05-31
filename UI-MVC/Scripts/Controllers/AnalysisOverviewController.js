@@ -19,6 +19,8 @@
         //0.5.0.5 mogelijke errors door verwijdering minmax
         //var featureModel = minMax.data;
         var models;
+        //Color for the classified instance
+        var classifyColor = "white";
         var selectedModel = null;
         var selectedNode = null;
         var currentChart = null;
@@ -392,7 +394,7 @@
                     }
                 }
                 json[i] = ({
-                    'x': data[0], 'y': data[1], 'z': selecteddev, 'distances': selecteddev.toFixed(3), 'percentages': percentages, 'name': model.Model.Clusters[i].Number, 'cursor': 'pointer', 'solvents': model.Model.Clusters[i].Solvents.length, 'color': colors[i], 'markerBorderColor': "#b342f4", //change color here
+                    'x': data[0], 'y': data[1], 'z': selecteddev, 'distances': selecteddev.toFixed(3), 'percentages': percentages, 'name': model.Model.Clusters[i].Number, 'cursor': 'pointer', 'solvents': model.Model.Clusters[i].Solvents.length, 'color': colors[i], 'markerBorderColor': classifyColor, //change color here
                     'markerBorderThickness': 0
                 });
 
@@ -972,7 +974,7 @@
                 y: yAxisLength / 2,
                 radius: 24,
                 sides: 6,
-                fill: "#b342f4"
+                fill: classifyColor,
             });
             canvaz.addChild(arc);
 
@@ -1467,6 +1469,9 @@
             return distancematrix;
         }
 
+        $scope.history = function () {
+            historyOverlayOpened = true;
+        }
 
         function createClusterChart(clusterTemp) {
 
@@ -1592,7 +1597,7 @@
                                 case findAnalysisModelOnName(selectedAlgorithm).ClassifiedInstance.CasNumber:
                                     if (d.solvent.isInstance != null) {
                                         //set purple color
-                                        colorcode = "#b342f4";
+                                        colorcode = classifyColor;
                                     } else {
                                         colorcode = "#" + d.solvent.EHS_Color_Code;
                                     }
@@ -1917,6 +1922,9 @@
                 } else if (classifyOverlayOpened) {
                     hidedetails();
                     classifyOverlayOpened = false;
+                } else if (historyOverlayOpened) {
+                    document.getElementById("closecross-solvents").click()
+                    historyOverlayOpened = false;
                 }
                 else if (overlayOpened) {
                     if (distancematrixOverlayOpened) {
