@@ -396,9 +396,10 @@
                                     </table>
 
                                     <table ng-if="selectedCluster">
-                                        <tr ng-repeat="solvent in selectedCluster.Solvents | orderBy:'Name'" ng-if="selectedCluster !== undefined" >
+                                        <tr ng-repeat="solvent in selectedCluster.Solvents | orderBy:'Name'" ng-if="selectedCluster !== undefined && !solvent.isInstance ">
+                                            
                                             <td class="solventList" style="padding-left: 15px" ng-click="selectSolventClusterList(solvent)">- {{solvent.Name}}</td>
-
+                                            
                                         </tr>
                                     </table>
                                 </div>

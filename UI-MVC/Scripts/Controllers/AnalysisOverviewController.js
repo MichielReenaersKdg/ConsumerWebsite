@@ -202,6 +202,9 @@
                 params: { userId: $window.sessionStorage.userId, analysisId: data.Id }
             }).success(function succesCallback(data) {
                 prevClassifiedInstances = data;
+                for (var i = 0; i < data.length; i++) {
+                    data[i].isInstance = "yes";
+                }
                 $scope.prevClassifiedInstances = prevClassifiedInstances;
             });
 
@@ -338,8 +341,11 @@
                         clusters[j].Solvents = setSpaces(solventen);
                     }
                     for (var j = 0; j < data[i].ClassifiedInstance.Features.length; j++) {
+                        data[i].ClassifiedInstance.Features[j].featureName = data[i].ClassifiedInstance.Features[j].featureName.replace(/_/g, " ");
+
                         data[i].ClassifiedInstance.Features[j].featureName = data[i].ClassifiedInstance.Features[j].featureName.replace(/DegreesC/g, "°C");
                     }
+                    data[i].ClassifiedInstance.isInstance = "yes"
                 }
                 showClusterAnalysis(data);
             }).error(function errorCallback(data) {
@@ -899,7 +905,9 @@
             }
 
         }
-
+        $scope.test = function (solvent) {
+            console.log(solvent);
+        }
 
         $scope.clusterChange = function (clusternumber,model) {
             $scope.closeOverlay(selectedAlgorithm);
@@ -1119,6 +1127,17 @@
                 params: { name: item.Name, analysisId: $routeParams.id, userId: $window.sessionStorage.userId }
             }).success(function succesCallback(data) {
                 $scope.closeOverlay(selectedAlgorithm);
+                for (var i = 0; i < data.length; i++) {
+                    clusters = data[i].Model.Clusters;
+                    for (var j = 0; j < clusters.length; j++) {
+                        solventen = clusters[j].Solvents
+                        clusters[j].Solvents = setSpaces(solventen);
+                    }
+                    for (var j = 0; j < data[i].ClassifiedInstance.Features.length; j++) {
+                        data[i].ClassifiedInstance.Features[j].featureName = data[i].ClassifiedInstance.Features[j].featureName.replace(/DegreesC/g, "°C");
+                    }
+                    data[i].ClassifiedInstance.isInstance = "yes";
+                }
                 $('#prevClassified-modal').modal('hide');
                 showInstance = true;
                 showClusterAnalysis(data);
@@ -1599,9 +1618,13 @@
                         if (findAnalysisModelOnName(selectedAlgorithm).ClassifiedInstance !== null && findAnalysisModelOnName(selectedAlgorithm).ClassifiedInstance !== undefined) {
                             var colorcode;
                             switch (d.casNumber) {
-                                case
-                                    findAnalysisModelOnName(selectedAlgorithm).ClassifiedInstance.CasNumber:
-                                    colorcode = "#b342f4";
+                                case findAnalysisModelOnName(selectedAlgorithm).ClassifiedInstance.CasNumber:
+                                    if (d.solvent.isInstance != null) {
+                                        //set purple color
+                                        colorcode = "#b342f4";
+                                    } else {
+                                        colorcode = "#" + d.solvent.EHS_Color_Code;
+                                    }
                                     break;
                                    case "None":
                                     colorcode = "#1f77b4";
@@ -1693,9 +1716,9 @@
 
 
                             } else {
-
-                                $scope.showSolventInfo();
-
+                               
+                                $scope.showSolventInfo(d.casNumber);
+                                
                                 delete $scope.selectedCluster;
                                 if (d.solvent !== undefined) {
                                     var selectedNodeObject = {
@@ -1921,6 +1944,7 @@
                     }
                 } else if (classifyOverlayOpened) {
                     hidedetails();
+                    classifyOverlayOpened = false;
                 }
                 else if (overlayOpened) {
                     if (distancematrixOverlayOpened) {
@@ -1941,11 +1965,11 @@
         });
         function handleCtrlClick(clickEvent, clusterTemp) {
 
-            var newInstance = $scope.ClassifiedInstance;
+            //var newInstance = $scope.ClassifiedInstance;
             var copiedCluster = jQuery.extend(true, {}, clusterTemp);
-            if (newInstance) {
-                copiedCluster.Solvents.push(newInstance);
-            }
+            //if (newInstance) {
+            //    copiedCluster.Solvents.push(newInstance);
+            //}
 
             var matrix = buildMatrix(copiedCluster);
 
@@ -2219,38 +2243,61 @@
         }
 
 
-        $scope.showSolventInfo = function () {
+        $scope.showSolventInfo = function (casnumber) {
             solvInfo = true;
             hidedetails();
-
-            var ele = document.getElementsByClassName('ButChemStruct');
-            for (var i = 0; i < ele.length; i++) {
-                ele[i].style.display = "block";
-                ele[i].style.visibility = "visible";
-                ele[i].style.backgroundColor = 'transparent';
-            }
-            var ele = document.getElementsByClassName('ButSolvDet');
-            for (var i = 0; i < ele.length; i++) {
-                ele[i].style.display = "block";
-                ele[i].style.visibility = "visible";
-                ele[i].style.backgroundColor = "#b92ed1"
-            }
-            var ele = document.getElementsByClassName('ChemSolPic');
-            for (var i = 0; i < ele.length; i++) {
-                ele[i].style.visibility = "hidden";
-                ele[i].style.display = "none";
-            }
-            var ele = document.getElementsByClassName('SolventDetails');
-            for (var i = 0; i < ele.length; i++) {
-                ele[i].style.visibility = "visible";
-            }
-            var ele = document.getElementsByClassName('SolventInfo');
-            for (var i = 0; i < ele.length; i++) {
-                ele[i].setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all; overflow: auto;box-shadow: 8px 8px 15px rgba(0,0,0,0.8);");
+            var instance
+            if (prevClassifiedInstances != null){
+                if (casnumber === prevClassifiedInstances[prevClassifiedInstances.length - 1].CasNumber) {
+                    instance = true;
+                } else {
+                    instance = false;
+                }
+            } else {
+                instance = false;
             }
 
-            showdetails();
-
+            if (instance) {
+                var ele = document.getElementsByClassName('SolventDetails');
+                for (var i = 0; i < ele.length; i++) {
+                    ele[i].style.visibility = "visible";
+                    ele[i].style.display = "block";
+                }
+                var ele = document.getElementsByClassName('SolventInfo');
+                for (var i = 0; i < ele.length; i++) {
+                    ele[i].setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all; overflow: auto;");
+                }
+            } else {
+                var ele = document.getElementsByClassName('ButChemStruct');
+                for (var i = 0; i < ele.length; i++) {
+                    ele[i].style.display = "block";
+                    ele[i].style.visibility = "visible";
+                    ele[i].style.backgroundColor = 'transparent';
+                }
+                var ele = document.getElementsByClassName('ButSolvDet');
+                for (var i = 0; i < ele.length; i++) {
+                    ele[i].style.display = "block";
+                    ele[i].style.visibility = "visible";
+                    ele[i].style.backgroundColor = "#b92ed1"
+                }
+                var ele = document.getElementsByClassName('ChemSolPic');
+                for (var i = 0; i < ele.length; i++) {
+                    ele[i].style.visibility = "hidden";
+                    ele[i].style.display = "none";
+                }
+                var ele = document.getElementsByClassName('SolventDetails');
+                for (var i = 0; i < ele.length; i++) {
+                    ele[i].style.visibility = "visible";
+                    ele[i].style.display = "block";
+                }
+                var ele = document.getElementsByClassName('SolventInfo');
+                for (var i = 0; i < ele.length; i++) {
+                    ele[i].style.display = "block";
+                    ele[i].style.visibility = "visible";
+                    ele[i].setAttribute("style", "webkit-filter: none; filter: none; background-color: transparent; pointer-events: all; overflow: auto;box-shadow: 8px 8px 15px rgba(0,0,0,0.8);");
+                }
+                showdetails();
+            }
         }
 
 
