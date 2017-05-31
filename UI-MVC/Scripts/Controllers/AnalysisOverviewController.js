@@ -1896,7 +1896,8 @@
 
 
         }
-
+        //Go to previous mode by pressing enter
+        // Checks which overlay is opened so he knows what to close.
         $(document).keyup(function (e) {
             if (e.keyCode == 27) { // escape key maps to keycode `27`
                 if (document.getElementById("addSolvent-modal").style.display === "block") {
@@ -1935,13 +1936,11 @@
             }
         });
         function handleCtrlClick(clickEvent, clusterTemp) {
-
-            //var newInstance = $scope.ClassifiedInstance;
             var copiedCluster = jQuery.extend(true, {}, clusterTemp);
-            //if (newInstance) {
-            //    copiedCluster.Solvents.push(newInstance);
-            //}
-            copiedCluster.Solvents.push(clickEvent.solvent);
+            if (clickEvent.solvent.isInstance != null){
+                copiedCluster.Solvents.push(clickEvent.solvent);
+            }
+            
             var matrix = buildMatrix(copiedCluster);
 
             delete $scope.selectedNodeObject;
