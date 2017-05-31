@@ -68,7 +68,6 @@ namespace SS.DAL.EFAnalyses
                 .Include(a => a.AnalysisModels.Select(an => an.ClassifiedInstance).Select(p => p.Features))
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.DistanceToClusters))) 
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents)))
-                .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.VectorData)))
                 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.Features))))
                 //0.5.0 .Include(a => a.AnalysisModels.Select(an => an.Model).Select(p => p.Clusters.Select(pt => pt.Solvents.Select(v => v.Features.Select(b => b.minMaxValue)))))
                 .FirstOrDefault(i => i.Id == id);
@@ -229,7 +228,6 @@ namespace SS.DAL.EFAnalyses
                 .Include(a => a.Model.Clusters)
                 .Include(a => a.Model.trainingSet)
                 .Include(a => a.Model.Clusters.Select(an => an.DistanceToClusters))
-                .Include(a => a.Model.Clusters.Select(p => p.VectorData))
                 .Include(a => a.Model.Clusters.Select(p => p.Solvents))
                 .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.Features)))
                 // 0.5.0 .Include(a => a.Model.Clusters.Select(p => p.Solvents.Select(m => m.Features.Select(o => o.minMaxValue))))
@@ -374,7 +372,6 @@ namespace SS.DAL.EFAnalyses
              .Include(m => m.Clusters.Select(c => c.Solvents))
              .Include(m => m.Clusters.Select(c => c.Solvents.Select(s => s.Features)))
              .Include(m => m.Clusters.Select(c => c.DistanceToClusters))
-             .Include(m => m.Clusters.Select(c => c.VectorData))
              .Where(t => t.trainingSet.ID == id)
              .ToList();
       }

@@ -32,8 +32,6 @@ namespace SS.DAL
         public DbSet<ClassifiedInstance> ClassifiedInstances { get; set; }
        public DbSet<TrainingSet> TrainingSet { get; set; }
 
-      public DbSet<VectorData> VectorData { get; set; }
-
       protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 

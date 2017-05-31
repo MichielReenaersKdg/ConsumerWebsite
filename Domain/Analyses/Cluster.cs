@@ -14,7 +14,5 @@ namespace SS.BL.Domain.Analyses
       public int Number { get; set; }
       public ICollection<ClusterDistanceCenter> DistanceToClusters { get; set; }
       public ICollection<Solvent> Solvents { get; set; }
-      public List<VectorData> VectorData { get; set; }
-
    }
 }

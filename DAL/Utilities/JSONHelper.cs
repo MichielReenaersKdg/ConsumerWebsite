@@ -34,25 +34,7 @@ namespace SS.DAL.Utilities
                     DistanceToClusters = new List<ClusterDistanceCenter>(),
                     Number = cluster.clusterNumber,
                     Solvents = new List<Solvent>(),
-                    VectorData = new List<VectorData>(),
-
                 };
-                //foreach (var vector in cluster.vectorData)
-                //{
-                //    string naam = vector.name.ToString().Replace("(", "").Replace(")", "").Replace("/", "").Replace("=", "").Replace("ø", "");
-                //    VectorData vectorData = new VectorData()
-                //    {
-                //        Value = vector.value,
-                //        //0.4.9 Changed to new Feature
-                //        feature = new Feature()
-                //        {
-                //            featureName = naam
-                //        }
-
-                //    };
-
-                //    clusterTemp.VectorData.Add(vectorData);
-                //}
 
                 foreach (var distance in cluster.distanceToCluster)
                 {
@@ -120,29 +102,11 @@ namespace SS.DAL.Utilities
 
 
                 }
-            foreach (var vector in cluster.vectorData)
-            {
-               VectorData vectordata = new VectorData()
-               {
-                  value = vector.value
-               };
-               clusterTemp.VectorData.Add(vectordata);
-            }
             model.NumberOfSolvents += clusterTemp.Solvents.Count;
                 model.Clusters.Add(clusterTemp);
             }
             algorithm.Models.Add(model);
             return algorithm;
         }
-
-        //public static ClassifiedInstance ParseJsonToClassifiedInstance(Cla response)
-        //{
-        //    ClassifiedInstance classifiedInstance = new ClassifiedInstance()
-        //    {
-        //        DistanceToClusterCenter = distanceToCluster,
-        //        ClusterNumber = jsonInstance.clusterNumber
-        //    };
-        //    return classifiedInstance;
-        //} 
     }
 }
