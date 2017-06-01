@@ -521,7 +521,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="DefaultTrainingSets\datasetqframe.csv" />
-    <Content Include="DefaultTrainingSets\datasetqframeVersie2.csv" />
+    <Content Include="DefaultTrainingSets\datasetqframe2.csv" />
     <None Include="Properties\PublishProfiles\Michiel.Reenaers.pubxml" />
     <None Include="Resources\datasetqframe.csv" />
     <None Include="Resources\datasetqframeVersie2.csv" />
