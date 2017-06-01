@@ -2111,12 +2111,18 @@
                         //the first element in the row is the name of the solvent - look up distance matrixes for more info
                         tdhs.appendChild(document.createTextNode(clustertemp.Solvents[i].Name));
                         $(tdhs).on('click', function (evt) {
+                            //Set color of first child of every row to default red color (in case one was already selected)
                             $('.zui-table tbody tr td:nth-child(1)').css('backgroundColor', '#b73426');
+                            //Set color of selected child to specified color
                             $(evt.target).css('backgroundColor', '#a12f23');
                             $scope.selectedSolvent = $scope.solventsInCluster[(evt.target.parentNode.rowIndex - 1)];
+                            //We selected the left bars column, now we have to select the matching column in the header
+                            //We do the same thing by setting every other column to default (in case one was already selected)
                             $('.zui-table-header th').css('backgroundColor', '#b73426');
+                            //We set the backgroundcolor of the selected column in the header using rowIndex as Index
                             $('.zui-table-header th:nth-child(' + (evt.target.parentNode.rowIndex + 1) + ')').css('backgroundColor', '#a12f23');
                             $('.zui-table tbody tr').css('border', 'none');
+                            //We set the border of the selected row using the rowIndex as Index
                             $('.zui-table tbody tr:nth-child(' + (evt.target.parentNode.rowIndex) + ')').css('border', '1px solid #a12f23');
 
                             $('.zui-table tbody td').css('border-right', 'none');
