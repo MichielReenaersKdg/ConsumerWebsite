@@ -69,15 +69,5 @@ namespace SS.UI.Web.MVC.Properties {
                 return ResourceManager.GetString("datasetqframe", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] JavaSussolApplicationV12 {
-            get {
-                object obj = ResourceManager.GetObject("JavaSussolApplicationV12", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }
