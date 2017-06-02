@@ -305,8 +305,6 @@ namespace SS.DAL.EFAnalyses
 
       public TrainingSet createNewModelsFromTrainingsfile(TrainingSet training)
         {
-         try
-         {
             bool New = false;
             List<Algorithm> algos = new List<Algorithm>();
             if (_context.Algorithms.Count() > 0)
@@ -359,10 +357,6 @@ namespace SS.DAL.EFAnalyses
 
             counter++;
             return training;
-         }catch(Exception e)
-         {
-            return null;
-         }
         }
 
       public IEnumerable<Model> readModelsForTrainingSet(int id)
@@ -432,6 +426,17 @@ namespace SS.DAL.EFAnalyses
          _context.SaveChanges();
 
 
+      }
+
+      public ClassifiedInstance ClassifyNewSolvent(string modelPath, string serialized)
+      {
+         var response = sus.classifySolvent(modelPath, serialized);
+         ClassifiedInstance classifiedInstance = new ClassifiedInstance()
+         {
+            DistanceToClusterCenter = (Double)response.getDistanceToCluster(),
+            ClusterNumber = (int)response.getClusterNumber()
+         };
+         return classifiedInstance;
       }
    }
 }

@@ -55,5 +55,6 @@ namespace SS.DAL.EFAnalyses
       TrainingSet createNewModelsFromTrainingsfile(TrainingSet tr);
       IEnumerable<Model> readModelsForTrainingSet(int id);
       void removeTrainingSet(List<Model> models,List<Analysis> analyseslist, TrainingSet trainingset);
+      ClassifiedInstance ClassifyNewSolvent(string modelPath, string serialized);
    }
 }

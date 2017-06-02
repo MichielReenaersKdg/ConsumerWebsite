@@ -50,5 +50,6 @@ namespace SS.BL.Analyses
       IEnumerable<TrainingSet> ReadTrainingSets();
       TrainingSet ReadTrainingSetById(int id);
       void RemoveTrainingSet(TrainingSet set);
+      ClassifiedInstance ClassifyNewSolvent(string modelPath, string serialized);
    }
 }

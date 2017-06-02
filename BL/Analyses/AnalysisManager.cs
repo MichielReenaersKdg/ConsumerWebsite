@@ -170,6 +170,9 @@ namespace SS.BL.Analyses
          repo.removeTrainingSet(models.ToList(), analysis.ToList(), trainingset);
       }
 
-      
+      public ClassifiedInstance ClassifyNewSolvent(string modelPath, string serialized)
+      {
+         return repo.ClassifyNewSolvent(modelPath, serialized);
+      }
    }
 }
