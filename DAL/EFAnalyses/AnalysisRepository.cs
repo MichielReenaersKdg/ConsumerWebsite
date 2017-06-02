@@ -305,6 +305,8 @@ namespace SS.DAL.EFAnalyses
 
       public TrainingSet createNewModelsFromTrainingsfile(TrainingSet training)
         {
+         try
+         {
             bool New = false;
             List<Algorithm> algos = new List<Algorithm>();
             if (_context.Algorithms.Count() > 0)
@@ -356,6 +358,11 @@ namespace SS.DAL.EFAnalyses
             _context.SaveChanges();
 
             counter++;
+         }
+         catch (Exception e)
+         {
+            return null;
+         }
             return training;
         }
 
@@ -372,6 +379,7 @@ namespace SS.DAL.EFAnalyses
 
       public void removeTrainingSet(List<Model> models, List<Analysis> analyseslist, TrainingSet trainingset)
       {
+         List<ClassifiedInstance> instancesToDelete = new List<ClassifiedInstance>();
          List<Analysis> analysisToDelete = new List<Analysis>();
          List<AnalysisModel> anmodsToDelete = new List<AnalysisModel>();
          foreach (Analysis analysis in analyseslist)
@@ -382,6 +390,7 @@ namespace SS.DAL.EFAnalyses
                {
                anmodsToDelete.Add(anMod);
                analysisToDelete.Add(analysis);
+                  instancesToDelete.AddRange(ReadClassifiedInstancesForUser(analysis.CreatedBy.Id, analysis.Id).ToList());
                }
             }
          }
@@ -394,6 +403,11 @@ namespace SS.DAL.EFAnalyses
          {
             _context.Analyses.Attach(analysis);
             _context.Analyses.Remove(analysis);
+         }
+         foreach (ClassifiedInstance instance in instancesToDelete)
+         {
+            _context.ClassifiedInstances.Attach(instance);
+            _context.ClassifiedInstances.Remove(instance);
          }
          foreach (Model model in models)
          {
@@ -421,6 +435,7 @@ namespace SS.DAL.EFAnalyses
            
             
          }
+         
          _context.Models.RemoveRange(models);
          _context.TrainingSet.Remove(_context.TrainingSet.Find(trainingset.ID));
          _context.SaveChanges();
