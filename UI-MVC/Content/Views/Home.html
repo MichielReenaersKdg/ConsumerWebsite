@@ -99,7 +99,7 @@
                                         <h3>What we did</h3>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>We intensively cooperated with the tutor who is responsible for the Machine Learning part of the project and the people of Qframe. We built 2 websites, a service producer and a consumer. The producer is a shell around the Machine Learning API developed by the tutor. The consumer is the website that will be used by the chemists. It transparently shows the results of the learning process (the Machine Learning models), using clever visualisation and drill down techniques. A chemist can also offer a new solvent candidate and have it classified against one or more models. Additional information about the classification can then be interpreted.</p>
+                                        <p>We intensively cooperated with the tutor who is responsible for the Machine Learning part of the project and the people of Qframe. We created a dll from the java code that used the weka engine using an Ikvm bridge from Jeroen Frijters. Using clever visualisation and drill down techniques the classification results are shown in order to help chemists find more durable and sustainable solvents. A chemist can offer a new solvent candidate and have it classified against one or more models. Additional information about the classification can then be interpreted.</p>
                                     </div>
                                 </div>
                             </div>
@@ -199,9 +199,9 @@
                         <img src="/Content/Images/java-logo.svg" alt="Movie">
                     </div>
                     <div class="cd-timeline-content">
-                        <h2>Producer Web Service</h2>
+                        <h2>Ikvm bridge</h2>
                         <p>
-                            We integrated the WeKa library in our own Java Application and built a Webservice shell around it. Now you can access the algorithms with a few simple API-calls.
+                            We integrated the WeKa library into the website by using a Dll created through Ikvm. 
                         </p>
                         <a href="mailto:herwig.desmet@kdg.be" class="cd-read-more">Contact</a>
                         <span class="cd-date">Producer</span>
@@ -273,6 +273,9 @@
                         <li><a href="http://qframe.be/">QFrame Kontich</a></li>
                         <li><a href="https://www.linkedin.com/">Jonah Jordan</a></li>
                         <li><a href="https://www.linkedin.com/">Lennart Boeckx</a></li>
+                        <li><a href="https://www.linkedin.com/">Michiel Reenaers</a></li>
+                        <li><a href="https://www.linkedin.com/">Dries Kerkhofs</a></li>
+                        <li><a href="https://www.linkedin.com/">Christophe Houben</a></li>
                         <li><a href="#">Contact</a></li>
                     </ul>
                 </div>
@@ -289,6 +292,7 @@
                 <div class="col-md-3 col-sm-6 footer-widget wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.4s">
                     <h3>About</h3>
                     <p>This project is the thesis of two final year students at Karel de Grote University College Antwerp. This project was made during an internship at QFrame .NET Quality Solutions.</p>
+                    <p>The project was later continued by three other final year students at Karel de Grote University College Antwerp. This project was made during an internship at QFrame .NET Quality Solutions.</p>
 
                 </div>
                 <div class="clearfix visible-sm-block"></div>
@@ -296,6 +300,7 @@
             <div class="row made">
                 <div class="col-md-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".5s">
                     <p>Made with so much  <i class="fa fa-heart" style="color: #E74C3C"></i>  by Jonah and Lennart.</p>
+                    <p>Altered with so much  <i class="fa fa-fire" style="color: #E74C3C"></i>  by Michiel, Dries and Christophe.</p>
                 </div>
             </div>
         </div>
