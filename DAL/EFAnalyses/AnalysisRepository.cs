@@ -358,11 +358,12 @@ namespace SS.DAL.EFAnalyses
             _context.SaveChanges();
 
             counter++;
-            return training;
-         }catch(Exception e)
+         }
+         catch (Exception e)
          {
             return null;
          }
+            return training;
         }
 
       public IEnumerable<Model> readModelsForTrainingSet(int id)
@@ -378,6 +379,7 @@ namespace SS.DAL.EFAnalyses
 
       public void removeTrainingSet(List<Model> models, List<Analysis> analyseslist, TrainingSet trainingset)
       {
+         List<ClassifiedInstance> instancesToDelete = new List<ClassifiedInstance>();
          List<Analysis> analysisToDelete = new List<Analysis>();
          List<AnalysisModel> anmodsToDelete = new List<AnalysisModel>();
          foreach (Analysis analysis in analyseslist)
@@ -388,6 +390,7 @@ namespace SS.DAL.EFAnalyses
                {
                anmodsToDelete.Add(anMod);
                analysisToDelete.Add(analysis);
+                  instancesToDelete.AddRange(ReadClassifiedInstancesForUser(analysis.CreatedBy.Id, analysis.Id).ToList());
                }
             }
          }
@@ -400,6 +403,11 @@ namespace SS.DAL.EFAnalyses
          {
             _context.Analyses.Attach(analysis);
             _context.Analyses.Remove(analysis);
+         }
+         foreach (ClassifiedInstance instance in instancesToDelete)
+         {
+            _context.ClassifiedInstances.Attach(instance);
+            _context.ClassifiedInstances.Remove(instance);
          }
          foreach (Model model in models)
          {
@@ -427,11 +435,23 @@ namespace SS.DAL.EFAnalyses
            
             
          }
+         
          _context.Models.RemoveRange(models);
          _context.TrainingSet.Remove(_context.TrainingSet.Find(trainingset.ID));
          _context.SaveChanges();
 
 
+      }
+
+      public ClassifiedInstance ClassifyNewSolvent(string modelPath, string serialized)
+      {
+         var response = sus.classifySolvent(modelPath, serialized);
+         ClassifiedInstance classifiedInstance = new ClassifiedInstance()
+         {
+            DistanceToClusterCenter = (Double)response.getDistanceToCluster(),
+            ClusterNumber = (int)response.getClusterNumber()
+         };
+         return classifiedInstance;
       }
    }
 }

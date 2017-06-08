@@ -336,7 +336,8 @@ namespace SS.UI.Web.MVC.Controllers
         [HttpPost]
         public IHttpActionResult ClassifyNewSolvent([FromBody]ClassifySolventModel model, [FromUri] long analysisId)
         {
-            var instances = _analysisManager.ReadClassifiedInstancesForUser(model.UserId, analysisId).ToList();
+         //Turned off validation
+         //var instances = _analysisManager.ReadClassifiedInstancesForUser(model.UserId, analysisId).ToList();
          //Turned off validation   
          //foreach (var cluster in model.AnalysisModels[0].Model.Clusters)
             //{
@@ -359,28 +360,13 @@ namespace SS.UI.Web.MVC.Controllers
             //    return BadRequest("You used this cas nr already for a classified solvent!");
             //}
 
-            using (var client = new WebClient())
-            {
+            
                 List<AnalysisModel> analysisModels = new List<AnalysisModel>();
                 foreach (var analysisModel in model.AnalysisModels)
                 {
                     var serialized = JsonConvert.SerializeObject(model.Values);
-                    
-                    //client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                    //var sussol = new com.sussol.web.controller.ServiceModel();
-                    //var response = sussol.classifySolvent(analysisModel.Model.ModelPath, serialized);
-                    //var classifiedInstance = JsonHelper.ParseJsonToClassifiedInstance(response.ToString());
-                    //classifiedInstance.CasNumber = model.CasNumber;
-                    //classifiedInstance.Name = model.Name;
-                    //classifiedInstance.Features = new List<Feature>();
 
-                    var sussol = new com.sussol.web.controller.ServiceModel();
-                    var response = sussol.classifySolvent(analysisModel.Model.ModelPath, serialized);
-                    ClassifiedInstance classifiedInstance = new ClassifiedInstance()
-                    {
-                        DistanceToClusterCenter = (Double)response.getDistanceToCluster(),
-                        ClusterNumber = (int)response.getClusterNumber()
-                    };
+                    ClassifiedInstance classifiedInstance = _analysisManager.ClassifyNewSolvent(analysisModel.Model.ModelPath, serialized);
                     classifiedInstance.CasNumber = model.CasNumber;
                     classifiedInstance.Name = model.Name;
                     classifiedInstance.Features = new List<Feature>();
@@ -397,12 +383,10 @@ namespace SS.UI.Web.MVC.Controllers
                         classifiedInstance.Features.Add(f);
                     }
                     analysisModels.Add(_analysisManager.CreateClassifiedInstance(analysisModel.Id,model.UserId, classifiedInstance));
-                    
-                }
-                client.Dispose();
-                return Ok(analysisModels);
-            }
-        }
+          
+                  }
+         return Ok(analysisModels);
+      }
 
         //POST api/Analysis/SetClassifiedSolvent
         [Route("SetClassifiedSolvent")]
@@ -427,20 +411,10 @@ namespace SS.UI.Web.MVC.Controllers
                         values.Add(feature.value);
                         featureNames.Add(feature.featureName);
                     }
-                    using (var client = new WebClient())
-                    {
-                        
-                            var serialized = JsonConvert.SerializeObject(values);
-                            
-                            client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                            var sussol = new com.sussol.web.controller.ServiceModel();
-                            var response = sussol.classifySolvent(model.Model.ModelPath, serialized);
-                            ClassifiedInstance classifiedInstance = new ClassifiedInstance()
-                            {
-                                DistanceToClusterCenter = (Double)response.getDistanceToCluster(),
-                                ClusterNumber = (int)response.getClusterNumber()
-                            };
-                             sussol.classifySolvent(model.Model.ModelPath, serialized).toString();
+               var serialized = JsonConvert.SerializeObject(values);
+
+
+               ClassifiedInstance classifiedInstance = _analysisManager.ClassifyNewSolvent(model.Model.ModelPath, serialized);
                             classifiedInstance.CasNumber = classifiedInstances.First().CasNumber;
                             classifiedInstance.Name = classifiedInstances.First().Name;
                             classifiedInstance.Features = new List<Feature>();
@@ -458,11 +432,9 @@ namespace SS.UI.Web.MVC.Controllers
                                 classifiedInstance.Features.Add(f);
                             }
                             _analysisManager.CreateClassifiedInstance(model.Id, analysis.CreatedBy.Id, classifiedInstance);
-                        client.Dispose();
                     }
                 }
                 
-            }
             return Ok(_analysisManager.ReadAnalysis(analysisId).AnalysisModels);
         } 
     }

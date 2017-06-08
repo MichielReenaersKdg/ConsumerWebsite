@@ -768,7 +768,7 @@
 
         }
         function hidedetails() {
-            document.getElementById("ButChemStruct").style.backgroundColor = "transparant";
+            document.getElementById("ButChemStruct").style.backgroundColor = 'transparent';
             var ele = document.getElementsByClassName('SolventDetails');
             for (var i = 0; i < ele.length; i++) {
                 ele[i].style.visibility = "hidden";
@@ -1001,7 +1001,7 @@
                 y: datapointY,
                 radius: 0
             }, {
-                    duration: 3000,
+                    duration: 4000,
                     easing: "ease-in-expo",
                     callback: function () {
                         currentChart.render();
